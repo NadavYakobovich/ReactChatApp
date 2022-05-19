@@ -36,6 +36,27 @@ public class ServiceUsers : IServiceUsers
     {
         throw new NotImplementedException();
     }
-    
-    public bool Auth(int )
+
+    public int GetID(string email)
+    {
+        User? userFound = _users.usersList.Find(user => user.Email == email);
+        if (userFound != null)
+        {
+            return userFound.Id;
+        }
+        return -1;
+    }
+
+    public bool Auth(string email, string pass)
+    {
+        User? userFound = _users.usersList.Find(user => user.Email == email && user.Password == pass);
+        if (userFound != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

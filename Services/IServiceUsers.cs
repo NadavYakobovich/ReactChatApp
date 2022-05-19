@@ -14,7 +14,11 @@ public interface IServiceUsers
 
     public User Get(int id);
 
+    public int GetID(string email);
+
     public void Update(int id);
 
     public void Delete(int id);
+
+    public bool Auth(string email, string pass);
 }
