@@ -7,9 +7,9 @@ public class ServiceUsers : IServiceUsers
 {
     private UsersContext _users;
 
-    public ServiceUsers()
+    public ServiceUsers(UsersContext context)
     {
-        _users = new UsersContext();
+        _users = context;
     }
 
     public void Add(User user)
@@ -36,4 +36,6 @@ public class ServiceUsers : IServiceUsers
     {
         throw new NotImplementedException();
     }
+    
+    public bool Auth(int )
 }

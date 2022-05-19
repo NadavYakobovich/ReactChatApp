@@ -1,5 +1,6 @@
 using Domain;
 using Microsoft.AspNetCore.Mvc;
+using Repository;
 using Services;
 
 namespace chatServerAPI.Controllers
@@ -11,9 +12,9 @@ namespace chatServerAPI.Controllers
         private IServiceUsers _service;
         private int Id = 1;
 
-        public ContactsController(IServiceUsers service)
+        public ContactsController(UsersContext context)
         {
-            _service = service;
+            _service = new ServiceUsers(context);
         }
 
         // GET: api/Contacts
