@@ -4,7 +4,10 @@ public class Contact
 {
     public int Id { get; set; }
 
-    public string lastMessage { get; set; }
+    public string name { get; set; }
 
-    public string lastTime { get; set; }
+    //lastMessage
+    public string last { get; set; }
+    //the time of the last message
+    public string lastDate { get; set; }
 }

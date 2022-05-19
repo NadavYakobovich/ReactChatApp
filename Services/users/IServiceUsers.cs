@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.apiDomain;
 
 namespace Services;
 
@@ -17,4 +18,8 @@ public interface IServiceUsers
     public void Update(int id);
 
     public void Delete(int id);
+    public void AddContact(int id, ContactApi content);
+    
+    
+
 }

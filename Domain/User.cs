@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Domain.apiDomain;
 
 namespace Domain;
 
@@ -21,5 +22,5 @@ public class User
     [DataType(DataType.Password)]
     public string Password { get; set; }
 
-    public List<Contact> Contacts { get; set; }
+    public List<ContactApi> Contacts { get; set; }
 }
