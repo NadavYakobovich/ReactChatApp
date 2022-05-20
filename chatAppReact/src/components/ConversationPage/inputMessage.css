@@ -1,0 +1,109 @@
+.dropdown-menu.show {
+    min-width: 1px;
+    display: flex;
+}
+
+.dropdown-menu {
+    padding: 3px;
+}
+
+.mainInputWin {
+    border-radius: 3px;
+    height: 50px;
+    width: 100%;
+    background-color: #f5f1ee;
+    padding: 10px 5px 10px 5px !important;
+    margin: 0 !important;
+    z-index: 1000;
+}
+
+.TextPlace {
+    border-radius: 40px;
+    padding: 5px;
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.dropdownMenuIcon {
+    margin-top: -10px;
+    border: none;
+    background-color: #f5f1ee;
+    margin-right: 1px;
+    font-size: 0.7em;
+}
+
+.InputFocus:focus {
+    outline: none;
+    border: none;
+    line-height: 0;
+}
+
+.icons-Input-WIn {
+    text-align: center;
+    width: 8.33333333%;
+    padding: 5px !important;
+    color: #93918f;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 2px;
+    font-size: 1.5em;
+}
+
+.record {
+    margin-top: -8px;
+}
+
+.send {
+    margin-top: -8px;
+    margin-right: -1px;
+    background: none;
+}
+
+
+.bi-paperclip {
+    padding: 0 !important;
+}
+
+.uploadMenu {
+    font-size: 20px;
+}
+
+.pic-fix {
+    max-height: 24px;
+    margin-bottom: -3px;
+}
+
+.pic-fix2 {
+    max-height: 25px;
+    margin-bottom: -3px;
+}
+
+.opt-txt {
+    margin-top: 8px;
+    font-weight: 200;
+}
+
+#chatVid {
+    max-height: 150px;
+    max-width: 250px;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+}
+
+#previewVid {
+    max-height: 300px;
+    max-width: 460px;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+}
+.hoverEffect{
+    will-change: transform;
+    transition: transform 450ms;
+}
+.hoverEffect:hover{
+    transition: transform 300ms;
+    transform: translateY(-7px);
+}

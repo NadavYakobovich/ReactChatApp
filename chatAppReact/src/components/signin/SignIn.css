@@ -1,0 +1,22 @@
+.holder {
+    float: right;
+    margin-right: 5px;
+    margin-top: -50px;
+    font-size: 22px;
+}
+
+#togglePassword {
+    float: right;
+    margin-right: 13px;
+    margin-top: -43px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#togglePassword-push {
+    float: right;
+    margin-right: 32px;
+    margin-top: -43px;
+    font-size: 20px;
+    cursor: pointer;
+}

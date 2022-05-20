@@ -1,0 +1,172 @@
+{
+  "conversation": [
+    {
+      "id1": 1,
+      "id2": 2,
+      "content": [
+        {
+          "from": 1,
+          "to": 2,
+          "time": "2022-01-23T09:20:45.904Z",
+          "type": "text",
+          "message": "what up man!"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "time": "2022-01-23T09:21:45.904Z",
+          "type": "text",
+          "message": "are you here?"
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "time": "2022-01-23T09:22:45.904Z",
+          "type": "text",
+          "message": "yes my bro, what up?"
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "time": "2022-01-23T09:23:45.904Z",
+          "type": "text",
+          "message": "what about our trip?"
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "time": "2022-01-23T09:04:45.904Z",
+          "type": "text",
+          "message": "Takes place, we will go to the Golan for another two days - we will do some sections of the Israel Trail"
+        }
+      ]
+    },
+        {
+          "id1": 1,
+          "id2": 3,
+          "content": [
+            {
+              "from": 1,
+              "to": 3,
+              "time": "2022-01-23T09:04:45.904Z",
+              "type": "text",
+              "message": "hi do you see my new Shoes?!"
+            },
+            {
+              "from": 1,
+              "to": 3,
+              "time": "2022-01-23T09:05:45.904Z",
+              "type": "img1",
+              "message": "../conversationPic/shoe.png"
+            },
+            {
+              "from": 3,
+              "to": 1,
+              "time": "2022-01-23T09:06:45.904Z",
+              "type": "text",
+              "message": "look great!"
+            },
+            {
+              "from": 3,
+              "to": 1,
+              "time": "2022-01-23T09:07:45.904Z",
+              "type": "text",
+              "message": "I also bought shoes"
+            },
+            {
+              "from": 3,
+              "to": 1,
+              "time": "2022-01-23T09:08:45.904Z",
+              "type": "img1",
+              "message": "../conversationPic/shoe2.png"
+            }
+          ]
+        },
+        {
+          "id1": 1,
+          "id2": 9,
+          "content": [
+            {
+              "from": 1,
+              "to": 9,
+              "time": "2022-01-23T09:30:45.904Z",
+              "type": "text",
+              "message": "Listen, Tesla's cost is too high\nI am ready to buy a new one for NIS 50,000, acceptable?"
+            },
+            {
+              "from": 1,
+              "to": 9,
+              "time": "2022-01-23T09:31:45.904Z",
+              "type": "text",
+              "message": "This model, but in red"
+            },
+            {
+              "from": 1,
+              "to": 9,
+              "time": "2022-01-23T09:32:45.904Z",
+              "type": "img1",
+              "message": "../conversationPic/car.jpeg"
+            },
+            {
+              "from": 9,
+              "to": 1,
+              "time": "2022-01-23T09:33:45.904Z",
+              "type": "text",
+              "message": "What are you talking nonsense, I'll give it to you at 150, last price + you must follow my user on the Twitter"
+            }
+          ]
+        },
+        {
+          "id1": 1,
+          "id2": 6,
+          "content": [
+            {
+              "from": 1,
+              "to": 6,
+              "time": "2022-01-23T09:51:45.904Z",
+              "type": "text",
+              "message": "What up with the scar you have on your head?!"
+            },
+            {
+              "from": 6,
+              "to": 1,
+              "time": "2022-01-23T09:52:45.904Z",
+              "type": "text",
+              "message": "Do not ask, I got up in the middle of the night and my head got stuck on the shelf"
+            }
+          ]
+        },
+        {
+          "id1": 5,
+          "id2": 1,
+          "content": [
+            {
+              "from": 5,
+              "to": 1,
+              "time": "2022-04-10T20:27:45.904Z",
+              "type": "text",
+              "message": "check out the new headPhones I bought today"
+            },
+            {
+              "from": 5,
+              "to": 1,
+              "time": "2022-04-10T20:28:46.904Z",
+              "type": "vid1",
+              "message": "../conversationPic/headphones.mp4"
+            },
+            {
+              "from": 1,
+              "to": 5,
+              "time": "2022-04-10T20:29:48.904Z",
+              "type": "text",
+              "message": "Cool! look awesome!!"
+            }
+          ]
+        }
+  ]
+}
+
+
+
+
+

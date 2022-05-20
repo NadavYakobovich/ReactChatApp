@@ -1,0 +1,16 @@
+.pictureStream {
+    width: 100%;
+    border-radius: 8px;
+}
+
+#picPreview {
+    margin-bottom: 5px;
+    margin-right: 5px;
+    border-radius: 8px;
+}
+
+.imgMsg > span > #picPreview {
+    margin-bottom: 0;
+    width: fit-content;
+    max-width: 200px;
+}

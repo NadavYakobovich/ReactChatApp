@@ -1,0 +1,21 @@
+.sideFrame{
+    width: 25%;
+    background-color: rgb(238,238,238,.6);
+    border-radius: 3px;
+}
+
+.userNameSide{
+    background-color: rgb(238,238,238) !important;
+}
+
+#logoutText {
+    color: #cb4b4b;
+    cursor: pointer;
+}
+#logoutText:hover{
+    color: #ff0000;
+}
+.convList{
+    overflow: auto !important;
+    height: 90%;
+}

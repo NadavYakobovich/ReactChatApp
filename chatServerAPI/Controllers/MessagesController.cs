@@ -1,5 +1,6 @@
 using Domain;
 using Domain.apiDomain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 using Services;
@@ -7,99 +8,123 @@ using Services.messages;
 
 namespace chatServerAPI.Controllers
 {
-    [Route("api/contacts/{id}/messages/")]
+    [Authorize]
     [ApiController]
+    [Route("api/contacts/{friendId}/messages/")]
     public class MessagesController : ControllerBase
     {
-        private int IdUser = 1;
         private IServiceMessages _service;
-        
+        private IServiceUsers _usersService;
+        private int _myId;
+
         public MessagesController(UsersContext usersContext)
         {
-            this._service = new ServiceMessages(this.IdUser,usersContext);
+            _service = new ServiceMessages(usersContext);
+            _usersService = new ServiceUsers(usersContext);
         }
-        
+
+        private void setMyId()
+        {
+            string? loggedUser = HttpContext.User.FindFirst("username")?.Value;
+            if (loggedUser != null)
+            {
+                _myId = _usersService.GetID(loggedUser);
+            }
+        }
+
         //[get a specific content in conversation with friend ]
         //api/contacts/alice/messages/181
         [HttpGet("{messageId}/")]
-        public async Task<ActionResult<ContentApi>> GetConversation(int id, int messageId)
+        public async Task<ActionResult<ContentApi>> GetConversation(int friendId, int messageId)
         {
-            if (_service.GetConversation(id) == null)
+            setMyId();
+            if (_service.GetConversation(_myId, friendId) == null)
             {
                 return NotFound("not found contact with that id");
             }
 
 
-        
-            ContentApi content =  _service.Get(id, messageId);
+            ContentApi? content = _service.Get(_myId, friendId, messageId);
             if (content == null)
             {
                 return NotFound("not content found with the id");
             }
-            {
-                
-            }
+
             return content;
         }
+
         //[get all conversation with the friend]
         //api/contacts/alice/messages/
         [HttpGet()]
-        public async Task<ActionResult<List<ContentApi>>> GetConversation(int id)
+        public async Task<ActionResult<List<ContentApi>>> GetConversation(int friendId)
         {
-            if (_service.GetConversation(id) == null)
+            setMyId();
+            if (_service.GetConversation(_myId, friendId) == null)
             {
                 return NotFound();
             }
-            
-            List<ContentApi> listCon = _service.GetConversation(id);
+
+            List<ContentApi>? listCon = _service.GetConversation(_myId, friendId);
             return listCon;
         }
+
         // DELETE: api/Contacts/alice/messages/181
         [HttpDelete("{idMessages}/")]
-        public async Task<IActionResult> DeleteContact(int id,int idMessages)
+        public async Task<IActionResult> DeleteContact(int friendId, int idMessages)
         {
-            if (_service.GetConversation(id) == null)
+            setMyId();
+            if (_service.GetConversation(_myId, friendId) == null)
             {
                 return NotFound();
             }
-        
-            ContentApi contentApi = _service.Get(id, idMessages);
+
+            ContentApi? contentApi = _service.Get(_myId, friendId, idMessages);
             if (contentApi == null)
             {
                 return NotFound();
             }
-            _service.Delete(id, contentApi);
+
+            _service.Delete(_myId, friendId, contentApi);
             return NoContent();
         }
+
         // POST
         // api/contacts/alice/messages
-         [HttpPost]
-         public async Task<ActionResult<Contact>> PostMessages(int id,string content)
-         {
-             List<ContentApi> conversation = _service.GetConversation(id);
-             if (conversation == null)
-             {
-                 return NotFound();
-             }
-             int nextId = conversation.Max(x => x.Id) + 1;
-             ContentApi contentApi = new ContentApi() {Content = content, Created = DateTime.Now.ToString(), Id = nextId, Sent = true};
-             _service.Add(id,contentApi);
+        [HttpPost]
+        public async Task<ActionResult<Contact>> PostMessages(int friendId, string content)
+        {
+            setMyId();
+            List<ContentApi>? conversation = _service.GetConversation(_myId, friendId);
+            if (conversation == null)
+            {
+                return NotFound();
+            }
 
-             return NoContent();
-         }
-         
-         //[PUT]
-         //api/contacts/alice/messages/183
-         [HttpPut("{idMessages}/")]
-         public async Task<IActionResult> PutMessage(int id, int idMessages, string content)
-         {
-             ContentApi contentApi = _service.Get(id, idMessages);
-             contentApi.Content = content;
-             return NoContent();
-         }
+            int nextId = conversation.Max(x => x.Id) + 1;
+            ContentApi contentApi = new ContentApi()
+                {Content = content, Created = DateTime.Now.ToString(), Id = nextId, Sent = true};
+            _service.Add(_myId, friendId, contentApi);
 
+            return NoContent();
+        }
 
+        //[PUT]
+        //api/contacts/alice/messages/183
+        [HttpPut("{idMessages}/")]
+        public async Task<IActionResult> PutMessage(int friendId, int idMessages, string content)
+        {
+            setMyId();
+            ContentApi? contentApi = _service.Get(_myId, friendId, idMessages);
+            if (contentApi != null)
+            {
+                contentApi.Content = content;
+            }
+            else
+            {
+                return NotFound();
+            }
 
-
+            return NoContent();
+        }
     }
 }

@@ -1,0 +1,22 @@
+.BoxClick{
+    height: 50px;
+    width: 100%;
+    background-color: #f5f1ee;
+    border: none;
+    color: #75716c;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0, rgba(27, 31, 35, 0.15) 0 0 0 1px;
+}
+.profileListContact{
+    width: 12%;
+}
+
+.addContactsWin{
+    max-height: 90%;
+}
+
+.availableList{
+    height: 300px;
+    scroll-behavior: smooth;
+    overflow: hidden !important;
+    overflow-y: scroll !important;
+}
