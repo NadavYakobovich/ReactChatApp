@@ -8,7 +8,6 @@ import ValidFormAlert from "../alerts/ValidFormAlert";
 import {usersContext} from "../../App";
 
 
-
 const SignIn = ({setUserId}) => {
 
     const [validEmail, setValidEmail] = useState(true);
@@ -16,8 +15,10 @@ const SignIn = ({setUserId}) => {
     const [validLogin, setValidLogin] = useState("");
     const [message, setMessage] = useState("");
 
-    const pass = useRef();
-    const email = useRef();
+    const pass = useRef("");
+    const email = useRef("");
+
+    var response;
 
     const usersMap = useContext(usersContext);
 
@@ -25,36 +26,43 @@ const SignIn = ({setUserId}) => {
 
     function checkLogin(event) {
         event.preventDefault();
-        let index;
         let validLogin = true;
-        if (email.current.value === "" || !email.current.value.includes("@")) {
+        let emailVal = email.current.value;
+        let passVal = pass.current.value;
+        if (emailVal === "" || !emailVal.includes("@")) {
             setMessage("Please enter a valid email address");
             setValidEmail(false);
             validLogin = false;
-        } else {
-            index = usersMap.findIndex(user => user.email === email.current.value);
-            if (index === -1) {
-                setMessage("User name does not exist in the system, please sign up")
-                setValidEmail(false);
-                validLogin = false;
-            } else {
-                setValidEmail(true);
-            }
         }
-        if (pass.current.value === "") {
+        if (passVal === "") {
             setValidPass(false);
             validLogin = false;
         } else {
             setValidPass(true);
         }
-        if (validLogin) {
-            if (pass.current.value === usersMap[index].password) {
-                setUserId(usersMap[index].userId)
-                navigate('/home');
-            } else {
-                setValidLogin(false)
+
+        $.ajax({
+            url: 'http://localhost:5125/api/Users?email=' + emailVal + '&password=' + passVal,
+            type: 'POST',
+            contentType: "application/json",
+            success: function (data) {
+                response = data;
+            },
+            error: function () {
+                setValidLogin(false);
             }
-        }
+        }).then(() => console.log(response));
+         
+
+
+        // if (validLogin) {
+        //     if (pass.current.value === usersMap[index].password) {
+        //         setUserId(usersMap[index].userId)
+        //         navigate('/home');
+        //     } else {
+        //         setValidLogin(false)
+        //     }
+        // }
     }
 
 

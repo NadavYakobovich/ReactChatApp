@@ -35,6 +35,7 @@ namespace chatServerAPI.Controllers
             {
                 if (_service.Auth(email, password))
                 {
+                    var id = _service.GetID(email);
                     var claims = new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWTParams:Subject"]),
@@ -52,8 +53,8 @@ namespace chatServerAPI.Controllers
                         claims,
                         expires: DateTime.UtcNow.AddMinutes(20),
                         signingCredentials: mac);
-
-                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                    
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token)+' '+id);
                 }
                 else
                 {
