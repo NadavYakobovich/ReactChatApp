@@ -46,13 +46,12 @@ namespace chatServerAPI.Controllers
             return NotFound();
         }
 
-        User user = _service.Get(this.Id);
+        User? user = _service.Get(this.Id);
         if (user == null)
         {
             return NotFound();
         }
-
-        ContactApi contactApi =  user.Contacts.First(x => x.Id == id);
+        ContactApi? contactApi =  user.Contacts.FirstOrDefault(x => x.Id == id);
         if (contactApi == null)
         {
             return NotFound();
@@ -81,16 +80,21 @@ namespace chatServerAPI.Controllers
     //POST: api/Contacts
     //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Contact>> PostContact(ContactApi contact)
+    public async Task<ActionResult<Contact>> PostContact(int id, string name,string server)
     {
         if (_service.GetAll() == null)
         {
             return Problem("Entity set 'UsersContext.Contact'  is null.");
         }
-    
+        ContactApi contact = new ContactApi() {Id = id, Name = name, Server = server, last = null, lastdate = null};
+        //check if there is already contact with the same id
+        User user = _service.Get(this.Id);
+        if (user.Contacts.FirstOrDefault(x => x.Id == contact.Id) != null)
+        {
+            return BadRequest("Id is already exist");
+        }
         _service.AddContact(this.Id, contact);
-    
-        return CreatedAtAction("GetContact", new {id = contact.Id}, contact);
+        return NoContent();
     }
     
     // DELETE: api/Contacts/5
@@ -103,20 +107,15 @@ namespace chatServerAPI.Controllers
         }
 
         User user = _service.Get(this.Id);
-        ContactApi contact = user.Contacts.First(x => x.Id == id);
+        ContactApi contact = user.Contacts.FirstOrDefault(x => x.Id == id);
         if (contact == null)
         {
             return NotFound();
         }
-
+        
         user.Contacts.Remove(contact);
     
         return NoContent();
-    }
-    
-    private bool ContactExists(int id)
-    {
-        return (_service.GetAll()?.Any(e => e.Id == id)).GetValueOrDefault();
     }
     
     }
