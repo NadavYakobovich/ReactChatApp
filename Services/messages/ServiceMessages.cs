@@ -2,7 +2,7 @@ using Domain;
 using Domain.apiDomain;
 using Repository;
 
-namespace Services;
+namespace Services.messages;
 
 public class ServiceMessages : IServiceMessages
 {

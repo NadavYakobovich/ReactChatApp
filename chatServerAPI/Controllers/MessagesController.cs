@@ -3,6 +3,7 @@ using Domain.apiDomain;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 using Services;
+using Services.messages;
 
 namespace chatServerAPI.Controllers
 {
