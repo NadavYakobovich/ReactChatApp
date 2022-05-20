@@ -9,9 +9,9 @@ public class ServiceUsers : IServiceUsers
     private UsersContext _users;
     
 
-    public ServiceUsers(UsersContext usersContext)
+    public ServiceUsers(UsersContext context)
     {
-        _users = usersContext;
+        _users = context;
     }
 
     public void Add(User user)
@@ -43,5 +43,28 @@ public class ServiceUsers : IServiceUsers
     public void Delete(int id)
     {
         throw new NotImplementedException();
+    }
+
+    public int GetID(string email)
+    {
+        User? userFound = _users.usersList.Find(user => user.Email == email);
+        if (userFound != null)
+        {
+            return userFound.Id;
+        }
+        return -1;
+    }
+
+    public bool Auth(string email, string pass)
+    {
+        User? userFound = _users.usersList.Find(user => user.Email == email && user.Password == pass);
+        if (userFound != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

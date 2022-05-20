@@ -1,43 +1,55 @@
+using System.Security.Claims;
 using Domain;
 using Domain.apiDomain;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 using Services;
 
-
-
 namespace chatServerAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class ContactsController : ControllerBase
     {
         private IServiceUsers _service;
-        private int Id = 1;
+        private int Id;
 
-        public ContactsController(UsersContext usersContext)
+        public ContactsController(UsersContext context)
         {
-            _service = new ServiceUsers(usersContext);
-
+            _service = new ServiceUsers(context);
         }
 
         // GET: api/Contacts
         [HttpGet]
         public ActionResult<IEnumerable<ContactApi>> GetContact()
         {
-            if (_service.GetAll() == null)
+            try
             {
-                return NotFound();
+                string? loggedUser = HttpContext.User.FindFirst("username")?.Value;
+                if (loggedUser != null)
+                {
+                    Id = _service.GetID(loggedUser);
+                }
+
+                if (_service.GetAll() == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    User user = _service.Get(this.Id);
+                    return user.Contacts;
+                }
             }
-            else
+            catch (Exception e)
             {
-                User user = _service.Get(this.Id);
-                return user.Contacts;
+                return BadRequest(e.Message);
             }
         }
-
-    // GET: api/Contacts/5
+         // GET: api/Contacts/5
     [HttpGet("{id}")]
     public async Task<ActionResult<ContactApi>> GetContact(int id)
     {

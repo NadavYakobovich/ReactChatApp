@@ -22,7 +22,22 @@ namespace Repository
                 {Id = 3, last = "yo man?", lastdate = "2022-01-23T09:08:45.904Z", Name = "Itamar Bachar",Server = "localhost:7257"};
             User user1 = new User()
                 {Id = 1, Email = "a@b", Name = "Peleg", Password = "2910", Contacts = new List<ContactApi>() {contact1, contact2}};
+            {
+                Id = 1, Email = "a@b", Name = "Peleg", Password = "2910",
+                Contacts = new List<Contact>() {contact1, contact2}
+            };
+            contact1 = new Contact()
+                {Id = 4, lastMessage = "are you there?", lastTime = "2022-01-23T09:23:45.904Z"};
+            contact2 = new Contact()
+                {Id = 5, lastMessage = "thanks", lastTime = "2022-01-23T09:08:45.904Z"};
+            User user2 = new User()
+            {
+                Id = 2, Email = "my@email", Name = "itai", Password = "1234",
+                Contacts = new List<Contact>() {contact1, contact2}
+            };
             usersList.Add(user1);
+            usersList.Add(user2);
+        }
             
             //conversation1
 
@@ -32,6 +47,7 @@ namespace Repository
 
             Conversation conv1 = new Conversation(){Contents = new List<ContentApi>(){conten1,conten2, conten3},Id = 1,Id1 = 1, Id2 = 2};
             Conversations.Add(conv1);
+            
         }
     }
 }
