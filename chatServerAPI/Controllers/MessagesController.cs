@@ -25,10 +25,19 @@ namespace chatServerAPI.Controllers
         {
             if (_service.GetConversation(id) == null)
             {
-                return NotFound();
+                return NotFound("not found contact with that id");
             }
+
+
         
             ContentApi content =  _service.Get(id, messageId);
+            if (content == null)
+            {
+                return NotFound("not content found with the id");
+            }
+            {
+                
+            }
             return content;
         }
         //[get all conversation with the friend]

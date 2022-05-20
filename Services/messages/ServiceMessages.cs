@@ -7,7 +7,7 @@ namespace Services;
 public class ServiceMessages : IServiceMessages
 {
     public int  IdUser { get; set; }
-    private List<Conversation> Conversations; //check
+    private List<Conversation>? Conversations; //check
 
     public ServiceMessages(int idUser, UsersContext usersContext)
     {
@@ -26,12 +26,26 @@ public class ServiceMessages : IServiceMessages
 
     public List<ContentApi> GetConversation(int idFriend)
     {
-        return Conversations.First(x => (x.Id1 == idFriend && x.Id2 == IdUser) || (x.Id1 == IdUser && x.Id2 == idFriend)).Contents;
+        var conversation = Conversations.FirstOrDefault(x =>
+            ((x.Id1 == idFriend && x.Id2 == IdUser) || (x.Id1 == IdUser && x.Id2 == idFriend)));
+        if (conversation == null)
+        {
+            return null;
+        }
+        else
+        {
+            return conversation.Contents;
+        }
     }
 
-    public ContentApi Get(int idUserFriend, int idMessage)
+    public ContentApi? Get(int idUserFriend, int idMessage)
     {
-        ContentApi content = GetConversation(idMessage).First(x => x.Id == idMessage);
+        List<ContentApi>? conv = GetConversation(idUserFriend);
+        if (conv == null)
+        {
+            return null;
+        }
+        ContentApi? content = conv.FirstOrDefault(x => x.Id == idMessage);
         return content;
     }
 

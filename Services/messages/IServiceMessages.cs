@@ -13,10 +13,10 @@ public interface IServiceMessages
     public IEnumerable<Conversation> GetAll();
 
     //get all the conversation with the friend
-    public List<ContentApi> GetConversation(int idFriend);
+    public List<ContentApi>? GetConversation(int idFriend);
 
     //get the message with the ID in the conversation with the  friend
-    public ContentApi Get(int idUserFriend, int idMessage);
+    public ContentApi? Get(int idUserFriend, int idMessage);
 
     public void Update(int idFriend, string content);
 
