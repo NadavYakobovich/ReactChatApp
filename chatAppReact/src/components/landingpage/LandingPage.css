@@ -1,0 +1,13 @@
+
+.img-len {
+    width: 30%;
+    padding-bottom: 20px;
+    transition: width 2s ease-in-out;
+}
+
+.img-len-small {
+    width: 15%;
+    padding-bottom: 10px;
+    transition: width 1s ease-in-out;
+
+}

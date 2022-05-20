@@ -6,17 +6,16 @@ namespace Services;
 
 public class ServiceMessages : IServiceMessages
 {
-    public int  IdUser { get; set; }
     private List<Conversation>? Conversations; //check
 
-    public ServiceMessages(int idUser, UsersContext usersContext)
+    public ServiceMessages(UsersContext usersContext)
     {
         this.Conversations = usersContext.Conversations;
-        this.IdUser = idUser;
-    }    
-    public void Add(int idFriend, ContentApi contentApi)
+    }
+
+    public void Add(int myId, int idFriend, ContentApi contentApi)
     {
-        GetConversation(idFriend).Add(contentApi);
+        GetConversation(myId, idFriend).Add(contentApi);
     }
 
     public IEnumerable<Conversation> GetAll()
@@ -24,10 +23,10 @@ public class ServiceMessages : IServiceMessages
         throw new NotImplementedException();
     }
 
-    public List<ContentApi> GetConversation(int idFriend)
+    public List<ContentApi> GetConversation(int myId, int idFriend)
     {
         var conversation = Conversations.FirstOrDefault(x =>
-            ((x.Id1 == idFriend && x.Id2 == IdUser) || (x.Id1 == IdUser && x.Id2 == idFriend)));
+            ((x.Id1 == idFriend && x.Id2 == myId) || (x.Id1 == myId && x.Id2 == idFriend)));
         if (conversation == null)
         {
             return null;
@@ -38,13 +37,14 @@ public class ServiceMessages : IServiceMessages
         }
     }
 
-    public ContentApi? Get(int idUserFriend, int idMessage)
+    public ContentApi? Get(int myId, int idUserFriend, int idMessage)
     {
-        List<ContentApi>? conv = GetConversation(idUserFriend);
+        List<ContentApi>? conv = GetConversation(myId, idUserFriend);
         if (conv == null)
         {
             return null;
         }
+
         ContentApi? content = conv.FirstOrDefault(x => x.Id == idMessage);
         return content;
     }
@@ -54,8 +54,8 @@ public class ServiceMessages : IServiceMessages
         throw new NotImplementedException();
     }
 
-    public void Delete(int idFriend, ContentApi contentApi)
+    public void Delete(int myId, int idFriend, ContentApi contentApi)
     {
-        GetConversation(idFriend).Remove(contentApi);
+        GetConversation(myId, idFriend).Remove(contentApi);
     }
 }

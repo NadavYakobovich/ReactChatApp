@@ -1,0 +1,148 @@
+{
+  "users": [
+    {
+      "userId": 1,
+      "name": "Peleg Shlomo",
+      "email": "a@b",
+      "password": "2910",
+      "pic": "../profilePic/faceImageExmple.png",
+      "contacts": [
+        {
+          "id": 2,
+          "lastMessage": "2022-01-23T09:23:45.904Z"
+        },
+        {
+          "id": 3,
+          "lastMessage": "2022-01-23T09:08:45.904Z"
+        },
+        {
+          "id": 9,
+          "lastMessage": "2022-01-23T09:33:45.904Z"
+        },
+        {
+          "id": 6,
+          "lastMessage": "2022-01-23T09:52:45.904Z"
+        },
+        {
+          "id": 5,
+          "lastMessage": "2022-04-20T20:29:48.904Z"
+        }
+      ],
+      "lastSeen": "2022-04-10T20:29:48.904Z"
+    },
+    {
+      "userId": 2,
+      "name": "Nadav Yakobovich",
+      "email": "12@3",
+      "password": "1234",
+      "pic": "../profilePic/profile1.jpeg",
+      "contacts": [
+        {
+          "id": 1,
+          "lastMessage": "2022-01-23T09:23:45.904Z"
+        },
+        {
+          "id": 3,
+          "lastMessage": "2022-01-23T09:45:45.904Z"
+        }
+      ],
+      "lastSeen": "2022-01-23T09:52:45.904Z"
+    },
+    {
+      "userId": 3,
+      "name": "Itamar Bachar",
+      "email": "2@3",
+      "password": "789",
+      "pic": "../profilePic/profile2.jpeg",
+      "contacts": [
+        {
+          "id": 1,
+          "lastMessage": "2022-01-23T09:08:45.904Z"
+        }
+      ],
+      "lastSeen": "2022-01-23T09:04:45.904Z"
+    },
+    {
+      "userId": 4,
+      "name": "Matan Shamir",
+      "email": "r@r",
+      "password": "abcd",
+      "pic": "../profilePic/pic4.webp",
+      "contacts": [
+        {
+          "id": 3,
+          "lastMessage": "2022-01-23T09:10:45.904Z"
+        },
+        {
+          "id": 2,
+          "lastMessage": "2022-01-23T09:11:45.904Z"
+        }
+      ],
+      "lastSeen": "2022-01-15T20:04:45.904Z"
+    },
+    {
+      "userId": 5,
+      "name": "Guy Adani",
+      "email": "a@b1233",
+      "password": "1234",
+      "pic": "../profilePic/profilepic3.jpeg",
+      "contacts": [
+        {
+          "id": 2,
+          "lastMessage": "2022-01-23T09:09:45.904Z"
+        },
+        {
+          "id": 1,
+          "lastMessage": "2022-04-20T20:29:48.904Z"
+        }
+      ],
+      "lastSeen": "2022-01-23T09:08:45.904Z"
+    },
+    {
+      "userId": 6,
+      "name": "Harry Potter",
+      "email": "a@b1236",
+      "password": "1234",
+      "pic": "../profilePic/harryPotterPfofile.jpg",
+      "contacts": [
+        {
+          "id": 1,
+          "lastMessage": "2022-01-23T09:52:45.904Z"
+        }
+      ],
+      "lastSeen": "2022-01-23T09:52:45.904Z"
+    },
+    {
+      "userId": 7,
+      "name": "Ron Weasley ",
+      "email": "a@b1239",
+      "password": "1234",
+      "pic": "../profilePic/ronpic.jpeg",
+      "contacts": [],
+      "lastSeen": "2022-04-23T09:52:45.904Z"
+    },
+    {
+      "userId": 8,
+      "name": "Katy Perry",
+      "email": "a@b1230",
+      "password": "1234",
+      "pic": "../profilePic/hermioni.png",
+      "contacts": [],
+      "lastSeen": "2022-04-23T20:30:45.904Z"
+    },
+    {
+      "userId": 9,
+      "name": "Elon Musk",
+      "email": "1122@11223",
+      "password": "1234",
+      "pic": "../profilePic/profile5.webp",
+      "contacts": [
+        {
+          "id": 1,
+          "lastMessage": "2022-01-23T09:33:45.904Z"
+        }
+      ],
+      "lastSeen": "2022-04-25T04:22:45.904Z"
+    }
+  ]
+}
