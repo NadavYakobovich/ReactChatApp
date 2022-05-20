@@ -31,30 +31,38 @@ namespace chatServerAPI.Controllers
         [HttpPost]
         public IActionResult Post(string email, string password)
         {
-            if (_service.Auth(email, password))
+            try
             {
-                var claims = new[]
+                if (_service.Auth(email, password))
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWTParams:Subject"]),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                    new Claim("username", email)
-                };
+                    var claims = new[]
+                    {
+                        new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWTParams:Subject"]),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                        new Claim("username", email)
+                    };
 
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTParams:SecretKey"]));
-                var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                var token = new JwtSecurityToken(
-                    _configuration["JWTParams:Issuer"],
-                    _configuration["JWTParams:Audience"],
-                    claims,
-                    expires: DateTime.UtcNow.AddMinutes(20),
-                    signingCredentials: mac);
+                    var secretKey =
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTParams:SecretKey"]));
+                    var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                    var token = new JwtSecurityToken(
+                        _configuration["JWTParams:Issuer"],
+                        _configuration["JWTParams:Audience"],
+                        claims,
+                        expires: DateTime.UtcNow.AddMinutes(20),
+                        signingCredentials: mac);
 
-                return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                }
+                else
+                {
+                    return BadRequest("Invalid credentials");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return BadRequest("Invalid credentials");
+                return BadRequest(e.Message);
             }
         }
     }

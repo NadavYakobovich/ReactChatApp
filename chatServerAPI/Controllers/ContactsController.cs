@@ -24,20 +24,27 @@ namespace chatServerAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Contact>> GetContact()
         {
-            string? loggedUser = HttpContext.User.FindFirst("username")?.Value;
-            if (loggedUser != null)
+            try
             {
-                Id = _service.GetID(loggedUser);
-            }
+                string? loggedUser = HttpContext.User.FindFirst("username")?.Value;
+                if (loggedUser != null)
+                {
+                    Id = _service.GetID(loggedUser);
+                }
 
-            if (_service.GetAll() == null)
-            {
-                return NotFound();
+                if (_service.GetAll() == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    List<User> users = _service.GetAll().ToList();
+                    return users[0].Contacts;
+                }
             }
-            else
+            catch (Exception e)
             {
-                List<User> users = _service.GetAll().ToList();
-                return users[0].Contacts;
+                return BadRequest(e.Message);
             }
         }
 
