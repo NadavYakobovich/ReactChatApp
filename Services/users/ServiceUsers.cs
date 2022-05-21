@@ -30,9 +30,9 @@ public class ServiceUsers : IServiceUsers
         return _users.usersList;
     }
 
-    public User Get(int id)
+    public User? Get(int id)
     {
-        return _users.usersList.First(x => x.Id == id);
+        return _users.usersList.FirstOrDefault(x => x.Id == id);
     }
 
     public void Update(int id)

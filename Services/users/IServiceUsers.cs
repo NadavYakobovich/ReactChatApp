@@ -13,7 +13,7 @@ public interface IServiceUsers
 
     public IEnumerable<User> GetAll();
 
-    public User Get(int id);
+    public User? Get(int id);
 
     public int GetID(string email);
 

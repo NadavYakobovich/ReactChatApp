@@ -23,31 +23,43 @@ namespace Repository
             };
             ContactApi contact2 = new ContactApi()
             {
-                Id = 3, last = "yo man?", lastdate = "2022-01-23T09:08:45.904Z", Name = "Itamar Bachar",
-                Server = "localhost:7257"
+                Id = 3, last = "thanksssssss", lastdate = "2022-01-23T09:23:45.904Z", Name = "Peleg Shlomo",
+                Server = "localhost:7386"
             };
             User user1 = new User()
             {
                 Id = 1, Email = "a@b", Name = "Peleg", Password = "2910",
                 Contacts = new List<ContactApi>() {contact1, contact2}
             };
+
+            usersList.Add(user1);
+
             contact1 = new ContactApi()
             {
-                Id = 4, last = "thanks", lastdate = "2022-01-23T09:23:45.904Z", Name = "itai Yakobovich",
+                Id = 1, last = "thanks", lastdate = "2022-01-23T09:23:45.904Z", Name = "Peleg Shlomo",
                 Server = "localhost:7286"
-            };
-            contact2 = new ContactApi()
-            {
-                Id = 5, last = "your welcome", lastdate = "2022-01-23T09:08:45.904Z", Name = "ron Bachar",
-                Server = "localhost:7947"
             };
             User user2 = new User()
             {
-                Id = 2, Email = "my@email", Name = "itai", Password = "1234",
-                Contacts = new List<ContactApi>() {contact1, contact2}
+                Id = 2, Email = "12@3", Name = "Nadav", Password = "1234",
+                Contacts = new List<ContactApi>() {contact1}
             };
-            usersList.Add(user1);
+
             usersList.Add(user2);
+
+
+            contact1 = new ContactApi()
+            {
+                Id = 1, last = "thanksssssss", lastdate = "2022-01-23T09:23:45.904Z", Name = "Peleg Shlomo",
+                Server = "localhost:7886"
+            };
+            User user3 = new User()
+            {
+                Id = 3, Email = "whashab@gmail.com", Name = "itamar", Password = "1111111",
+                Contacts = new List<ContactApi>() {contact1}
+            };
+
+            usersList.Add(user3);
 
             //conversation1
 

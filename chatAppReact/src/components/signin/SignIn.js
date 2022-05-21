@@ -5,7 +5,7 @@ import "../landingpage/LandingPage.css";
 import $ from 'jquery';
 import "./SignIn.css"
 import ValidFormAlert from "../alerts/ValidFormAlert";
-import {usersContext} from "../../App";
+import {tokenContext} from "../../App";
 
 
 const SignIn = ({setUserId}) => {
@@ -18,10 +18,8 @@ const SignIn = ({setUserId}) => {
     const pass = useRef("");
     const email = useRef("");
 
+    var token = useContext(tokenContext);
     var response;
-
-    const usersMap = useContext(usersContext);
-
     let navigate = useNavigate();
 
     function checkLogin(event) {
@@ -47,22 +45,17 @@ const SignIn = ({setUserId}) => {
             contentType: "application/json",
             success: function (data) {
                 response = data;
+                response = response.split(" ");
+                token.value = response[0];
+                setUserId(parseInt(response[1]));
             },
             error: function () {
                 setValidLogin(false);
             }
-        }).then(() => console.log(response));
-         
-
-
-        // if (validLogin) {
-        //     if (pass.current.value === usersMap[index].password) {
-        //         setUserId(usersMap[index].userId)
-        //         navigate('/home');
-        //     } else {
-        //         setValidLogin(false)
-        //     }
-        // }
+        }).then(() => {
+            navigate('/home')
+        });
+        //console.log(response)
     }
 
 
