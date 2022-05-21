@@ -5,6 +5,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -35,6 +37,7 @@ namespace chatServerAPI.Controllers
             {
                 if (_service.Auth(email, password))
                 {
+                    var id = _service.GetID(email);
                     var claims = new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWTParams:Subject"]),
@@ -53,7 +56,7 @@ namespace chatServerAPI.Controllers
                         expires: DateTime.UtcNow.AddMinutes(20),
                         signingCredentials: mac);
 
-                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                    return Ok(new JwtSecurityTokenHandler().WriteToken(token) + ' ' + id);
                 }
                 else
                 {
@@ -65,12 +68,24 @@ namespace chatServerAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-    }
 
-    // public IEnumerable<string> Get()
-    // {
-    //     return new string[] { "value1", "value2" };
-    // }
+
+        // GET: api/Users/5
+        [Authorize]
+        [HttpGet("{id}")]
+        public ActionResult<User> GetUser(int id)
+        {
+            User? userFound = _service.Get(id);
+            if (userFound != null)
+            {
+                return userFound;
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+    }
     //
     // // GET: api/Users/5
     // [HttpGet("{id}", Name = "Get")]
