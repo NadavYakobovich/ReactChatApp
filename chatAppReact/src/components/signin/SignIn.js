@@ -55,7 +55,6 @@ const SignIn = ({setUserId}) => {
         }).then(() => {
             navigate('/home')
         });
-        //console.log(response)
     }
 
 

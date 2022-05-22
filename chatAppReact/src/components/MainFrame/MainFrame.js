@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useRef, useEffect} from 'react';
 import SideFrame from "../SideFrame/SideFrame";
 import ConversationPage from "../ConversationPage/ConversationPage";
 import conversation from "../../database/conversation.json"
@@ -15,7 +15,13 @@ function MainFrame({userId}) {
     const usersMaps = useContext(usersContext)
     const token = useContext(tokenContext)
 
-    var response;
+    //Holds the ID of the friend the user is currently talking to
+    const [activeConv, setActiveConv] = useState(null);
+    const [isSend, setIsSend] = useState(false);
+
+    const [user, setUser] = useState([]);
+
+    let userObj = useRef(null);
 
     function fromApiToUser(apiUser) {
         const contacts = [];
@@ -23,51 +29,55 @@ function MainFrame({userId}) {
             const NewContact = {
                 id: contact.id,
                 lastMessage: contact.lastdate,
+                last: contact.last
             }
             contacts.push(NewContact);
         });
 
         return {
-            userId: response.id,
-            name: response.name,
-            email: response.email,
-            password: response.password,
+            userId: apiUser.id,
+            name: apiUser.name,
+            email: apiUser.email,
+            password: apiUser.password,
             pic: null,
             contacts: contacts,
         };
     }
 
-    async function getUser(idUser) {
-        var user;
-        await $.ajax({
-            url: 'http://localhost:5125/api/Users/' + idUser,
+
+    async function getUser() {
+        if (userId == null)
+            return;
+        const output = await $.ajax({
+            url: 'http://localhost:5125/api/Users/' + userId,
             type: 'GET',
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + token.value);
             },
             data: {},
             success: function (data) {
-                response = data;
+                return data;
             },
             error: function () {
             },
-        }).then(() => {
-            user = fromApiToUser(response)
-        })
-        console.log(user)
-        return user;
+        }).then((data) => {
+            return data;
+        });
+        var user = await output;
+        setUser(fromApiToUser(user));
     }
 
-    const idUser = userId; //The id of the user that enter the app
-    //Holds the ID of the friend the user is currently talking to
-    const [activeConv, setActiveConv] = useState(null);
-    const [isSend, setIsSend] = useState(false);
+    useEffect(() => {
+        getUser();
+    }, [])
+
 
     return userId ? (
         <div className={"full-screen p-3 mb-2 text-dark m-0 d-flex justify-content-center"} style={{height: "100vh"}}>
             <Conversation.Provider value={conversationMap}>
-                <idContext.Provider value={getUser(idUser)}>
-                    <SideFrame activeConv={activeConv} setActiveConv={setActiveConv}/>
+                <idContext.Provider value={user}>
+                    {console.log(user)}
+                    {/*<SideFrame activeConv={activeConv} setActiveConv={setActiveConv}/>*/}
                     {/*<ConversationPage activeConv={activeConv} setActiveConv={setActiveConv} isSend={isSend}*/}
                     {/*                  setIsSend={setIsSend}/>*/}
                 </idContext.Provider>

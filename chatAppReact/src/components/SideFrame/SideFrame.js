@@ -17,6 +17,7 @@ function SideFrame({activeConv, setActiveConv}) {
 
     //idUser - is the user objects that logged in
     const idUser = useContext(idContext);
+    console.log(Promise.resolve(idUser))
 
     function logout() {
         navigate("/");
