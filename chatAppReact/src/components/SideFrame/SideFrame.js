@@ -20,6 +20,7 @@ function SideFrame({activeConv, setActiveConv}) {
     function logout() {
         navigate("/");
     }
+
     return (
         <div className="  border sideFrame  d-flex flex-column position-relative">
 

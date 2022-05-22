@@ -2,12 +2,11 @@
 using Domain.apiDomain;
 using Repository;
 
-namespace Services;
+namespace Services.users;
 
 public class ServiceUsers : IServiceUsers
 {
     private UsersContext _users;
-    
 
     public ServiceUsers(UsersContext context)
     {
@@ -16,13 +15,13 @@ public class ServiceUsers : IServiceUsers
 
     public void Add(User user)
     {
-        throw new NotImplementedException();
+        _users.usersList.Add(user);
     }
 
     //add contact to the contact list of the user with the id
     public void AddContact(int id, ContactApi contact)
     {
-        _users.usersList.First(x=>x.Id == id).Contacts.Add( contact);
+        _users.usersList.First(x => x.Id == id).Contacts.Add(contact);
     }
 
     public IEnumerable<User> GetAll()
@@ -33,6 +32,12 @@ public class ServiceUsers : IServiceUsers
     public User? Get(int id)
     {
         return _users.usersList.FirstOrDefault(x => x.Id == id);
+    }
+
+    // this method will return the last id in the users list
+    public int GetLastID()
+    {
+        return _users.usersList.Last().Id;
     }
 
     public void Update(int id)
@@ -52,6 +57,7 @@ public class ServiceUsers : IServiceUsers
         {
             return userFound.Id;
         }
+
         return -1;
     }
 

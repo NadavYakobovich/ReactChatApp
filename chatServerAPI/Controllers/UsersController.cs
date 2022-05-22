@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Services;
+using Services.users;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace chatServerAPI.Controllers
@@ -73,18 +74,26 @@ namespace chatServerAPI.Controllers
         // GET: api/Users/5
         [Authorize]
         [HttpGet("{id}")]
-        public ActionResult<User> GetUser(int id)
+        public IActionResult Get(int id)
         {
             User? userFound = _service.Get(id);
             if (userFound != null)
             {
-                return userFound;
+                return Ok(userFound);
             }
             else
             {
                 return NotFound();
             }
         }
+
+        // //POST: api/Users
+        // [Authorize]
+        // [HttpPost]
+        // public IActionResult Add(string name, string email, string password)
+        // {
+        //     
+        // }
     }
     //
     // // GET: api/Users/5
