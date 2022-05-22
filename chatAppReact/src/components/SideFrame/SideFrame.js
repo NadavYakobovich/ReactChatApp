@@ -17,13 +17,13 @@ function SideFrame({activeConv, setActiveConv}) {
 
     //idUser - is the user objects that logged in
     const idUser = useContext(idContext);
-
     function logout() {
         navigate("/");
     }
-
     return (
         <div className="  border sideFrame  d-flex flex-column position-relative">
+
+
             {/*the username ob the left top*/}
             <Container className="rounded-0 userNameSide text-secondary fw-bold pt-1">
                 <i className="bi bi-person-circle me-2"/>
