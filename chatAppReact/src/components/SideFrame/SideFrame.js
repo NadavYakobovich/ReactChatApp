@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {Container} from "react-bootstrap";
 import "./sideframe.css"
-import {idContext} from "../MainFrame/MainFrame";
+import {idContext, UsersListApp} from "../MainFrame/MainFrame";
 import MyConversation from "../myConversation/MyConversation";
 import AddContactsWin from "../addContactsWIn/addContactsWin";
 import SearchBox from "../SearchBox/SearchBox";
@@ -17,14 +17,14 @@ function SideFrame({activeConv, setActiveConv}) {
 
     //idUser - is the user objects that logged in
     const idUser = useContext(idContext);
+    const userist = useContext(UsersListApp);
+
     function logout() {
         navigate("/");
     }
 
     return (
         <div className="  border sideFrame  d-flex flex-column position-relative">
-
-
             {/*the username ob the left top*/}
             <Container className="rounded-0 userNameSide text-secondary fw-bold pt-1">
                 <i className="bi bi-person-circle me-2"/>

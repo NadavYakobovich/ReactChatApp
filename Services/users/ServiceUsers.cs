@@ -24,10 +24,12 @@ public class ServiceUsers : IServiceUsers
         _users.usersList.First(x => x.Id == id).Contacts.Add(contact);
     }
 
-    public IEnumerable<User> GetAll()
+    public IEnumerable<User>? GetAll()
     {
         return _users.usersList;
     }
+    
+
 
     public User? Get(int id)
     {

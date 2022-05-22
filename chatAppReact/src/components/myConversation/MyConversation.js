@@ -1,11 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Col, Image, ListGroup, Row} from "react-bootstrap";
-import {Conversation, idContext} from "../MainFrame/MainFrame";
+import {idContext, UsersListApp} from "../MainFrame/MainFrame";
 import {usersContext} from "../../App";
 import "./Myconversation.css"
 import {tokenContext} from "../../App";
 import {Navigate} from "react-router-dom";
 import $ from 'jquery';
+
 
 function MyConversation({activeConv, setActiveConv, searchQuery}) {
     //userLogged - is the user objects that logged in
@@ -13,56 +14,16 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
     //const usersMaps = useContext(usersContext)
     //const conversationMap = useContext(Conversation)
     const token = useContext(tokenContext)
-
+    var idFriend = null;
     var response;
+    const userslist = useContext(UsersListApp);
     
 
-    function fromApiToUser(apiUser) {
-        const contacts = [];
-        apiUser.contacts.forEach(contact => {
-            const NewContact = {
-                id: contact.id,
-                lastMessage: contact.lastdate,
-                last: contact.last
-            }
-            contacts.push(NewContact);
-        });
-
-        return {
-            userId: response.id,
-            name: response.name,
-            email: response.email,
-            password: response.password,
-            pic: null,
-            contacts: contacts,
-        };
+    //get the id and return the user object from json that have that id
+    function getUser(idUser) {
+        const res = userslist.find(user => user.userId === idUser);
+        return res
     }
-    //get id of user and get from the server the objects user of with that id
-    async function getUser(idUser) {
-        var user;
-        await $.ajax({
-            url: 'http://localhost:5125/api/Users/' + idUser,
-            type: 'GET',
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', 'Bearer ' + token.value);
-            },
-            data: {},
-            success: function (data) {
-                response = data;
-            },
-            error: function () {
-            },
-        }).then(() => {
-            user = fromApiToUser(response)
-        })
-        return user;
-    }
-
-    // //get the id and return the user object from json that have that id
-    // function getUser(idUser) {
-    //     const index = usersMaps.findIndex(user => user.userId === idUser);
-    //     return usersMaps[index];
-    // }
 
     function sortedContacts(contactsList){
         contactsList.sort(function compare(a, b) {
@@ -125,17 +86,18 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
     }
 
     //return a list of listItem of the user friend that contain the user Search string
-    function searchList() {
+    function searchList(userLogged) {
+        //need to add until check
         sortedContacts(userLogged.contacts)
         return (userLogged.contacts.map(contact => {
-                    const friend = getUser(contact.id)
-                    if (friend.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+                const friend = getUser(contact.id)
+                if (friend.name.toLowerCase().includes(searchQuery.toLowerCase())) {
                         return (
                             <ListGroup.Item key={friend.userId + "List_key"} action
                                             className="border"
                                             onClick={() => setActiveConv(friend.userId)}
                                             active={check(friend.userId)}>
-                                {friendInfo(friend)}
+                                {friendInfo(friend,contact)}
                             </ListGroup.Item>
                         )
                     }
@@ -144,8 +106,8 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
         )
     }
     //get a friend objects and return a listGrop-Item contain his name + his pic for the side-frame
-    function friendInfo(friend) {
-        let mess = lastMessage(friend);
+    function friendInfo(friend,friendContact) {
+         let mess = friendContact.last
         // let content = lastMessageContent(mess);
         return (
             <div>
@@ -162,9 +124,9 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
                         <Row fluid="true">
                             {/*the last message + time */}
                             {/*<Col className="col-6 lastMessage"> {mess !== null ? content : ""} </Col>*/}
-                            <Col className="col-6 lastMessage"> {mess !== null ? mess.last : ""} </Col>
+                            <Col className="col-6 lastMessage"> {mess !== null ? mess : ""} </Col>
 
-                            <Col className="lastMessage text-end"> {mess !== null ? TimeMessage(mess.lastMessage) : ""}</Col>
+                            <Col className="lastMessage text-end"> {mess !== null ? TimeMessage(friendContact.lastMessage) : ""}</Col>
                         </Row>
                     </Col>
                 </div>
@@ -176,8 +138,7 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
     return (
         <ListGroup as="ol" numbered variant="flush" key={"key"}>
             <>
-                {searchList()}
-
+                {searchList(userLogged)}
             </>
         </ListGroup>
     );

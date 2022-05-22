@@ -25,8 +25,7 @@ public class ServiceMessages : IServiceMessages
 
     public List<ContentApi> GetConversation(int myId, int idFriend)
     {
-        var conversation = Conversations.FirstOrDefault(x =>
-            ((x.Id1 == idFriend && x.Id2 == myId) || (x.Id1 == myId && x.Id2 == idFriend)));
+        var conversation = Conversations.FirstOrDefault(x => x.user == myId && x.contact == idFriend);
         if (conversation == null)
         {
             return null;

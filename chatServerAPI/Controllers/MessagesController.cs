@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Repository;
 using Services;
 using Services.messages;
+using Services.users;
 
 namespace chatServerAPI.Controllers
 {

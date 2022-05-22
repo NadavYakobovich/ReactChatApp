@@ -11,7 +11,7 @@ public interface IServiceUsers
 
     public void Add(User user);
 
-    public IEnumerable<User> GetAll();
+    public IEnumerable<User>? GetAll();
 
     public User? Get(int id);
 
