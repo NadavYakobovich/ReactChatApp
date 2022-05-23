@@ -108,6 +108,8 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
     //get a friend objects and return a listGrop-Item contain his name + his pic for the side-frame
     function friendInfo(friend,friendContact) {
          let mess = friendContact.last
+        {console.log(mess)}
+        {console.log(userLogged)}
         // let content = lastMessageContent(mess);
         return (
             <div>
