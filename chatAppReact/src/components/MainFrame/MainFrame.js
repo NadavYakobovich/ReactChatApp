@@ -2,7 +2,7 @@ import React, {useContext, useState, useRef, useEffect} from 'react';
 import SideFrame from "../SideFrame/SideFrame";
 import ConversationPage from "../ConversationPage/ConversationPage";
 import conversation from "../../database/conversation.json"
-import {tokenContext, usersContext} from "../../App";
+import {usersContext} from "../../App";
 import {Navigate} from "react-router-dom";
 import $ from 'jquery';
 
@@ -13,16 +13,13 @@ function MainFrame({userId}) {
 
     let conversationMap = conversation.conversation
     const usersMaps = useContext(usersContext)
-    const token = useContext(tokenContext)
 
     //Holds the ID of the friend the user is currently talking to
     const [activeConv, setActiveConv] = useState(null);
     const [isSend, setIsSend] = useState(false);
 
     const [user, setUser] = useState([]);
-
-    let userObj = useRef(null);
-
+    
     function fromApiToUser(apiUser) {
         const contacts = [];
         apiUser.contacts.forEach(contact => {
@@ -52,7 +49,7 @@ function MainFrame({userId}) {
             url: 'http://localhost:5125/api/Users/' + userId,
             type: 'GET',
             beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', 'Bearer ' + token.value);
+                xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
             },
             data: {},
             success: function (data) {
@@ -68,6 +65,7 @@ function MainFrame({userId}) {
     }
 
     useEffect(() => {
+        console.log(userId)
         getUser();
     }, [])
 

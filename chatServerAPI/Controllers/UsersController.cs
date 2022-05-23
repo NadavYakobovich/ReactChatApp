@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Domain;
+using Domain.apiDomain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,34 +31,38 @@ namespace chatServerAPI.Controllers
             _service = new ServiceUsers(context);
         }
 
+        private string GetToken(string email)
+        {
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWTParams:Subject"]),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                new Claim("username", email)
+            };
+
+            var secretKey =
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTParams:SecretKey"]));
+            var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                _configuration["JWTParams:Issuer"],
+                _configuration["JWTParams:Audience"],
+                claims,
+                expires: DateTime.UtcNow.AddMinutes(20),
+                signingCredentials: mac);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
         // GET: api/Users
         [HttpPost]
-        public IActionResult Post(string email, string password)
+        public IActionResult Post([FromBody] User user)
         {
             try
             {
-                if (_service.Auth(email, password))
+                if (_service.Auth(user.Email, user.Password))
                 {
-                    var id = _service.GetID(email);
-                    var claims = new[]
-                    {
-                        new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWTParams:Subject"]),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("username", email)
-                    };
-
-                    var secretKey =
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTParams:SecretKey"]));
-                    var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                    var token = new JwtSecurityToken(
-                        _configuration["JWTParams:Issuer"],
-                        _configuration["JWTParams:Audience"],
-                        claims,
-                        expires: DateTime.UtcNow.AddMinutes(20),
-                        signingCredentials: mac);
-
-                    return Ok(new JwtSecurityTokenHandler().WriteToken(token) + ' ' + id);
+                    var id = _service.GetId(user.Email);
+                    return Ok(GetToken(user.Email) + ' ' + id);
                 }
                 else
                 {
@@ -87,21 +92,34 @@ namespace chatServerAPI.Controllers
             }
         }
 
-        // //POST: api/Users
-        // [Authorize]
-        // [HttpPost]
-        // public IActionResult Add(string name, string email, string password)
-        // {
-        //     
-        // }
+        //POST: api/Users/new
+        [HttpPost("new")]
+        public IActionResult Add(string name, string email, string password)
+        {
+            int newId = _service.GetLastId() + 1;
+            _service.Add(new User()
+                {Id = newId, Email = email, Name = name, Password = password, Contacts = new List<ContactApi>()});
+            return Ok(GetToken(email) + ' ' + newId);
+        }
+
+        //return all the users 
+        // GET: api/Users
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            IEnumerable<User>? users = _service.GetAll();
+            if (users != null)
+            {
+                return Ok(users);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
-    //
-    // // GET: api/Users/5
-    // [HttpGet("{id}", Name = "Get")]
-    // public string Get(int id)
-    // {
-    //     return "value";
-    // }
+
     //
     // // POST: api/Users
     // [HttpPost]

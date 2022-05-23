@@ -11,18 +11,19 @@ public interface IServiceUsers
 
     public void Add(User user);
 
-    public IEnumerable<User> GetAll();
+    public IEnumerable<User>? GetAll();
 
     public User? Get(int id);
 
-    public int GetID(string email);
+    public int GetId(string email);
+
+    public int GetLastId();
 
     public void Update(int id);
 
     public void Delete(int id);
 
     public bool Auth(string email, string pass);
-    
-    public void AddContact(int id, ContactApi content);
 
+    public void AddContact(int id, ContactApi content);
 }

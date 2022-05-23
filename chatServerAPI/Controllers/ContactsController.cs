@@ -22,23 +22,23 @@ namespace chatServerAPI.Controllers
         {
             _service = new ServiceUsers(context);
         }
-        
-        private void setMyId()
+
+        private void SetMyId()
         {
             string? loggedUser = HttpContext.User.FindFirst("username")?.Value;
             if (loggedUser != null)
             {
-                this._myId = _service.GetID(loggedUser);
+                this._myId = _service.GetId(loggedUser);
             }
         }
-        
+
         // GET: api/Contacts
         [HttpGet]
         public ActionResult<IEnumerable<ContactApi>> GetContact()
         {
             try
             {
-                setMyId();
+                SetMyId();
                 if (_service.GetAll() == null)
                 {
                     return NotFound();
@@ -54,36 +54,39 @@ namespace chatServerAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-         // GET: api/Contacts/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ContactApi>> GetContact(int id)
-    {
-        setMyId();
-        if (_service.GetAll() == null)
+
+        // GET: api/Contacts/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ContactApi>> GetContact(int id)
         {
-            return NotFound();
+            SetMyId();
+            if (_service.GetAll() == null)
+            {
+                return NotFound();
+            }
+
+            User? user = _service.Get(this._myId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            ContactApi? contactApi = user.Contacts.FirstOrDefault(x => x.Id == id);
+            if (contactApi == null)
+            {
+                return NotFound();
+            }
+
+            return contactApi;
         }
 
-        User? user = _service.Get(this._myId);
-        if (user == null)
-        {
-            return NotFound();
-        }
-        ContactApi? contactApi =  user.Contacts.FirstOrDefault(x => x.Id == id);
-        if (contactApi == null)
-        {
-            return NotFound();
-        }
-        return contactApi;
-    }
-    
         // PUT: api/Contacts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact( int id ,string name, string server)
+        public async Task<IActionResult> PutContact(int id, string name, string server)
         {
-            setMyId();
-            ContactApi contact = _service.Get(this._myId).Contacts.First(x=>x.Id == id);
+            SetMyId();
+            ContactApi contact = _service.Get(this._myId).Contacts.First(x => x.Id == id);
             //not found the contact in the contact list of the user
             if (contact == null)
             {
@@ -92,53 +95,53 @@ namespace chatServerAPI.Controllers
 
             contact.Name = name;
             contact.Server = server;
- 
-             return NoContent();
-        }
-    
-    //POST: api/Contacts
-    //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPost]
-    public async Task<ActionResult<Contact>> PostContact(int id, string name,string server)
-    {
-        setMyId();
-        if (_service.GetAll() == null)
-        {
-            return Problem("Entity set 'UsersContext.Contact'  is null.");
-        }
-        ContactApi contact = new ContactApi() {Id = id, Name = name, Server = server, last = null, lastdate = null};
-        //check if there is already contact with the same id
-        User user = _service.Get(this._myId);
-        if (user.Contacts.FirstOrDefault(x => x.Id == contact.Id) != null)
-        {
-            return BadRequest("Id is already exist");
-        }
-        _service.AddContact(this._myId, contact);
-        return NoContent();
-    }
-    
-    // DELETE: api/Contacts/5
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteContact(int id)
-    {
-        setMyId();
-        if (_service.GetAll() == null)
-        {
-            return NotFound();
+
+            return NoContent();
         }
 
-        User user = _service.Get(this._myId);
-        ContactApi contact = user.Contacts.FirstOrDefault(x => x.Id == id);
-        if (contact == null)
+        //POST: api/Contacts
+        //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Contact>> PostContact(int id, string name, string server)
         {
-            return NotFound();
+            SetMyId();
+            if (_service.GetAll() == null)
+            {
+                return Problem("Entity set 'UsersContext.Contact'  is null.");
+            }
+
+            ContactApi contact = new ContactApi() {Id = id, Name = name, Server = server, last = null, lastdate = null};
+            //check if there is already contact with the same id
+            User user = _service.Get(this._myId);
+            if (user.Contacts.FirstOrDefault(x => x.Id == contact.Id) != null)
+            {
+                return BadRequest("Id is already exist");
+            }
+
+            _service.AddContact(this._myId, contact);
+            return NoContent();
         }
-        
-        user.Contacts.Remove(contact);
-    
-        return NoContent();
+
+        // DELETE: api/Contacts/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteContact(int id)
+        {
+            SetMyId();
+            if (_service.GetAll() == null)
+            {
+                return NotFound();
+            }
+
+            User user = _service.Get(this._myId);
+            ContactApi contact = user.Contacts.FirstOrDefault(x => x.Id == id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
+
+            user.Contacts.Remove(contact);
+
+            return NoContent();
+        }
     }
-    
-    }
-    
 }
