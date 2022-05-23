@@ -95,7 +95,6 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
     return (
 
         <div className="main d-flex flex-column">
-            {console.log(friendConv)}
             {/*the top name */}
             <Container className="text-center p-1 conversation-header d-flex">
                 {activeConv != null ?

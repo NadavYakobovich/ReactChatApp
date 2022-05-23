@@ -18,6 +18,8 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
     var response;
     const userslist = useContext(UsersListApp);
     
+    
+    
 
     //get the id and return the user object from json that have that id
     function getUser(idUser) {
@@ -125,7 +127,6 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
                             {/*the last message + time */}
                             {/*<Col className="col-6 lastMessage"> {mess !== null ? content : ""} </Col>*/}
                             <Col className="col-6 lastMessage"> {mess !== null ? mess : ""} </Col>
-
                             <Col className="lastMessage text-end"> {mess !== null ? TimeMessage(friendContact.lastMessage) : ""}</Col>
                         </Row>
                     </Col>
