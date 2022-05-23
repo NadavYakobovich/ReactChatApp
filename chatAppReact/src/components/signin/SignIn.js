@@ -1,11 +1,10 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Button, FloatingLabel, Form} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom'
 import "../landingpage/LandingPage.css";
 import $ from 'jquery';
 import "./SignIn.css"
 import ValidFormAlert from "../alerts/ValidFormAlert";
-import {tokenContext} from "../../App";
 
 
 const SignIn = ({setUserId}) => {
@@ -18,11 +17,10 @@ const SignIn = ({setUserId}) => {
     const pass = useRef("");
     const email = useRef("");
 
-    var token = useContext(tokenContext);
     var response;
     let navigate = useNavigate();
 
-    function checkLogin(event) {
+    async function checkLogin(event) {
         event.preventDefault();
         let validLogin = true;
         let emailVal = email.current.value;
@@ -39,14 +37,16 @@ const SignIn = ({setUserId}) => {
             setValidPass(true);
         }
 
-        $.ajax({
-            url: 'http://localhost:5125/api/Users?email=' + emailVal + '&password=' + passVal,
+        const data = {Email: emailVal, Password: passVal};
+        await $.ajax({
+            url: 'http://localhost:5125/api/Users',
             type: 'POST',
-            contentType: "application/json",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
                 response = data;
                 response = response.split(" ");
-                token.value = response[0];
+                sessionStorage.setItem('jwt', response[0]);
                 setUserId(parseInt(response[1]));
             },
             error: function () {

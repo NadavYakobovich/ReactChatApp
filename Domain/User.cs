@@ -8,10 +8,9 @@ public class User
     [Key]
     public int Id { get; set; }
 
-    [Required]
+
     [MaxLength(50)]
-    [RegularExpression(@"/^[a-zA-Z\\s]*$/")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [Required]
     [DataType(DataType.EmailAddress)]

@@ -15,14 +15,16 @@ public interface IServiceUsers
 
     public User? Get(int id);
 
-    public int GetID(string email);
+    public int GetId(string email);
+
+    public int GetLastId();
 
     public void Update(int id);
 
     public void Delete(int id);
 
     public bool Auth(string email, string pass);
-    
+
     public void AddContact(int id, ContactApi content);
 
     public void UpdateLastMessage(int myId, int idFriend, string mess, string time);

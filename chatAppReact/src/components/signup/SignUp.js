@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Button, Form, Modal, ProgressBar} from "react-bootstrap";
 import "./SignUp.css"
 import InputName from "../form/InputName";
@@ -29,20 +29,32 @@ const SignUp = ({setUserId}) => {
     let navigate = useNavigate();
 
     let progress;
+    var response;
 
     const usersMap = useContext(usersContext);
 
     function addUser(event) {
         event.preventDefault();
-        let newUser = {
-            "userId": (usersMap[usersMap.length - 1].userId) + 1,
-            "name": fullName,
-            "email": email,
-            "password": pass,
-            "contacts": []
-        }
-        usersMap.push(newUser)
-        return newUser.userId;
+        //var params = "?name=" + fullName + "&email=" + email + "&password=" + pass
+        const data = {Name: fullName, Email: email, Password: pass};
+        $.ajax({
+            url: 'http://localhost:5125/api/Users/new',
+            type: 'POST',
+            data: JSON.stringify(data),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
+            },
+            success: function (data) {
+                response = data;
+                response = response.split(" ");
+                sessionStorage.setItem('jwt', response[0]);
+                setUserId(parseInt(response[1]));
+            },
+            error: function () {
+            },
+        }).then(() => {
+            navigate('/home')
+        });
     }
 
     function calcProgress() {
@@ -87,19 +99,19 @@ const SignUp = ({setUserId}) => {
             $('#missingPic').removeClass('d-none')
         }
         if (valid) {
-            let newID = addUser(event);
-            setUserId(newID);
-            navigate('/home');
+            addUser(event);
+            // setUserId(newID);
+            // navigate('/home');
         }
     };
 
-        function stopCamera() {
-            if (tracksRef !== null) {
-                tracksRef.forEach((track) => {
-                    track.stop();
-                });
-            }
+    function stopCamera() {
+        if (tracksRef !== null) {
+            tracksRef.forEach((track) => {
+                track.stop();
+            });
         }
+    }
 
 
     function MyVerticallyCenteredModal(props) {
@@ -129,9 +141,15 @@ const SignUp = ({setUserId}) => {
 
                 <Modal.Body>
                     {tracksRef = null}
-                    <TakeSelfie setTracks={(tracks) => {tracksRef = tracks;}}
-                                setImage={(image) => {imageRef = image;}}
-                                remImage={() => {imageRef = null;}}/>
+                    <TakeSelfie setTracks={(tracks) => {
+                        tracksRef = tracks;
+                    }}
+                                setImage={(image) => {
+                                    imageRef = image;
+                                }}
+                                remImage={() => {
+                                    imageRef = null;
+                                }}/>
                 </Modal.Body>
 
                 <Modal.Footer>
@@ -143,7 +161,7 @@ const SignUp = ({setUserId}) => {
 
     if (image !== null && image !== undefined && image.current !== null) {
         $("#chat-logo").removeClass("img-len").addClass("img-len-small")
-    }else {
+    } else {
         $("#chat-logo").removeClass("img-len-small").addClass("img-len")
 
     }

@@ -37,7 +37,7 @@ public class ServiceUsers : IServiceUsers
     }
 
     // this method will return the last id in the users list
-    public int GetLastID()
+    public int GetLastId()
     {
         return _users.usersList.Last().Id;
     }
@@ -52,7 +52,7 @@ public class ServiceUsers : IServiceUsers
         throw new NotImplementedException();
     }
 
-    public int GetID(string email)
+    public int GetId(string email)
     {
         User? userFound = _users.usersList.Find(user => user.Email == email);
         if (userFound != null)

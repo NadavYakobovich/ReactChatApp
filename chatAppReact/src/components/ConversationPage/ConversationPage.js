@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import "./ConversationPage.css"
 import {Conversation, idContext,UsersListApp} from "../MainFrame/MainFrame";
 import {Container, Image, Row} from "react-bootstrap";
-import {usersContext,tokenContext} from "../../App";
+import {usersContext} from "../../App";
 import InputMessage from "./inputMessage";
 import ShowMessage from "./ShowMessage";
 import $ from "jquery";
@@ -13,7 +13,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
     // const usersMaps = useContext(usersContext)
     const usersMaps = useContext(UsersListApp)
     const conversationMap = useContext(Conversation)
-    const token = useContext(tokenContext)
+
     // friendConv - contain a list of content of the messages with the activeConv
     const [friendConv, setFriendCov] = useState(null)
     
@@ -43,7 +43,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
             url: 'http://localhost:5125/api/contacts/' +activeConv +'/messages',
             type: 'GET',
             beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', 'Bearer ' + token.value);
+                xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
             },
             data: {},
             success: function (data) {
