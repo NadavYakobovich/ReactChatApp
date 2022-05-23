@@ -5,7 +5,9 @@ namespace Services;
 
 public interface IServiceMessages
 {
-    public void Add(int myId, int idReceived, ContentApi contentApi);
+    public void AddContent(int myId, int idReceived, ContentApi contentApi);
+
+    public void AddConv(Conversation conv);
 
     // get all the conversation that the user have
     public IEnumerable<Conversation> GetAll();

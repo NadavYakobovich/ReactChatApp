@@ -64,7 +64,7 @@ namespace Repository
             //conversation1
 
             //from peleg to nadav
-            ContentApi conten1 = new ContentApi() {Content = "hi how are you? this is nadav?>", Created = "2022-01-23T09:23:15.904Z", Id = 1, Sent = true};
+            ContentApi conten1 = new ContentApi() {Content = "hi how are you? this is nadav?", Created = "2022-01-23T09:23:15.904Z", Id = 1, Sent = true};
             ContentApi conten2 = new ContentApi()
                 {Content = "i am great Thanks", Created = "2022-01-23T09:23:25.904Z", Id = 2, Sent = false};
             ContentApi conten3 = new ContentApi() {Content = "cool!", Created = "2022-01-23T09:23:35.904Z", Id = 3, Sent = true};
@@ -75,7 +75,7 @@ namespace Repository
             Conversations.Add(conv1);
             
             //from nadav to peleg
-            ContentApi conten12 = new ContentApi() {Content = "hi how are you? this is nadav?>", Created = "2022-01-23T09:23:15.904Z", Id = 1, Sent = false};
+            ContentApi conten12 = new ContentApi() {Content = "hi how are you? this is nadav?", Created = "2022-01-23T09:23:15.904Z", Id = 1, Sent = false};
             ContentApi conten22 = new ContentApi()
                 {Content = "i am great Thanks", Created = "2022-01-23T09:23:25.904Z", Id = 2, Sent = true};
             ContentApi conten32 = new ContentApi() {Content = "cool!", Created = "2022-01-23T09:23:35.904Z", Id = 3, Sent = false};

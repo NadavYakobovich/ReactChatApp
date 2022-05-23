@@ -28,7 +28,7 @@ namespace chatServerAPI.Controllers
             string? loggedUser = HttpContext.User.FindFirst("username")?.Value;
             if (loggedUser != null)
             {
-                this._myId = _service.GetId(loggedUser);
+                this._myId = _service.GetIdByEmail(loggedUser);
             }
         }
 

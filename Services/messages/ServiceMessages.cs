@@ -6,18 +6,23 @@ namespace Services.messages;
 
 public class ServiceMessages : IServiceMessages
 {
-    private List<Conversation>? Conversations; //check
+    private List<Conversation>? _conversations; //check
 
     public ServiceMessages(UsersContext usersContext)
     {
-        this.Conversations = usersContext.Conversations;
+        _conversations = usersContext.Conversations;
     }
 
-    public void Add(int myId, int idFriend, ContentApi contentApi)
+    public void AddContent(int myId, int idFriend, ContentApi contentApi)
     {
         GetConversation(myId, idFriend).Add(contentApi);
     }
 
+    public void AddConv(Conversation conv)
+    {
+        _conversations?.Add(conv);
+    }
+    
     public IEnumerable<Conversation> GetAll()
     {
         throw new NotImplementedException();
@@ -25,7 +30,7 @@ public class ServiceMessages : IServiceMessages
 
     public List<ContentApi> GetConversation(int myId, int idFriend)
     {
-        var conversation = Conversations.FirstOrDefault(x => x.user == myId && x.contact == idFriend);
+        var conversation = _conversations.FirstOrDefault(x => x.user == myId && x.contact == idFriend);
         if (conversation == null)
         {
             return null;

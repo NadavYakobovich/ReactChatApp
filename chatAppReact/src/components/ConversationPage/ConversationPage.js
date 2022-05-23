@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import "./ConversationPage.css"
-import {Conversation, idContext,UsersListApp} from "../MainFrame/MainFrame";
+import {Conversation, idContext, UsersListApp} from "../MainFrame/MainFrame";
 import {Container, Image, Row} from "react-bootstrap";
 import {usersContext} from "../../App";
 import InputMessage from "./inputMessage";
@@ -16,11 +16,11 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
 
     // friendConv - contain a list of content of the messages with the activeConv
     const [friendConv, setFriendCov] = useState(null)
-    
+
     //same as timee message but show the date as 12/04/2022
     function TimeLastSeen() {
         //get the last time of the  message from the friend (his id is activeUser)  
-        const date = User.contacts.find(x=> x.id === activeConv).lastMessage
+        const date = User.contacts.find(x => x.id === activeConv).lastMessage
         const dateJs = new Date(date); //converse from json to js objects
         const min = (dateJs.getMinutes() < 10 ? '0' : '') + dateJs.getMinutes();
         const timeDay = [dateJs.getDate(), dateJs.getMonth() + 1, dateJs.getFullYear()].join('/');
@@ -32,16 +32,17 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
     //         (conv.id1 === idUser2 && conv.id2 === idUser1));
     //     return conversationMap[index];
     // }
-    
-    function getCov(loggedUser, FriendUser){
-        
+
+    function getCov(loggedUser, FriendUser) {
+
     }
 
     //get all the user from the server
     async function getFriendConv() {
         const output = await $.ajax({
-            url: 'http://localhost:5125/api/contacts/' +activeConv +'/messages',
+            url: 'http://localhost:5125/api/contacts/' + activeConv + '/messages',
             type: 'GET',
+            contentType: "application/json; charset=utf-8",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
             },
@@ -59,8 +60,6 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
     }
 
 
-    
-    
     //get the name of the friend that the conversation is in
     function getUserFriend(idUser) {
         const index = usersMaps.findIndex(user => user.userId === idUser);
@@ -68,17 +67,18 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
     }
 
     let friend = null
-    if (activeConv != null ) {
+    if (activeConv != null) {
         //getFriendConv()
-         friend = getUserFriend(activeConv)
+        friend = getUserFriend(activeConv)
     }
-    useEffect(()=> {
+
+    useEffect(() => {
         if (activeConv !== null) {
             getFriendConv();
         }
 
     }, [activeConv])
-   
+
     //get the select user conversation
     // let messageList = []
     // if (activeConv != null) {
@@ -88,24 +88,25 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
     // }
 
     //wait to get the data from the server
-    if (friendConv == null || activeConv == null){
+    if (friendConv == null || activeConv == null) {
         return
     }
-    
+
     return (
 
         <div className="main d-flex flex-column">
             {console.log(friendConv)}
             {/*the top name */}
             <Container className="text-center p-1 conversation-header d-flex">
-                {activeConv != null  ?
-                    <Image className="picHeader" src={"./profilePic/faceImageExmple.png"} roundedCircle="true" fluid="true"/> : ""}
+                {activeConv != null ?
+                    <Image className="picHeader" src={"./profilePic/faceImageExmple.png"} roundedCircle="true"
+                           fluid="true"/> : ""}
                 <Row className="mb-1 ms-1">
                     <Row className="d-flex justify-content-end"><span
                         className="NameFriend text-start"> {activeConv != null ? friend.name : ""}</span></Row>
                     <Row>
                         <span className="text-muted lastSeen text-start fw-light">
-                            {activeConv != null  ? ("last seen  " + TimeLastSeen() ): ""}
+                            {activeConv != null ? ("last seen  " + TimeLastSeen()) : ""}
                         </span>
                     </Row>
                 </Row>
@@ -113,14 +114,14 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
             {/*the message window*/}
             <div
                 className="scroller d-flex flex-grow-1 align-items-start flex-column overflow-auto flex-column-reverse pe-2 ps-2">
-            
+
                 {/*this span goal is to fill the free gap from the last message to the input bar*/}
                 <span className="flex-grow-1"/>
                 {
                     //The messages are delivered in reverse in order to keep the scrolling permanently close to the last message in the conversation
                     friendConv.slice(0).reverse().map((mess, index) => {
                         return (
-                            <ShowMessage key={index} User={User} mess={mess} />
+                            <ShowMessage key={index} User={User} mess={mess}/>
                         );
                     })
                 }

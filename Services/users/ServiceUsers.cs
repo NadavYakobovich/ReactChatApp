@@ -52,9 +52,20 @@ public class ServiceUsers : IServiceUsers
         throw new NotImplementedException();
     }
 
-    public int GetId(string email)
+    public int GetIdByEmail(string email)
     {
         User? userFound = _users.usersList.Find(user => user.Email == email);
+        if (userFound != null)
+        {
+            return userFound.Id;
+        }
+
+        return -1;
+    }
+    
+    public int GetIdByName(string name)
+    {
+        User? userFound = _users.usersList.Find(user => user.Name == name);
         if (userFound != null)
         {
             return userFound.Id;

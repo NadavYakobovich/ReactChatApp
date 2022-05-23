@@ -35,12 +35,12 @@ const SignUp = ({setUserId}) => {
 
     function addUser(event) {
         event.preventDefault();
-        //var params = "?name=" + fullName + "&email=" + email + "&password=" + pass
         const data = {Name: fullName, Email: email, Password: pass};
         $.ajax({
             url: 'http://localhost:5125/api/Users/new',
             type: 'POST',
             data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
             },

@@ -61,7 +61,7 @@ namespace chatServerAPI.Controllers
             {
                 if (_service.Auth(user.Email, user.Password))
                 {
-                    var id = _service.GetId(user.Email);
+                    var id = _service.GetIdByEmail(user.Email);
                     return Ok(GetToken(user.Email) + ' ' + id);
                 }
                 else

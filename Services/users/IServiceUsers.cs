@@ -15,7 +15,9 @@ public interface IServiceUsers
 
     public User? Get(int id);
 
-    public int GetId(string email);
+    public int GetIdByEmail(string email);
+
+    public int GetIdByName(string name);
 
     public int GetLastId();
 
@@ -28,6 +30,4 @@ public interface IServiceUsers
     public void AddContact(int id, ContactApi content);
 
     public void UpdateLastMessage(int myId, int idFriend, string mess, string time);
-
-
 }

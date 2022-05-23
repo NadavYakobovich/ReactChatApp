@@ -20,8 +20,6 @@ function MainFrame({userId}) {
     const [isSend, setIsSend] = useState(false);
     const [user, setUser] = useState(null);
     const [userList, setUserList] = useState(null);
-
-    let navigate = useNavigate();
     
     function fromApiToUser(apiUser) {
         const contacts = [];
@@ -51,6 +49,7 @@ function MainFrame({userId}) {
         const output = await $.ajax({
             url: 'http://localhost:5125/api/Users/' + userId,
             type: 'GET',
+            contentType: "application/json; charset=utf-8",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
             },
@@ -68,7 +67,8 @@ function MainFrame({userId}) {
     }
 
     useEffect(() => {
-        getUser();
+        getUser()
+        getUserList();
     }, [])
 
     //get all the user from the server
@@ -78,6 +78,7 @@ function MainFrame({userId}) {
         const output = await $.ajax({
             url: 'http://localhost:5125/api/Users',
             type: 'GET',
+            contentType: "application/json; charset=utf-8",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
             },
@@ -96,10 +97,6 @@ function MainFrame({userId}) {
         )
         setUserList(usersListNew);
     }
-
-    useEffect(() => {
-        getUserList();
-    }, [])
 
     if (userId && (user == null || userList == null)) {
             return
