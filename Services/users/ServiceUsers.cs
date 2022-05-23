@@ -28,6 +28,8 @@ public class ServiceUsers : IServiceUsers
     {
         return _users.usersList;
     }
+    
+
 
     public User? Get(int id)
     {
@@ -72,5 +74,16 @@ public class ServiceUsers : IServiceUsers
         {
             return false;
         }
+    }
+    
+    public void UpdateLastMessage(int myId,int idFriend,string mess, string time)
+    {
+        ContactApi friend = Get(myId).Contacts.FirstOrDefault(contact => contact.Id == idFriend);
+        if (friend == null)
+        {
+            return;
+        }
+        friend.last = mess;
+        friend.lastdate = time;
     }
 }

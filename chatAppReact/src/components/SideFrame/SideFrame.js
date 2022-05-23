@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {Container} from "react-bootstrap";
 import "./sideframe.css"
-import {idContext} from "../MainFrame/MainFrame";
+import {idContext, UsersListApp} from "../MainFrame/MainFrame";
 import MyConversation from "../myConversation/MyConversation";
 import AddContactsWin from "../addContactsWIn/addContactsWin";
 import SearchBox from "../SearchBox/SearchBox";
@@ -17,6 +17,7 @@ function SideFrame({activeConv, setActiveConv}) {
 
     //idUser - is the user objects that logged in
     const idUser = useContext(idContext);
+    const userist = useContext(UsersListApp);
 
     function logout() {
         navigate("/");

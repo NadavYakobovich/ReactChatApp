@@ -26,4 +26,8 @@ public interface IServiceUsers
     public bool Auth(string email, string pass);
 
     public void AddContact(int id, ContactApi content);
+
+    public void UpdateLastMessage(int myId, int idFriend, string mess, string time);
+
+
 }

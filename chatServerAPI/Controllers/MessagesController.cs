@@ -2,8 +2,10 @@ using Domain;
 using Domain.apiDomain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 using Repository;
 using Services;
+using Services.messages;
 using Services.users;
 
 namespace chatServerAPI.Controllers
@@ -104,6 +106,7 @@ namespace chatServerAPI.Controllers
             ContentApi contentApi = new ContentApi()
                 {Content = content, Created = DateTime.Now.ToString(), Id = nextId, Sent = true};
             _service.Add(_myId, friendId, contentApi);
+            _usersService.UpdateLastMessage(_myId,friendId,content,DateTime.Now.ToString());
 
             return NoContent();
         }

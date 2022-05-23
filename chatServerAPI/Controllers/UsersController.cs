@@ -91,6 +91,24 @@ namespace chatServerAPI.Controllers
                 return NotFound();
             }
         }
+        
+        //return all the users 
+        // GET: api/Users
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            IEnumerable<User>? users = _service.GetAll();
+            if (users != null)
+            {
+                return Ok(users);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
 
         //POST: api/Users/new
         [HttpPost("new")]
