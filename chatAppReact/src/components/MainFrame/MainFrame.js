@@ -3,7 +3,7 @@ import SideFrame from "../SideFrame/SideFrame";
 import ConversationPage from "../ConversationPage/ConversationPage";
 import conversation from "../../database/conversation.json"
 import {usersContext} from "../../App";
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import $ from 'jquery';
 
 export const idContext = React.createContext()
@@ -21,9 +21,7 @@ function MainFrame({userId}) {
     const [user, setUser] = useState(null);
     const [userList, setUserList] = useState(null);
 
-    let userObj = useRef(null);
-
-    
+    let navigate = useNavigate();
     
     function fromApiToUser(apiUser) {
         const contacts = [];
@@ -103,9 +101,10 @@ function MainFrame({userId}) {
         getUserList();
     }, [])
 
-    if (user == null || userList == null) {
-        return
+    if (userId && (user == null || userList == null)) {
+            return
     }
+    
     return userId ? (
         <div className={"full-screen p-3 mb-2 text-dark m-0 d-flex justify-content-center"} style={{height: "100vh"}}>
                 <UsersListApp.Provider value ={userList}>

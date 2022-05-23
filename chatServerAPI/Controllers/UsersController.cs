@@ -91,7 +91,7 @@ namespace chatServerAPI.Controllers
                 return NotFound();
             }
         }
-        
+
         //return all the users 
         // GET: api/Users
         [Authorize]
@@ -112,29 +112,12 @@ namespace chatServerAPI.Controllers
 
         //POST: api/Users/new
         [HttpPost("new")]
-        public IActionResult Add(string name, string email, string password)
+        public IActionResult Add([FromBody] User user) //string name, string email, string password)
         {
-            int newId = _service.GetLastId() + 1;
-            _service.Add(new User()
-                {Id = newId, Email = email, Name = name, Password = password, Contacts = new List<ContactApi>()});
-            return Ok(GetToken(email) + ' ' + newId);
-        }
-
-        //return all the users 
-        // GET: api/Users
-        [Authorize]
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            IEnumerable<User>? users = _service.GetAll();
-            if (users != null)
-            {
-                return Ok(users);
-            }
-            else
-            {
-                return NotFound();
-            }
+            user.Id = _service.GetLastId() + 1;
+            user.Contacts = new List<ContactApi>();
+            _service.Add(user);
+            return Ok(GetToken(user.Email) + ' ' + user.Id);
         }
     }
 

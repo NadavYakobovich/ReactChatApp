@@ -2,7 +2,6 @@ import React, {useContext, useRef, useState} from 'react';
 import {FormControl} from "react-bootstrap";
 import "./inputMessage.css"
 import $ from 'jquery';
-import {tokenContext} from "../../App";
 
 import AddFileModal from "./AddFileModal";
 import DropDownItem from "./DropDownItem";
@@ -11,7 +10,6 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
 
     const [modalShow, setModalShow] = useState(false);
     const [selection, setSelection] = useState(null);
-    const token = useContext(tokenContext)
 
     const messRef = useRef(null);
     const inputImage = useRef(null);
@@ -64,7 +62,7 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
             url: 'http://localhost:5125/api/contacts/' +activeconv +'/messages?content=' +Input,
             type: 'POST',
             beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', 'Bearer ' + token.value);
+                xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
             },
             data: {},
             success: function (data) {
