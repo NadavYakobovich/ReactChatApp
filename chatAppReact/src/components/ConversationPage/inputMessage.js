@@ -2,6 +2,8 @@ import React, {useContext, useRef, useState} from 'react';
 import {FormControl} from "react-bootstrap";
 import "./inputMessage.css"
 import $ from 'jquery';
+import {idContext} from "../MainFrame/MainFrame";
+
 
 import AddFileModal from "./AddFileModal";
 import DropDownItem from "./DropDownItem";
@@ -10,15 +12,20 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
 
     const [modalShow, setModalShow] = useState(false);
     const [selection, setSelection] = useState(null);
+    const userLogged = useContext(idContext);
 
     const messRef = useRef(null);
-    const inputImage = useRef(null);
-    const inputVideo = useRef(null);
+
 
     //update the last  message Time in the user contacts list
-    function updateLastContact(date) {
-        let mes = user.contacts.filter(contact => contact.id === activeconv)
-        mes[0].lastMessage = date
+    function updateLastContact(date , mess) {
+        console.log("**** the time***")
+        console.log(date)
+        let contactUser = userLogged.contacts.find(contact => contact.id === activeconv)
+        contactUser.lastMessage = date
+        contactUser.last = mess
+
+
     }
     
     function getLastId(){
@@ -26,7 +33,7 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
     }
 
     //creat new message and return a message objects
-    function newMessage(type, input) {
+    function newMessage(input) {
         let mess;
         const date = new Date().toJSON()
         mess ={
@@ -86,7 +93,8 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
         }
         messageList.push(message)
         SentMessage(message.content)
-        updateLastContact(message.time)
+        console.log(message)
+        updateLastContact(message.created,message.content)
         //update the useState to render the page immediately after sending the message
         if (isSend === true)
             setIsSend(false)
@@ -96,7 +104,7 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
 
     return (
         <form className="d-flex mainInputWin" onSubmit={(event) => {
-            submitHandler(event, newMessage("text", messRef.current.value))
+            submitHandler(event, newMessage( messRef.current.value))
             messRef.current.value = '';
         }}>
             {/*<div className="dropdown  icons-Input-WIn ">*/}

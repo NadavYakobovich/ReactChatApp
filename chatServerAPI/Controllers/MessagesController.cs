@@ -2,6 +2,7 @@ using Domain;
 using Domain.apiDomain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NuGet.Protocol;
 using Repository;
 using Services;
@@ -103,10 +104,13 @@ namespace chatServerAPI.Controllers
             }
 
             int nextId = conversation.Max(x => x.Id) + 1;
+            DateTime date = DateTime.Now;
+            string dateJS = date.ToString("o");
+            
             ContentApi contentApi = new ContentApi()
-                {Content = content, Created = DateTime.Now.ToString(), Id = nextId, Sent = true};
+                {Content = content, Created = dateJS, Id = nextId, Sent = true};
             _service.Add(_myId, friendId, contentApi);
-            _usersService.UpdateLastMessage(_myId,friendId,content,"check");
+            _usersService.UpdateLastMessage(_myId,friendId,content,dateJS);
 
             return NoContent();
         }
