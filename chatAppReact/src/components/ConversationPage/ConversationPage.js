@@ -14,6 +14,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
     const usersMaps = useContext(UsersListApp)
     const conversationMap = useContext(Conversation)
     const token = useContext(tokenContext)
+    // friendConv - contain a list of content of the messages with the activeConv
     const [friendConv, setFriendCov] = useState(null)
     
     //same as timee message but show the date as 12/04/2022
@@ -38,7 +39,6 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
 
     //get all the user from the server
     async function getFriendConv() {
-        console.log(activeConv)
         const output = await $.ajax({
             url: 'http://localhost:5125/api/contacts/' +activeConv +'/messages',
             type: 'GET',
@@ -95,16 +95,17 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
     return (
 
         <div className="main d-flex flex-column">
+            {console.log(friendConv)}
             {/*the top name */}
             <Container className="text-center p-1 conversation-header d-flex">
-                {activeConv != null ?
+                {activeConv != null  ?
                     <Image className="picHeader" src={"./profilePic/faceImageExmple.png"} roundedCircle="true" fluid="true"/> : ""}
                 <Row className="mb-1 ms-1">
                     <Row className="d-flex justify-content-end"><span
                         className="NameFriend text-start"> {activeConv != null ? friend.name : ""}</span></Row>
                     <Row>
                         <span className="text-muted lastSeen text-start fw-light">
-                            {activeConv != null ? ("last seen  " + TimeLastSeen() ): ""}
+                            {activeConv != null  ? ("last seen  " + TimeLastSeen() ): ""}
                         </span>
                     </Row>
                 </Row>

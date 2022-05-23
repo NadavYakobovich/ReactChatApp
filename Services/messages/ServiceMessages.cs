@@ -57,4 +57,7 @@ public class ServiceMessages : IServiceMessages
     {
         GetConversation(myId, idFriend).Remove(contentApi);
     }
+
+
+
 }

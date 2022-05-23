@@ -19,4 +19,5 @@ public interface IServiceMessages
     public void Update(int idFriend, string content);
 
     public void Delete(int myId, int idFriend, ContentApi contentApi);
+
 }
