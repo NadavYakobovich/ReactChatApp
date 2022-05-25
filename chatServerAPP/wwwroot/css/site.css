@@ -2,6 +2,11 @@ html {
   font-size: 14px;
 }
 
+html, body {
+  background-image: url(background.jpg);
+  background-size: cover;
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;

@@ -87,9 +87,11 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
     //     messageList =  friendConv;
     // }
 
-    //wait to get the data from the server
+    //wait to get the data from the server -> show white page
     if (friendConv == null || activeConv == null) {
-        return
+        return (
+            <div className="main d-flex flex-column"></div>
+        )
     }
 
     return (
