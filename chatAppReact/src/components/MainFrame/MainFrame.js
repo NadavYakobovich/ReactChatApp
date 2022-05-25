@@ -106,7 +106,7 @@ function MainFrame({userId}) {
                 <UsersListApp.Provider value ={userList}>
                     <idContext.Provider value={user}>
                         <SideFrame activeConv={activeConv} setActiveConv={setActiveConv}/>
-                        {activeConv == null? "": <ConversationPage activeConv={activeConv} setActiveConv={setActiveConv} isSend={isSend} setIsSend={setIsSend} />}
+                        {<ConversationPage activeConv={activeConv} setActiveConv={setActiveConv} isSend={isSend} setIsSend={setIsSend} />}
                     </idContext.Provider>
                 </UsersListApp.Provider>
         </div>

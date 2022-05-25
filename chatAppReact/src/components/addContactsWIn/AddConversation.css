@@ -9,9 +9,15 @@
 .profileListContact{
     width: 12%;
 }
-
+.modal-dialog {
+    max-width: 800px;
+}
 .addContactsWin{
     max-height: 90%;
+}
+.ImageWin{
+    width: 40%;
+    margin-right: 3%;
 }
 
 .availableList{
