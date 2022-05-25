@@ -18,7 +18,7 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
 
 
     //update the last  message Time in the user contacts list
-    function updateLastContact(date , mess) {
+    function updateLastContact(date, mess) {
         console.log("**** the time***")
         console.log(date)
         let contactUser = userLogged.contacts.find(contact => contact.id === activeconv)
@@ -27,19 +27,19 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
 
 
     }
-    
-    function getLastId(){
-        return  Math.max(...messageList.map(o => o.id)) +1 
+
+    function getLastId() {
+        return Math.max(...messageList.map(o => o.id)) + 1
     }
 
     //creat new message and return a message objects
     function newMessage(input) {
         let mess;
         const date = new Date().toJSON()
-        mess ={
+        mess = {
             "id": getLastId(),
             "content": input,
-            "created" : date,
+            "created": date,
             "sent": true
         }
         return mess
@@ -63,15 +63,17 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
     //     setSelection(null);
     // }
 
-    //get all the user from the server
+    
     async function SentMessage(Input) {
+        const content = {Content: Input}
         const output = await $.ajax({
-            url: 'http://localhost:5125/api/contacts/' +activeconv +'/messages?content=' +Input,
+            url: 'http://localhost:5125/api/contacts/' + activeconv + '/messages',
             type: 'POST',
+            data: JSON.stringify(content),
+            contentType: "application/json; charset=utf-8",
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
             },
-            data: {},
             success: function (data) {
                 return data;
             },
@@ -88,13 +90,13 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
             e.preventDefault();
 
         //if the user not enter any message-text but click send, the app not sent anything
-        if (message.content.length === 0 ) {
+        if (message.content.length === 0) {
             return
         }
         messageList.push(message)
         SentMessage(message.content)
         console.log(message)
-        updateLastContact(message.created,message.content)
+        updateLastContact(message.created, message.content)
         //update the useState to render the page immediately after sending the message
         if (isSend === true)
             setIsSend(false)
@@ -104,13 +106,13 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
 
     return (
         <form className="d-flex mainInputWin" onSubmit={(event) => {
-            submitHandler(event, newMessage( messRef.current.value))
+            submitHandler(event, newMessage(messRef.current.value))
             messRef.current.value = '';
         }}>
             {/*<div className="dropdown  icons-Input-WIn ">*/}
             {/*    <button className="  dropdownMenuIcon d-flex " type="button" id="dropdownMenuButton1"*/}
             {/*            data-bs-toggle="dropdown" aria-expanded="false">*/}
-            
+
             {/*        <i className="icons-Input-WIn bi bi-paperclip hoverEffect "></i>*/}
             {/*    </button>*/}
             {/*    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">*/}
@@ -129,7 +131,7 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
             {/*            setSelection(vid2)*/}
             {/*            setModalShow(true)*/}
             {/*        }}/>*/}
-            
+
             {/*    </ul>*/}
             {/*</div>*/}
 
@@ -174,7 +176,7 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
             {/*           event.target.value = ''*/}
             {/*       }}*/}
             {/*       style={{display: 'none'}}/>*/}
-            
+
             {/*<AddFileModal file={selection} setModalShow={setModalShow} modalShow={modalShow} addFile={newFile}*/}
             {/*              updateData={updateData}/>*/}
 

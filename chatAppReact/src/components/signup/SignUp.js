@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Button, Form, Modal, ProgressBar} from "react-bootstrap";
 import "./SignUp.css"
 import InputName from "../form/InputName";
-import InputEmail from "../form/InputEmail";
+import InputUsername from "../form/InputUsername";
 import InputPass from "../form/InputPass";
 import InputRePass from "../form/InputRePass";
 import UploadImage from "../form/UploadImage";
@@ -17,14 +17,9 @@ import {useNavigate} from "react-router-dom";
 const SignUp = ({setUserId}) => {
 
     const [fullName, setFullName] = useState("");
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [pass, setPass] = useState("");
     const [rePass, setRePass] = useState("");
-    const [image, setImage] = useState(null);
-    const [modalShow, setModalShow] = useState(false);
-
-    let imageRef = useRef(null);
-    let tracksRef = useRef(null);
 
     let navigate = useNavigate();
 
@@ -33,10 +28,10 @@ const SignUp = ({setUserId}) => {
 
     const usersMap = useContext(usersContext);
 
-    function addUser(event) {
+    async function addUser(event) {
         event.preventDefault();
-        const data = {Name: fullName, Email: email, Password: pass};
-        $.ajax({
+        const data = {Name: fullName, Id: username, Password: pass};
+        await $.ajax({
             url: 'http://localhost:5125/api/Users/new',
             type: 'POST',
             data: JSON.stringify(data),
@@ -61,15 +56,13 @@ const SignUp = ({setUserId}) => {
         let count = 0;
         if (fullName !== "")
             count++;
-        if (email !== "")
+        if (username !== "")
             count++;
         if (pass !== "")
             count++;
         if (rePass !== "")
             count++;
-        if (image !== null && image !== undefined && image.current !== null)
-            count++;
-        return 20 * count;
+        return 25 * count;
     }
 
 
@@ -81,9 +74,9 @@ const SignUp = ({setUserId}) => {
             valid = false
             $('#full_name').addClass("is-invalid")
         }
-        if (email === "" || $("#email").hasClass("is-invalid")) {
+        if (username === "" || $("#username").hasClass("is-invalid")) {
             valid = false
-            $('#email').addClass("is-invalid")
+            $('#username').addClass("is-invalid")
         }
         if (pass === "" || $("#pass").hasClass("is-invalid")) {
             valid = false
@@ -93,86 +86,20 @@ const SignUp = ({setUserId}) => {
             valid = false
             $('#rePass').addClass("is-invalid")
         }
-
-        if (image === null) {
-            valid = false
-            $('#missingPic').removeClass('d-none')
-        }
+        
         if (valid) {
             addUser(event);
-            // setUserId(newID);
-            // navigate('/home');
         }
     };
 
-    function stopCamera() {
-        if (tracksRef !== null) {
-            tracksRef.forEach((track) => {
-                track.stop();
-            });
-        }
-    }
-
-
-    function MyVerticallyCenteredModal(props) {
-
-        function exitModal() {
-            props.onHide();
-            stopCamera();
-            setImage(imageRef);
-        }
-
-        function isCaptured() {
-            return !(imageRef === null || imageRef.current === null);
-        }
-
-        return (
-            <Modal
-                {...props}
-                size="md"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Take Selfie
-                    </Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    {tracksRef = null}
-                    <TakeSelfie setTracks={(tracks) => {
-                        tracksRef = tracks;
-                    }}
-                                setImage={(image) => {
-                                    imageRef = image;
-                                }}
-                                remImage={() => {
-                                    imageRef = null;
-                                }}/>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <ModalPopover exitModal={exitModal} isCaptured={isCaptured}/>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-
-    if (image !== null && image !== undefined && image.current !== null) {
-        $("#chat-logo").removeClass("img-len").addClass("img-len-small")
-    } else {
-        $("#chat-logo").removeClass("img-len-small").addClass("img-len")
-
-    }
-
     progress = calcProgress();
+    
     return (
         <Form noValidate onSubmit={handleSubmit}>
 
             <InputName setFullName={setFullName}/>
 
-            <InputEmail setEmail={setEmail} usersMap={usersMap}/>
+            <InputUsername setUsername={setUsername} usersMap={usersMap}/>
 
             <InputPass setPass={setPass}/>
 
@@ -189,25 +116,6 @@ const SignUp = ({setUserId}) => {
                     </ul>
                 </div>
             </div>
-
-            <UploadImage setImage={setImage} setModalShow={setModalShow}/>
-
-            <p id="missingPic" className="text-danger fw-normal d-flex justify-content-center d-none">
-                <i className="bi bi-info-circle"></i>&nbsp;Please add picture !
-            </p>
-
-            <ShowImage image={image} size={"20"}/>
-
-            <ValidPic validInfo={image} info={"Picture added !"}/>
-
-
-            <MyVerticallyCenteredModal
-                show={modalShow}
-                onHide={() => {
-                    stopCamera();
-                    setModalShow(false)
-                }}
-            />
 
             <ProgressBar className="mb-2" animated now={progress}/>
 

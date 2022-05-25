@@ -16,7 +16,7 @@ namespace chatServerAPI.Controllers
     public class ContactsController : ControllerBase
     {
         private IServiceUsers _service;
-        private int _myId;
+        private string _myId;
 
         public ContactsController(UsersContext context)
         {
@@ -28,7 +28,7 @@ namespace chatServerAPI.Controllers
             string? loggedUser = HttpContext.User.FindFirst("username")?.Value;
             if (loggedUser != null)
             {
-                this._myId = _service.GetIdByEmail(loggedUser);
+                this._myId = loggedUser;
             }
         }
 
@@ -57,7 +57,7 @@ namespace chatServerAPI.Controllers
 
         // GET: api/Contacts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ContactApi>> GetContact(int id)
+        public async Task<ActionResult<ContactApi>> GetContact(string id)
         {
             SetMyId();
             if (_service.GetAll() == null)
@@ -65,7 +65,7 @@ namespace chatServerAPI.Controllers
                 return NotFound();
             }
 
-            User? user = _service.Get(this._myId);
+            User? user = _service.Get(_myId);
             if (user == null)
             {
                 return NotFound();
@@ -83,10 +83,10 @@ namespace chatServerAPI.Controllers
         // PUT: api/Contacts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact(int id, string name, string server)
+        public async Task<IActionResult> PutContact(string id, string name, string server)
         {
             SetMyId();
-            ContactApi contact = _service.Get(this._myId).Contacts.First(x => x.Id == id);
+            ContactApi contact = _service.Get(_myId).Contacts.First(x => x.Id == id);
             //not found the contact in the contact list of the user
             if (contact == null)
             {
@@ -102,7 +102,7 @@ namespace chatServerAPI.Controllers
         //POST: api/Contacts
         //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Contact>> PostContact(int id, string name, string server)
+        public async Task<ActionResult<Contact>> PostContact(string id, string name, string server)
         {
             SetMyId();
             if (_service.GetAll() == null)
@@ -124,7 +124,7 @@ namespace chatServerAPI.Controllers
 
         // DELETE: api/Contacts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContact(int id)
+        public async Task<IActionResult> DeleteContact(string id)
         {
             SetMyId();
             if (_service.GetAll() == null)
@@ -132,7 +132,7 @@ namespace chatServerAPI.Controllers
                 return NotFound();
             }
 
-            User user = _service.Get(this._myId);
+            User user = _service.Get(_myId);
             ContactApi contact = user.Contacts.FirstOrDefault(x => x.Id == id);
             if (contact == null)
             {

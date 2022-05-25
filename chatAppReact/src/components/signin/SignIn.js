@@ -9,13 +9,13 @@ import ValidFormAlert from "../alerts/ValidFormAlert";
 
 const SignIn = ({setUserId}) => {
 
-    const [validEmail, setValidEmail] = useState(true);
+    const [validUsername, setValidUsername] = useState(true);
     const [validPass, setValidPass] = useState(true);
     const [validLogin, setValidLogin] = useState("");
     const [message, setMessage] = useState("");
 
     const pass = useRef("");
-    const email = useRef("");
+    const username = useRef("");
 
     var response;
     let navigate = useNavigate();
@@ -23,11 +23,11 @@ const SignIn = ({setUserId}) => {
     async function checkLogin(event) {
         event.preventDefault();
         let validLogin = true;
-        let emailVal = email.current.value;
+        let usernameVal = username.current.value;
         let passVal = pass.current.value;
-        if (emailVal === "" || !emailVal.includes("@")) {
-            setMessage("Please enter a valid email address");
-            setValidEmail(false);
+        if (usernameVal === "" || usernameVal.includes(" ")) {
+            setMessage("Please enter a valid user name");
+            setValidUsername(false);
             validLogin = false;
         }
         if (passVal === "") {
@@ -37,7 +37,7 @@ const SignIn = ({setUserId}) => {
             setValidPass(true);
         }
 
-        const data = {Email: emailVal, Password: passVal};
+        const data = {Id: usernameVal, Password: passVal};
         await $.ajax({
             url: 'http://localhost:5125/api/Users',
             type: 'POST',
@@ -47,7 +47,7 @@ const SignIn = ({setUserId}) => {
                 response = data;
                 response = response.split(" ");
                 sessionStorage.setItem('jwt', response[0]);
-                setUserId(parseInt(response[1]));
+                setUserId(response[1]);
             },
             error: function () {
                 setValidLogin(false);
@@ -73,9 +73,9 @@ const SignIn = ({setUserId}) => {
 
     return (
         <Form noValidate onSubmit={checkLogin}>
-            <FloatingLabel className="mb-3" controlId="signin-floatingInput" label="Email address">
-                <Form.Control className="mb-1" type="email" placeholder="Email address" ref={email}/>
-                <ValidFormAlert validInfo={validEmail} info={message}/>
+            <FloatingLabel className="mb-3" controlId="signin-floatingInput" label="Username">
+                <Form.Control className="mb-1" type="text" placeholder="Username" ref={username}/>
+                <ValidFormAlert validInfo={validUsername} info={message}/>
             </FloatingLabel>
 
             <FloatingLabel className="mb-3" controlId="signin-floatingPassword" label="Password">
@@ -90,7 +90,7 @@ const SignIn = ({setUserId}) => {
                 </Button>
                 <div className={"d-flex justify-content-center"}>
                     <ValidFormAlert validInfo={validLogin}
-                                    info={"Error : You have entered incorrect email or password."}/>
+                                    info={"Error : You have entered incorrect username or password."}/>
                 </div>
             </div>
         </Form>

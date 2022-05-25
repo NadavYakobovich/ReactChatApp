@@ -35,7 +35,6 @@ function MainFrame({userId}) {
         return {
             userId: apiUser.id,
             name: apiUser.name,
-            email: apiUser.email,
             password: apiUser.password,
             pic: null,
             contacts: contacts,

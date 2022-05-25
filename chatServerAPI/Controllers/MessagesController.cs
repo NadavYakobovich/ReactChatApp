@@ -18,7 +18,7 @@ namespace chatServerAPI.Controllers
     {
         private IServiceMessages _service;
         private IServiceUsers _usersService;
-        private int _myId;
+        private string _myId;
 
         public MessagesController(UsersContext usersContext)
         {
@@ -31,14 +31,14 @@ namespace chatServerAPI.Controllers
             string? loggedUser = HttpContext.User.FindFirst("username")?.Value;
             if (loggedUser != null)
             {
-                _myId = _usersService.GetIdByEmail(loggedUser);
+                _myId = loggedUser;
             }
         }
 
         //[get a specific content in conversation with friend ]
         //api/contacts/alice/messages/181
         [HttpGet("{messageId}/")]
-        public async Task<ActionResult<ContentApi>> GetConversation(int friendId, int messageId)
+        public async Task<ActionResult<ContentApi>> GetConversation(string friendId, int messageId)
         {
             SetMyId();
             if (_service.GetConversation(_myId, friendId) == null)
@@ -59,7 +59,7 @@ namespace chatServerAPI.Controllers
         //[get all conversation with the friend]
         //api/contacts/alice/messages/
         [HttpGet]
-        public async Task<ActionResult<List<ContentApi>>> GetConversation(int friendId)
+        public async Task<ActionResult<List<ContentApi>>> GetConversation(string friendId)
         {
             SetMyId();
             List<ContentApi>? listCon = _service.GetConversation(_myId, friendId);
@@ -72,7 +72,7 @@ namespace chatServerAPI.Controllers
 
         // DELETE: api/Contacts/alice/messages/181
         [HttpDelete("{idMessages}/")]
-        public async Task<IActionResult> DeleteContact(int friendId, int idMessages)
+        public async Task<IActionResult> DeleteContact(string friendId, int idMessages)
         {
             SetMyId();
             if (_service.GetConversation(_myId, friendId) == null)
@@ -93,7 +93,7 @@ namespace chatServerAPI.Controllers
         // POST
         // api/contacts/alice/messages
         [HttpPost]
-        public async Task<ActionResult<Contact>> PostMessages(int friendId, string content)
+        public async Task<ActionResult<Contact>> PostMessages(string friendId, [FromBody] ContentApi content)
         {
             SetMyId();
             List<ContentApi>? conversation = _service.GetConversation(_myId, friendId);
@@ -102,14 +102,14 @@ namespace chatServerAPI.Controllers
                 return NotFound();
             }
 
-            int nextId = conversation.Max(x => x.Id) + 1;
+            int? nextId = conversation.Max(x => x.Id) + 1;
             DateTime date = DateTime.Now;
             string dateJS = date.ToString("o");
             
             ContentApi contentApi = new ContentApi()
-                {Content = content, Created = dateJS, Id = nextId, Sent = true};
+                {Content = content.Content, Created = dateJS, Id = nextId, Sent = true};
             _service.AddContent(_myId, friendId, contentApi);
-            _usersService.UpdateLastMessage(_myId,friendId,content,dateJS);
+            _usersService.UpdateLastMessage(_myId,friendId,content.Content,dateJS);
 
             return NoContent();
         }
@@ -117,7 +117,7 @@ namespace chatServerAPI.Controllers
         //[PUT]
         //api/contacts/alice/messages/183
         [HttpPut("{idMessages}/")]
-        public async Task<IActionResult> PutMessage(int friendId, int idMessages, string content)
+        public async Task<IActionResult> PutMessage(string friendId, int idMessages, string content)
         {
             SetMyId();
             ContentApi? contentApi = _service.Get(_myId, friendId, idMessages);

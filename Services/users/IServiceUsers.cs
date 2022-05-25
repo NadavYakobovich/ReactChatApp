@@ -13,21 +13,17 @@ public interface IServiceUsers
 
     public IEnumerable<User>? GetAll();
 
-    public User? Get(int id);
+    public User? Get(string id);
+    
+    public string GetIdByName(string name);
+    
+    public void Update(string id);
 
-    public int GetIdByEmail(string email);
+    public void Delete(string id);
 
-    public int GetIdByName(string name);
+    public bool Auth(string username, string pass);
 
-    public int GetLastId();
+    public void AddContact(string id, ContactApi content);
 
-    public void Update(int id);
-
-    public void Delete(int id);
-
-    public bool Auth(string email, string pass);
-
-    public void AddContact(int id, ContactApi content);
-
-    public void UpdateLastMessage(int myId, int idFriend, string mess, string time);
+    public void UpdateLastMessage(string myId, string idFriend, string mess, string time);
 }

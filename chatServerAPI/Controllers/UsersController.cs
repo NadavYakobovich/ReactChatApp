@@ -31,14 +31,14 @@ namespace chatServerAPI.Controllers
             _service = new ServiceUsers(context);
         }
 
-        private string GetToken(string email)
+        private string GetToken(string username)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWTParams:Subject"]),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim("username", email)
+                new Claim("username", username)
             };
 
             var secretKey =
@@ -59,10 +59,9 @@ namespace chatServerAPI.Controllers
         {
             try
             {
-                if (_service.Auth(user.Email, user.Password))
+                if (_service.Auth(user.Id, user.Password))
                 {
-                    var id = _service.GetIdByEmail(user.Email);
-                    return Ok(GetToken(user.Email) + ' ' + id);
+                    return Ok(GetToken(user.Id) + ' ' + user.Id);
                 }
                 else
                 {
@@ -79,7 +78,7 @@ namespace chatServerAPI.Controllers
         // GET: api/Users/5
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(string id)
         {
             User? userFound = _service.Get(id);
             if (userFound != null)
@@ -90,6 +89,19 @@ namespace chatServerAPI.Controllers
             {
                 return NotFound();
             }
+        }
+
+        // GET: api/Users/find/yossi
+        [HttpGet("find/{id}")]
+        public IActionResult GetIdByUsername(string id)
+        {
+            User idFound = _service.Get(id);
+            if (idFound != null)
+            {
+                return Ok(id);
+            }
+
+            return NotFound();
         }
 
         //return all the users 
@@ -112,12 +124,11 @@ namespace chatServerAPI.Controllers
 
         //POST: api/Users/new
         [HttpPost("new")]
-        public IActionResult Add([FromBody] User user) //string name, string email, string password)
+        public IActionResult Add([FromBody] User user) //string name, string username, string password)
         {
-            user.Id = _service.GetLastId() + 1;
             user.Contacts = new List<ContactApi>();
             _service.Add(user);
-            return Ok(GetToken(user.Email) + ' ' + user.Id);
+            return Ok(GetToken(user.Id) + ' ' + user.Id);
         }
     }
 

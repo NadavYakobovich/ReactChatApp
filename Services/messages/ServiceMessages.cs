@@ -13,7 +13,7 @@ public class ServiceMessages : IServiceMessages
         _conversations = usersContext.Conversations;
     }
 
-    public void AddContent(int myId, int idFriend, ContentApi contentApi)
+    public void AddContent(string myId, string idFriend, ContentApi contentApi)
     {
         GetConversation(myId, idFriend).Add(contentApi);
     }
@@ -22,15 +22,20 @@ public class ServiceMessages : IServiceMessages
     {
         _conversations?.Add(conv);
     }
-    
+
     public IEnumerable<Conversation> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public List<ContentApi> GetConversation(int myId, int idFriend)
+    public int GetLastConvId()
     {
-        var conversation = _conversations.FirstOrDefault(x => x.user == myId && x.contact == idFriend);
+        return _conversations.Last().Id;
+    }
+
+    public List<ContentApi> GetConversation(string myId, string idFriend)
+    {
+        var conversation = _conversations.FirstOrDefault(x => x.from == myId && x.to == idFriend);
         if (conversation == null)
         {
             return null;
@@ -41,7 +46,7 @@ public class ServiceMessages : IServiceMessages
         }
     }
 
-    public ContentApi? Get(int myId, int idUserFriend, int idMessage)
+    public ContentApi? Get(string myId, string idUserFriend, int idMessage)
     {
         List<ContentApi>? conv = GetConversation(myId, idUserFriend);
         if (conv == null)
@@ -53,16 +58,13 @@ public class ServiceMessages : IServiceMessages
         return content;
     }
 
-    public void Update(int idFriend, string content)
+    public void Update(string idFriend, string content)
     {
         throw new NotImplementedException();
     }
 
-    public void Delete(int myId, int idFriend, ContentApi contentApi)
+    public void Delete(string myId, string idFriend, ContentApi contentApi)
     {
         GetConversation(myId, idFriend).Remove(contentApi);
     }
-
-
-
 }

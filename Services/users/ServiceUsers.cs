@@ -19,51 +19,35 @@ public class ServiceUsers : IServiceUsers
     }
 
     //add contact to the contact list of the user with the id
-    public void AddContact(int id, ContactApi contact)
+    public void AddContact(string id, ContactApi contact)
     {
-        _users.usersList.First(x => x.Id == id).Contacts.Add(contact);
+        Get(id).Contacts.Add(contact);
     }
 
     public IEnumerable<User>? GetAll()
     {
         return _users.usersList;
     }
-    
 
 
-    public User? Get(int id)
+    public User? Get(string id)
     {
         return _users.usersList.FirstOrDefault(x => x.Id == id);
     }
 
     // this method will return the last id in the users list
-    public int GetLastId()
-    {
-        return _users.usersList.Last().Id;
-    }
 
-    public void Update(int id)
+    public void Update(string id)
     {
         throw new NotImplementedException();
     }
 
-    public void Delete(int id)
+    public void Delete(string id)
     {
         throw new NotImplementedException();
     }
 
-    public int GetIdByEmail(string email)
-    {
-        User? userFound = _users.usersList.Find(user => user.Email == email);
-        if (userFound != null)
-        {
-            return userFound.Id;
-        }
-
-        return -1;
-    }
-    
-    public int GetIdByName(string name)
+    public string GetIdByName(string name)
     {
         User? userFound = _users.usersList.Find(user => user.Name == name);
         if (userFound != null)
@@ -71,12 +55,12 @@ public class ServiceUsers : IServiceUsers
             return userFound.Id;
         }
 
-        return -1;
+        return "-1";
     }
 
-    public bool Auth(string email, string pass)
+    public bool Auth(string username, string pass)
     {
-        User? userFound = _users.usersList.Find(user => user.Email == email && user.Password == pass);
+        User? userFound = _users.usersList.Find(user => user.Id == username && user.Password == pass);
         if (userFound != null)
         {
             return true;
@@ -86,14 +70,15 @@ public class ServiceUsers : IServiceUsers
             return false;
         }
     }
-    
-    public void UpdateLastMessage(int myId,int idFriend,string mess, string time)
+
+    public void UpdateLastMessage(string myId, string idFriend, string mess, string time)
     {
         ContactApi friend = Get(myId).Contacts.FirstOrDefault(contact => contact.Id == idFriend);
         if (friend == null)
         {
             return;
         }
+
         friend.last = mess;
         friend.lastdate = time;
     }

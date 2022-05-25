@@ -21,7 +21,7 @@ namespace chatServerAPI.Controllers
     {
         private IServiceMessages _messagesService;
         private IServiceUsers _usersService;
-        private int _myId;
+        private string _myId;
 
         public CrossServerController(UsersContext usersContext)
         {
@@ -34,12 +34,17 @@ namespace chatServerAPI.Controllers
             string? loggedUser = HttpContext.User.FindFirst("username")?.Value;
             if (loggedUser != null)
             {
-                _myId = _usersService.GetIdByEmail(loggedUser);
+                _myId = loggedUser;
             }
         }
 
+        /**
+         * getting TransferApi object contains: from, to, content.
+         * this query will arrive from the sender server,
+         * so myID is transfer.to and the friend id is the transfer.from.
+         */
         [HttpPost("transfer/")]
-        public async Task<ActionResult> Transfer([FromBody] TransferApi transfer)
+        public async Task<IActionResult> Transfer([FromBody] TransferApi transfer)
         {
             if (transfer.from == null || transfer.to == null)
             {
@@ -47,7 +52,7 @@ namespace chatServerAPI.Controllers
             }
 
             SetMyId(); // myId == transfer.to
-            int fromId = _usersService.GetIdByName(transfer.from);
+            string fromId = _usersService.GetIdByName(transfer.from);
             string date = DateTime.Now.ToString("o");
 
             List<ContentApi>? listCon = _messagesService.GetConversation(_myId, fromId);
@@ -55,7 +60,7 @@ namespace chatServerAPI.Controllers
             if (listCon == null)
             {
                 Conversation newConv = new Conversation()
-                    {Contents = new List<ContentApi> {cont}, Id = 1, user = fromId, contact = _myId};
+                    {Contents = new List<ContentApi> {cont}, Id = 1, from = fromId, to = _myId};
                 _messagesService.AddConv(newConv);
             }
             else
@@ -63,6 +68,46 @@ namespace chatServerAPI.Controllers
                 cont.Id = listCon.Last().Id + 1;
                 _messagesService.AddContent(_myId, fromId, cont);
             }
+
+            return Ok();
+        }
+
+        /**
+         * getting InvitationApi object contains: from, to, content.
+         * this query will arrive from the sender server,
+         * hence myID is invitation.to and the friendID is invitation.from. 
+         */
+        [HttpPost("invitations/")]
+        public async Task<IActionResult> Invitation([FromBody] InvitationApi invitation)
+        {
+            //check if the user exists in the userslist
+            if (_usersService.Get(invitation.from) == null)
+            {
+                _usersService.Add(new User()
+                {
+                    Id = invitation.from, Name = invitation.from,
+                    Password = null, Contacts = new List<ContactApi>()
+                });
+            }
+
+            string contactId = invitation.from;
+            string myId = invitation.to;
+
+            ContactApi contact = new ContactApi()
+            {
+                Id = invitation.from, last = null, lastdate = null, Name = invitation.from,
+                Server = invitation.server
+            };
+
+            _usersService.AddContact(myId, contact);
+
+
+            Conversation conv = new Conversation()
+            {
+                Contents = new List<ContentApi>(), Id = _messagesService.GetLastConvId() + 1, from = contactId,
+                to = myId
+            };
+            _messagesService.AddConv(conv);
 
             return Ok();
         }
