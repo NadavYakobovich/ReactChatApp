@@ -63,7 +63,7 @@ function InputMessage({isSend, setIsSend, activeconv, user, messageList}) {
     //     setSelection(null);
     // }
 
-    
+
     async function SentMessage(Input) {
         const content = {Content: Input}
         const output = await $.ajax({

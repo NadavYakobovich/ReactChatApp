@@ -13,6 +13,9 @@ function SideFrame({activeConv, setActiveConv}) {
     //the search Text
     const [searchQuery, setSearchQuery ] = useState("")
 
+    //isAdd is use to render the page after new contact is add
+    const [IsAdd,setIsAdd] = useState(true)
+
     let navigate = useNavigate();
 
     //idUser - is the user objects that logged in
@@ -43,7 +46,7 @@ function SideFrame({activeConv, setActiveConv}) {
                 <MyConversation  activeConv={activeConv} setActiveConv={setActiveConv } searchQuery={searchQuery}/>
             </div>
             {/*the add New Conversation button click*/}
-            <AddContactsWin activeConv={activeConv} setActiveConv={setActiveConv}/>
+            <AddContactsWin  setActiveConv={setActiveConv} setIsAdd={setIsAdd} isAdd={IsAdd} />
         </div>
     )
 }

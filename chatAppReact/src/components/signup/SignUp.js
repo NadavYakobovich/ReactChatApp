@@ -43,7 +43,7 @@ const SignUp = ({setUserId}) => {
                 response = data;
                 response = response.split(" ");
                 sessionStorage.setItem('jwt', response[0]);
-                setUserId(parseInt(response[1]));
+                setUserId(response[1]);
             },
             error: function () {
             },

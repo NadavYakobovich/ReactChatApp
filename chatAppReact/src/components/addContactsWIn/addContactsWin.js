@@ -1,17 +1,88 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {Button, Modal, Form, FloatingLabel} from "react-bootstrap";
 import "./AddConversation.css"
 import AvailableContactList from "./AvailableContactList/AvailableContactList";
+import $ from "jquery";
+import {idContext, UsersListApp} from "../MainFrame/MainFrame";
 
-function AddContactsWin({activeConv, setActiveConv}) {
+
+function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
+    const usersList = useContext(UsersListApp)
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const userLogged = useContext(idContext);
+    console.log(userLogged)
     const User_Name = useRef("");
     const NickName = useRef("");
     const Server = useRef("");
+
+    function AddContactToLocal() {
+        const NewContact = {
+            id: User_Name.current.value,
+            lastMessage: null,
+            last: null
+        }
+        userLogged.contacts.push(NewContact)
+
+        usersList.push({
+            userId: User_Name.current.value,
+            name: User_Name.current.value,
+            password: null,
+            pic: null,
+            contacts: [],
+        })
+    }
+
+    async function SendToServer(event) {
+        event.preventDefault()
+        //Add the new Contact To The local list of the User
+        AddContactToLocal();
+        
+        //creat the object for the post to the server
+        const inputUser = {
+            "from": User_Name.current.value,
+            "to": userLogged.userId,
+            "server": Server.current.value
+        }
+        await invitation(inputUser, "localhost:5125"); //sent post to my server to updeate the data
+        const inputFriend = {
+            "from": userLogged.userId,
+            "to": User_Name.current.value,
+            "server": "localhost:5125"
+        }
+
+        if (isAdd) {
+            setIsAdd(false)
+        } else {
+            setIsAdd(true)
+        }
+        //send post to my friend server
+        // invitation(inputFriend,Server.current.value);
+        handleClose()
+    }
+
+    //add the friend to my list of contact on the server
+    async function invitation(input, server) {
+        const output = await $.ajax({
+            //sent the invitation to the friend local host
+            url: "http://" + server + "/api/invitations/",
+            type: 'POST',
+            data: JSON.stringify(input),
+            contentType: "application/json; charset=utf-8",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
+            },
+            success: function (data) {
+                return data;
+            },
+            error: function () {
+            },
+        }).then((data) => {
+            return data;
+        });
+    }
 
 
     return (
@@ -25,7 +96,7 @@ function AddContactsWin({activeConv, setActiveConv}) {
             <Modal
                 show={show}
                 onHide={handleClose}
-                backdrop="static"
+                backdrop="true"
                 keyboard={false}
                 className="addContactsWin "
             >
@@ -35,15 +106,15 @@ function AddContactsWin({activeConv, setActiveConv}) {
                 <Modal.Body className="d-flex align-items-center">
                     <img className="ImageWin" src="../add-Friend.png" alt="Add Friend"/>
 
-                    <Form className="w-50">
-                        <FloatingLabel className="mb-3" controlId="signin-floatingInput" label="User Name">
-                            <Form.Control className="mb-1" type="text" placeholder="User Name" ref={User_Name}/>
+                    <Form className="w-50" onSubmit={SendToServer}>
+                        <FloatingLabel className="mb-3" controlId="signin-floatingInput" label="Username">
+                            <Form.Control className="mb-1" type="text" placeholder="Username" ref={User_Name}/>
                         </FloatingLabel>
                         <FloatingLabel className="mb-3" controlId="signin-floatingInput" label="Nickname">
                             <Form.Control className="mb-1" type="text" placeholder="Nickname" ref={NickName}/>
                         </FloatingLabel>
                         <FloatingLabel className="mb-3" controlId="signin-floatingInput" label="Server">
-                            <Form.Control className="mb-1" type="text" placeholder="Server" ref={User_Name}/>
+                            <Form.Control className="mb-1" type="text" placeholder="Server" ref={Server}/>
                         </FloatingLabel>
                         <span className="d-flex justify-content-center">
                             <Button type="submit text-bold" className="w-100 "> Add Friend To Chat</Button>

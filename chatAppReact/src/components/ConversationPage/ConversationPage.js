@@ -21,21 +21,16 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
     function TimeLastSeen() {
         //get the last time of the  message from the friend (his id is activeUser)  
         const date = User.contacts.find(x => x.id === activeConv).lastMessage
+        if(date === null){
+            return ""
+        }
         const dateJs = new Date(date); //converse from json to js objects
         const min = (dateJs.getMinutes() < 10 ? '0' : '') + dateJs.getMinutes();
         const timeDay = [dateJs.getDate(), dateJs.getMonth() + 1, dateJs.getFullYear()].join('/');
-        return dateJs.getHours() + ":" + min + " " + timeDay;
+        return "last seen" + dateJs.getHours() + ":" + min + " " + timeDay;
     }
 
-    // function getCov(idUser1, idUser2) {
-    //     const index = conversationMap.findIndex(conv => (conv.id1 === idUser1 && conv.id2 === idUser2) ||
-    //         (conv.id1 === idUser2 && conv.id2 === idUser1));
-    //     return conversationMap[index];
-    // }
 
-    function getCov(loggedUser, FriendUser) {
-
-    }
 
     //get all the user from the server
     async function getFriendConv() {
@@ -72,9 +67,11 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
         friend = getUserFriend(activeConv)
     }
 
-    useEffect(() => {
-        if (activeConv !== null) {
-            getFriendConv();
+     useEffect(() => {
+        if (activeConv != null) {
+              getFriendConv();
+        }else {
+            return
         }
 
     }, [activeConv])
@@ -107,7 +104,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
                         className="NameFriend text-start"> {activeConv != null ? friend.name : ""}</span></Row>
                     <Row>
                         <span className="text-muted lastSeen text-start fw-light">
-                            {activeConv != null ? ("last seen  " + TimeLastSeen()) : ""}
+                            {activeConv != null ? (  TimeLastSeen()) : ""}
                         </span>
                     </Row>
                 </Row>

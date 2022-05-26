@@ -104,8 +104,8 @@ namespace chatServerAPI.Controllers
 
             Conversation conv = new Conversation()
             {
-                Contents = new List<ContentApi>(), Id = _messagesService.GetLastConvId() + 1, from = contactId,
-                to = myId
+                Contents = new List<ContentApi>(), Id = _messagesService.GetLastConvId() + 1, from = myId,
+                to = contactId
             };
             _messagesService.AddConv(conv);
 

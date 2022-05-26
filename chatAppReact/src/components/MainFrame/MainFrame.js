@@ -43,7 +43,7 @@ function MainFrame({userId}) {
 
 
     async function getUser() {
-        if (userId == null)
+        if (userId === null)
             return;
         const output = await $.ajax({
             url: 'http://localhost:5125/api/Users/' + userId,
