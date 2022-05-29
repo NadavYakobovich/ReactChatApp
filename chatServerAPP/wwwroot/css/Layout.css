@@ -1,12 +1,10 @@
 html{
-    background-color: #1b6ec2;
-    background-image: url(~/lib/background.jpg);
+    background-color: #eaecef;
+    background-image: url(background.jpg);
     background-size: cover;
 
 }
-body{
-    background-color: #1b6ec2;
-}
+
 .mainPage{
     border: 3px black;
     padding: 20px;

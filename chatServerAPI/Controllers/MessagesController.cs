@@ -117,8 +117,9 @@ namespace chatServerAPI.Controllers
         //[PUT]
         //api/contacts/alice/messages/183
         [HttpPut("{idMessages}/")]
-        public async Task<IActionResult> PutMessage(string friendId, int idMessages, string content)
+        public async Task<IActionResult> PutMessage(string friendId, int idMessages,[FromBody] ContentApi contentInput)
         {
+            string content = contentInput.Content;
             SetMyId();
             ContentApi? contentApi = _service.Get(_myId, friendId, idMessages);
             if (contentApi != null)

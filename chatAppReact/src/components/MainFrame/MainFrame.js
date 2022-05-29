@@ -27,7 +27,8 @@ function MainFrame({userId}) {
             const NewContact = {
                 id: contact.id,
                 lastMessage: contact.lastdate,
-                last: contact.last
+                last: contact.last,
+                server: contact.server
             }
             contacts.push(NewContact);
         });
