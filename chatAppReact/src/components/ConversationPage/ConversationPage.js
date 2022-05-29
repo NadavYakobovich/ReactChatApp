@@ -126,7 +126,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
             </div>
             {/*the input bar*/}
             {activeConv != null ?
-                <InputMessage isSend={isSend} setIsSend={setIsSend} activeconv={activeConv} user={User}
+                <InputMessage isSend={isSend} setIsSend={setIsSend} activeconv={activeConv} 
                               messageList={friendConv}/> : ""}
         </div>
 
