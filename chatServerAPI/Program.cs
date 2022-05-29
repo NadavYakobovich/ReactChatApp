@@ -1,4 +1,5 @@
 using System.Text;
+using chatServerAPI.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,7 +53,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
-    // options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
     options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true,
@@ -62,14 +62,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey =
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTParams:SecretKey"]))
     };
-    // options.Events = new JwtBearerEvents()
-    // {
-    //     OnMessageReceived = context =>
-    //     {
-    //         context.Token = context.Request.Cookies["jwt"];
-    //         return Task.CompletedTask;
-    //     }
-    // };
 });
 
 builder.Services.AddCors(options =>
@@ -80,6 +72,8 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod().AllowAnyHeader();
     });
 });
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -98,5 +92,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseEndpoints(endpoints => { endpoints.MapHub<ChatHub>("/ChatHub"); });
 
 app.Run();
