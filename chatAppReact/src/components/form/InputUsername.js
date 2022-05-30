@@ -1,18 +1,21 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import ValidFormAlert from "../alerts/ValidFormAlert";
 import $ from 'jquery'
+import {serverContext} from "../../App";
 
-const InputUsername = ({setUsername, usersMap}) => {
+const InputUsername = ({setUsername}) => {
 
     const [valid, setValid] = useState("");
     const [message, setMessage] = useState("");
+
+    const serverUrl = useContext(serverContext)
 
     const usernameRef = useRef();
 
     async function userExist(username) {
         console.log(username)
         await $.ajax({
-            url: 'http://localhost:5125/api/Users/find/' + username,
+            url: serverUrl + '/api/Users/find/' + username,
             type: 'GET',
             contentType: "application/json; charset=utf-8",
             beforeSend: function (xhr) {
