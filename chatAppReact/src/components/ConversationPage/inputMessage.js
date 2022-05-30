@@ -53,7 +53,7 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
     async function SentMesToFriendServer(Input) {
         const content = {from:userLogged.userId,to:activeconv,Content: Input}
         const output = await $.ajax({
-            url: 'http://' + getFriendServer(activeconv) +'/api/contacts/' + activeconv + '/messages',
+            url: 'http://'+ getFriendServer(activeconv)+'/api/transfer/',
             type: 'POST',
             data: JSON.stringify(content),
             contentType: "application/json; charset=utf-8",

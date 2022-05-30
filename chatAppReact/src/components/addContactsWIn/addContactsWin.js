@@ -13,7 +13,6 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
     const handleShow = () => setShow(true);
 
     const userLogged = useContext(idContext);
-    console.log(userLogged)
     const User_Name = useRef("");
     const NickName = useRef("");
     const Server = useRef("");

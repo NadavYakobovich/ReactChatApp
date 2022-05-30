@@ -44,7 +44,7 @@ function MainFrame({userId}) {
             contacts: contacts,
         };
     }
-
+    
 
     async function getUser() {
         if (userId === null)
@@ -68,6 +68,12 @@ function MainFrame({userId}) {
         var user = await output;
         setUser(fromApiToUser(user));
     }
+    //update the last message of the contact in the contacts list that will display in the left side
+    function  incomeMess(contactID, mess,time){
+        let contact = user.contacts.find(x => x.id === contactID.id)
+        contact.last =  mess;
+        contact.lastMessage = time
+    }
 
     async function AddUser() {
         try {
@@ -76,7 +82,8 @@ function MainFrame({userId}) {
                 .configureLogging(LogLevel.Information)
                 .build();
 
-            connection.on("ReceiveMessage", (user, message) => {
+            connection.on("ReceiveMessage", (user, message, time) => {
+                incomeMess(user,message,time)
                 console.log('message: ' + message + '    from:' + user);
             })
 
@@ -139,13 +146,12 @@ function MainFrame({userId}) {
 
     return userId ? (
         <div className={"full-screen p-3 mb-2 text-dark m-0 d-flex justify-content-center"} style={{height: "100vh"}}>
-            <UsersListApp.Provider value={userList}>
-                <idContext.Provider value={user}>
-                    <SideFrame activeConv={activeConv} setActiveConv={setActiveConv} closeConnection={closeConnection}/>
-                    <ConversationPage activeConv={activeConv} setActiveConv={setActiveConv} isSend={isSend}
-                                      setIsSend={setIsSend} connection={connection}/>
-                </idContext.Provider>
-            </UsersListApp.Provider>
+                <UsersListApp.Provider value ={userList}>
+                    <idContext.Provider value={user}>
+                        <SideFrame activeConv={activeConv} setActiveConv={setActiveConv}  isSend={isSend} setIsSend={setIsSend} closeConnection={closeConnection}/>
+                        {<ConversationPage activeConv={activeConv} setActiveConv={setActiveConv} isSend={isSend} setIsSend={setIsSend} connection={connection}  />}
+                    </idContext.Provider>
+                </UsersListApp.Provider>
         </div>
     ) : <Navigate replace to="/"/>;
 }
