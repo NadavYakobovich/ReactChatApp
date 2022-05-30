@@ -43,7 +43,7 @@ namespace chatServerAPI.Controllers
         }
 
 
-        public async Task SendMessage(string fromUser, string toUser, string message, string time)
+        private async Task SendMessage(string fromUser, string toUser, string message, string time)
         {
             string connectionId;
             if (ChatHub.ConnectionsDict.ContainsKey(toUser))

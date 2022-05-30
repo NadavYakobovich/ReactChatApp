@@ -70,62 +70,8 @@ function MyConversation({activeConv, setActiveConv, searchQuery,isSend, setIsSen
         //the last message was text
         return mess.message;
     }
-    // function fromApiContacts(apiContacts){
-    //     userContacts.list  = [];
-    //     apiContacts.forEach(contact => {
-    //         const NewContact = {
-    //             id: contact.id,
-    //             lastMessage: contact.lastdate,
-    //             last: contact.last,
-    //             server: contact.server
-    //         }
-    //         userContacts.list.push(NewContact);
-    //         console.log(userContacts.list)
-    //     });
-    // }
-    //
-    // async function getUserContacts() {
-    //     if (userLogged === null)
-    //         return;
-    //     const output = await $.ajax({
-    //         url: 'http://localhost:5125/api/Contacts',
-    //         type: 'GET',
-    //         contentType: "application/json; charset=utf-8",
-    //         beforeSend: function (xhr) {
-    //             xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
-    //         },
-    //         data: {},
-    //         success: function (data) {
-    //             return data;
-    //         },
-    //         error: function () {
-    //         },
-    //     }).then((data) => {
-    //         return data;
-    //     });
-    //     var list = await output;
-    //     // setuserContacts(fromApiContacts(list));
-    //     fromApiContacts(list);
-    // }
-
-
-
+    
      function OnSelect(id) {
-        // console.log("on select")
-        // if (activeConv != null) {
-        //     await getUserContacts()
-        //     if (userContacts.list != null) {
-        //         userLogged.contacts = userContacts.list
-        //     }
-        // }
-        // console.log(userLogged)
-        // if(activeConv!= null) {
-        //     if (isSend === false) {
-        //         setIsSend(true)
-        //     } else {
-        //         setIsSend(false)
-        //     }
-        // }
         return activeConv === id
     }
 
