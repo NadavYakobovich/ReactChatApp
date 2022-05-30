@@ -23,14 +23,14 @@ namespace chatServerAPI.Controllers
     {
         private IServiceMessages _messagesService;
         private IServiceUsers _usersService;
-        //private readonly IHubContext<ChatHub> _hubContext;
+        private readonly IHubContext<ChatHub> _hubContext;
         private string _myId;
 
         public CrossServerController(UsersContext usersContext, IHubContext<ChatHub> hub)
         {
             _messagesService = new ServiceMessages(usersContext);
             _usersService = new ServiceUsers(usersContext);
-            //_hubContext = hub;
+            _hubContext = hub;
         }
 
         private void SetMyId()
@@ -41,17 +41,17 @@ namespace chatServerAPI.Controllers
                 _myId = loggedUser;
             }
         }
-        
-        
-        // public async Task SendMessage(string username, string message, string time)
-        // {
-        //     string connectionId;
-        //     if (_hubContext.ConnectionsDict.ContainsKey(username))
-        //     {
-        //         connectionId = _hubContext[username];
-        //         await _hubContext.Client(connectionId).SendAsync("ReceiveMessage", username, message, time);
-        // //     }
-        // }
+
+
+        public async Task SendMessage(string fromUser, string toUser, string message, string time)
+        {
+            string connectionId;
+            if (ChatHub.ConnectionsDict.ContainsKey(toUser))
+            {
+                connectionId = ChatHub.ConnectionsDict[toUser];
+                await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveMessage", fromUser, message, time);
+            }
+        }
 
         /**
          * getting TransferApi object contains: from, to, content.
@@ -83,7 +83,7 @@ namespace chatServerAPI.Controllers
                 cont.Id = listCon.Last().Id + 1;
                 _messagesService.AddContent(_myId, fromId, cont);
             }
-
+            
             return Ok();
         }
 

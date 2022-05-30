@@ -69,7 +69,7 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
             return data;
         });
     }
-    async function SentMesToMySrver(Input) {
+    async function SentMesToMyServer(Input) {
         const content = {Content: Input}
         const output = await $.ajax({
             url: 'http://localhost:5125/api/contacts/' + activeconv + '/messages',
@@ -90,13 +90,15 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
     }
 
 
-    async function sendMessage(message) {
-        try{
-            await connection.invoke("SendMessage", userLogged.userId ,message.content, message.created);
-        }catch (e) {
-            console.log(e)
-        }
-    }
+    // async function sendMessage(message) {
+    //     try{
+    //         let fromId = userLogged.userId;
+    //         let toId = activeconv;
+    //         await connection.invoke("SendMessage",fromId ,toId ,message.content, message.created);
+    //     }catch (e) {
+    //         console.log(e)
+    //     }
+    // }
     
     function submitHandler(e, message) {
         if (e !== null)
@@ -106,9 +108,9 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
         if (message.content.length === 0) {
             return
         }
-        sendMessage(message)
+        //sendMessage(message)
         messageList.push(message)
-        SentMesToMySrver(message.content)
+        SentMesToMyServer(message.content)
         SentMesToFriendServer(message.content)
         console.log(message)
         updateLastContact(message.created, message.content)
