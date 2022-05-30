@@ -1,19 +1,23 @@
 using System.Text;
+using chatServerAPI.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.SignalR;
 using Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
 builder.Services.AddSingleton<UsersContext>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 // builder.Services.AddSwaggerGen();
 
 builder.Services.AddSwaggerGen(c =>
@@ -48,11 +52,12 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddSignalR();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
-    // options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
     options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true,
@@ -62,22 +67,25 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey =
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTParams:SecretKey"]))
     };
-    // options.Events = new JwtBearerEvents()
-    // {
-    //     OnMessageReceived = context =>
-    //     {
-    //         context.Token = context.Request.Cookies["jwt"];
-    //         return Task.CompletedTask;
-    //     }
-    // };
 });
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("Allow All", builder =>
+    options.AddPolicy("cors_policy",
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:5125").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+        });
+    options.AddPolicy("ClientPermission", policy =>
     {
-        builder.AllowAnyOrigin()
-            .AllowAnyMethod().AllowAnyHeader();
+        policy.AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithOrigins("http://localhost:3000")
+            .WithOrigins("http://localhost:3001")
+            .WithOrigins("http://localhost:3002")
+            .WithOrigins("http://localhost:3003")
+            .AllowCredentials();
     });
 });
 
@@ -90,14 +98,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("Allow All");
+app.UseRouting();
 
+//app.UseCors("Allow All");
+app.UseCors("ClientPermission");
+app.UseCors("cors_policy");
 
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseEndpoints(endpoints => { endpoints.MapHub<ChatHub>("/ChatHub"); });
 
 app.Run();

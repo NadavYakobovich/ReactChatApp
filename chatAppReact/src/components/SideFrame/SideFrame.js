@@ -8,7 +8,7 @@ import SearchBox from "../SearchBox/SearchBox";
 import {useNavigate} from "react-router-dom";
 
 
-function SideFrame({activeConv, setActiveConv,isSend, setIsSend}) {
+function SideFrame({activeConv, setActiveConv,isSend, setIsSend,closeConnection}) {
 
     //the search Text
     const [searchQuery, setSearchQuery ] = useState("")
@@ -23,10 +23,9 @@ function SideFrame({activeConv, setActiveConv,isSend, setIsSend}) {
     const userist = useContext(UsersListApp);
 
     function logout() {
+        closeConnection();
         navigate("/");
     }
-
-
 
     return (
         <div className="  border sideFrame  d-flex flex-column position-relative">

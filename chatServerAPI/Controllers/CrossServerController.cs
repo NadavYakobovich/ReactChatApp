@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using chatServerAPI.Hubs;
 using Domain;
 using Domain.apiDomain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Repository;
 using Services;
 using Services.messages;
@@ -21,12 +23,14 @@ namespace chatServerAPI.Controllers
     {
         private IServiceMessages _messagesService;
         private IServiceUsers _usersService;
+        //private readonly IHubContext<ChatHub> _hubContext;
         private string _myId;
 
-        public CrossServerController(UsersContext usersContext)
+        public CrossServerController(UsersContext usersContext, IHubContext<ChatHub> hub)
         {
             _messagesService = new ServiceMessages(usersContext);
             _usersService = new ServiceUsers(usersContext);
+            //_hubContext = hub;
         }
 
         private void SetMyId()
@@ -37,6 +41,17 @@ namespace chatServerAPI.Controllers
                 _myId = loggedUser;
             }
         }
+        
+        
+        // public async Task SendMessage(string username, string message, string time)
+        // {
+        //     string connectionId;
+        //     if (_hubContext.ConnectionsDict.ContainsKey(username))
+        //     {
+        //         connectionId = _hubContext[username];
+        //         await _hubContext.Client(connectionId).SendAsync("ReceiveMessage", username, message, time);
+        // //     }
+        // }
 
         /**
          * getting TransferApi object contains: from, to, content.
