@@ -2,7 +2,7 @@ import React, {useContext, useState, useRef, useEffect} from 'react';
 import SideFrame from "../SideFrame/SideFrame";
 import ConversationPage from "../ConversationPage/ConversationPage";
 import conversation from "../../database/conversation.json"
-import {usersContext} from "../../App";
+import {serverContext, usersContext} from "../../App";
 import {Navigate, useNavigate} from "react-router-dom";
 import {HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 
@@ -16,6 +16,7 @@ export const UsersListApp = React.createContext()
 function MainFrame({userId}) {
 
     //const usersMaps = useContext(usersContext)
+    const serverUrl = useContext(serverContext)
 
     //Holds the ID of the friend the user is currently talking to
     const [activeConv, setActiveConv] = useState(null);
@@ -50,7 +51,7 @@ function MainFrame({userId}) {
         if (userId === null)
             return;
         const output = await $.ajax({
-            url: 'http://localhost:5125/api/Users/' + userId,
+            url: serverUrl + '/api/Users/' + userId,
             type: 'GET',
             contentType: "application/json; charset=utf-8",
             beforeSend: function (xhr) {
@@ -83,7 +84,7 @@ function MainFrame({userId}) {
     async function AddUser() {
         try {
             const connection = new HubConnectionBuilder()
-                .withUrl("http://localhost:5125/ChatHub")
+                .withUrl(serverUrl + "/ChatHub")
                 .configureLogging(LogLevel.Information)
                 .build();
             connection.onclose(e => {
@@ -131,7 +132,7 @@ function MainFrame({userId}) {
         if (userId === null)
             return;
         const output = await $.ajax({
-            url: 'http://localhost:5125/api/Users',
+            url: serverUrl + '/api/Users',
             type: 'GET',
             contentType: "application/json; charset=utf-8",
             beforeSend: function (xhr) {

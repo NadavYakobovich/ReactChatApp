@@ -11,8 +11,8 @@ import ShowImage from "../form/ShowImage";
 import ValidPic from "../alerts/ValidPic";
 import TakeSelfie from "../form/TakeSelfie";
 import ModalPopover from "../form/ModalPopover";
-import {usersContext} from "../../App";
 import {useNavigate} from "react-router-dom";
+import {serverContext} from "../../App";
 
 const SignUp = ({setUserId}) => {
 
@@ -21,18 +21,18 @@ const SignUp = ({setUserId}) => {
     const [pass, setPass] = useState("");
     const [rePass, setRePass] = useState("");
 
+    const serverUrl = useContext(serverContext)
+
     let navigate = useNavigate();
 
     let progress;
     var response;
 
-    const usersMap = useContext(usersContext);
-
     async function addUser(event) {
         event.preventDefault();
         const data = {Name: fullName, Id: username, Password: pass};
         await $.ajax({
-            url: 'http://localhost:5125/api/Users/new',
+            url: serverUrl + '/api/Users/new',
             type: 'POST',
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
@@ -86,20 +86,20 @@ const SignUp = ({setUserId}) => {
             valid = false
             $('#rePass').addClass("is-invalid")
         }
-        
+
         if (valid) {
             addUser(event);
         }
     };
 
     progress = calcProgress();
-    
+
     return (
         <Form noValidate onSubmit={handleSubmit}>
 
             <InputName setFullName={setFullName}/>
 
-            <InputUsername setUsername={setUsername} usersMap={usersMap}/>
+            <InputUsername setUsername={setUsername}/>
 
             <InputPass setPass={setPass}/>
 

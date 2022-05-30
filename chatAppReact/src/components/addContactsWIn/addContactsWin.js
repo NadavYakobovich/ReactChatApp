@@ -4,6 +4,7 @@ import "./AddConversation.css"
 import AvailableContactList from "./AvailableContactList/AvailableContactList";
 import $ from "jquery";
 import {idContext, UsersListApp} from "../MainFrame/MainFrame";
+import {serverContext} from "../../App";
 
 
 function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
@@ -13,6 +14,8 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
     const handleShow = () => setShow(true);
 
     const userLogged = useContext(idContext);
+    const serverUrl = useContext(serverContext)
+
     const User_Name = useRef("");
     const NickName = useRef("");
     const Server = useRef("");
@@ -39,18 +42,19 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
         event.preventDefault()
         //Add the new Contact To The local list of the User
         AddContactToLocal();
-        
+
         //creat the object for the post to the server
         const inputUser = {
             "from": User_Name.current.value,
             "to": userLogged.userId,
             "server": Server.current.value
         }
-        await invitation(inputUser, "localhost:5125"); //sent post to my server to update the data
+        // serverUrl = MY server url.
+        await invitation(inputUser, serverUrl); //sent post to my server to update the data
         const inputFriend = {
             "from": userLogged.userId,
             "to": User_Name.current.value,
-            "server": "localhost:5125"
+            "server": serverUrl
         }
 
         if (isAdd) {
@@ -67,7 +71,7 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
     async function invitation(input, server) {
         const output = await $.ajax({
             //sent the invitation to the friend local host
-            url: "http://" + server + "/api/invitations/",
+            url: server + "/api/invitations/",
             type: 'POST',
             data: JSON.stringify(input),
             contentType: "application/json; charset=utf-8",

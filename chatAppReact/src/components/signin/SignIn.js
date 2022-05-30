@@ -1,10 +1,11 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {Button, FloatingLabel, Form} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom'
 import "../landingpage/LandingPage.css";
 import $ from 'jquery';
 import "./SignIn.css"
 import ValidFormAlert from "../alerts/ValidFormAlert";
+import {serverContext} from "../../App"
 
 
 const SignIn = ({setUserId}) => {
@@ -16,6 +17,8 @@ const SignIn = ({setUserId}) => {
 
     const pass = useRef("");
     const username = useRef("");
+
+    const serverUrl = useContext(serverContext)
 
     var response;
     let navigate = useNavigate();
@@ -39,7 +42,7 @@ const SignIn = ({setUserId}) => {
 
         const data = {Id: usernameVal, Password: passVal};
         await $.ajax({
-            url: 'http://localhost:5125/api/Users',
+            url: serverUrl + '/api/Users',
             type: 'POST',
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",

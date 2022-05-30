@@ -7,14 +7,14 @@ import users from "./database/users.json";
 
 export const usersContext = createContext()
 let usersMap = users.users
-export const tokenContext = createContext()
-let token = {};
+export const serverContext = createContext()
+let server = "http://localhost:5125";
 
 function App() {
     const [userId, setUserId] = useState(null)
 
     return (
-        <tokenContext.Provider value={token}>
+        <serverContext.Provider value={server}>
             <usersContext.Provider value={usersMap}>
                 <BrowserRouter>
                     <Routes>
@@ -23,7 +23,7 @@ function App() {
                     </Routes>
                 </BrowserRouter>
             </usersContext.Provider>
-        </tokenContext.Provider>
+        </serverContext.Provider>
 
 
     );

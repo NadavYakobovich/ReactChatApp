@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import "./ConversationPage.css"
 import {Conversation, idContext, UsersListApp} from "../MainFrame/MainFrame";
 import {Container, Image, Row} from "react-bootstrap";
-import {usersContext} from "../../App";
+import {serverContext, usersContext} from "../../App";
 import InputMessage from "./inputMessage";
 import ShowMessage from "./ShowMessage";
 import $ from "jquery";
@@ -11,20 +11,17 @@ import $ from "jquery";
 function ConversationPage({activeConv, setConversation, isSend, setIsSend, connection}) {
     const User = useContext(idContext);
     const usersMaps = useContext(UsersListApp)
-
-
+    const conversationMap = useContext(Conversation)
+    const serverUrl = useContext(serverContext)
 
     // friendConv - contain a list of content of the messages with the activeConv
     const [friendConv, setFriendCov] = useState(null)
-
-
-
 
     //same as timee message but show the date as 12/04/2022
     function TimeLastSeen() {
         //get the last time of the  message from the friend (his id is activeUser)  
         const date = User.contacts.find(x => x.id === activeConv).lastMessage
-        if(date === null){
+        if (date === null) {
             return ""
         }
         const dateJs = new Date(date); //converse from json to js objects
@@ -34,11 +31,10 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend, conne
     }
 
 
-
     //get all the user from the server
     async function getFriendConv() {
         const output = await $.ajax({
-            url: 'http://localhost:5125/api/contacts/' + activeConv + '/messages',
+            url: serverUrl + '/api/contacts/' + activeConv + '/messages',
             type: 'GET',
             contentType: "application/json; charset=utf-8",
             beforeSend: function (xhr) {
@@ -55,7 +51,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend, conne
         });
         const Conv = await output;
         setFriendCov(Conv);
-   }
+    }
 
 
     //get the name of the friend that the conversation is in
@@ -70,14 +66,14 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend, conne
         friend = getUserFriend(activeConv)
     }
 
-     useEffect(() => {
+    useEffect(() => {
         if (activeConv != null) {
-              getFriendConv();
-        }else {
+            getFriendConv();
+        } else {
             return
         }
 
-    }, [activeConv,isSend])
+    }, [activeConv, isSend])
 
     //get the select user conversation
     // let messageList = []
@@ -107,7 +103,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend, conne
                         className="NameFriend text-start"> {activeConv != null ? friend.name : ""}</span></Row>
                     <Row>
                         <span className="text-muted lastSeen text-start fw-light">
-                            {activeConv != null ? (  TimeLastSeen()) : ""}
+                            {activeConv != null ? (TimeLastSeen()) : ""}
                         </span>
                     </Row>
                 </Row>
@@ -129,7 +125,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend, conne
             </div>
             {/*the input bar*/}
             {activeConv != null ?
-                <InputMessage isSend={isSend} setIsSend={setIsSend} activeconv={activeConv} 
+                <InputMessage isSend={isSend} setIsSend={setIsSend} activeconv={activeConv}
                               messageList={friendConv} connection={connection}/> : ""}
         </div>
 

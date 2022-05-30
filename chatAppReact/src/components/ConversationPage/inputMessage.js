@@ -7,12 +7,15 @@ import {idContext} from "../MainFrame/MainFrame";
 
 import AddFileModal from "./AddFileModal";
 import DropDownItem from "./DropDownItem";
+import {serverContext} from "../../App";
 
 function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) {
 
     const [modalShow, setModalShow] = useState(false);
     const [selection, setSelection] = useState(null);
+
     const userLogged = useContext(idContext);
+    const serverUrl = useContext(serverContext)
 
     const messRef = useRef(null);
 
@@ -45,15 +48,15 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
         selection.data = data;
     }
 
-    function getFriendServer(friend){
+    function getFriendServer(friend) {
         let contactUser = userLogged.contacts.find(contact => contact.id === activeconv)
         return contactUser.server
     }
 
     async function SentMesToFriendServer(Input) {
-        const content = {from:userLogged.userId,to:activeconv,Content: Input}
+        const content = {from: userLogged.userId, to: activeconv, Content: Input}
         const output = await $.ajax({
-            url: 'http://'+ getFriendServer(activeconv)+'/api/transfer/',
+            url: 'http://' + getFriendServer(activeconv) + '/api/transfer/',
             type: 'POST',
             data: JSON.stringify(content),
             contentType: "application/json; charset=utf-8",
@@ -69,10 +72,11 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
             return data;
         });
     }
+
     async function SentMesToMyServer(Input) {
         const content = {Content: Input}
         const output = await $.ajax({
-            url: 'http://localhost:5125/api/contacts/' + activeconv + '/messages',
+            url: serverUrl + '/api/contacts/' + activeconv + '/messages',
             type: 'POST',
             data: JSON.stringify(content),
             contentType: "application/json; charset=utf-8",
@@ -99,7 +103,7 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
     //         console.log(e)
     //     }
     // }
-    
+
     function submitHandler(e, message) {
         if (e !== null)
             e.preventDefault();
@@ -131,7 +135,7 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
             <button type="submit" className="send icons-Input-WIn hoverEffect ">
                 <i className="bi bi-send Round "/>
             </button>
-            
+
 
         </form>
     );

@@ -3,11 +3,8 @@ import {Tab, Tabs} from "react-bootstrap"
 import "./LandingPage.css"
 import SignIn from "../signin/SignIn"
 import SignUp from "../signup/SignUp"
-import {usersContext} from "../../App";
-
 
 const LandingPage = ({setUserId}) => {
-    const usersMap = useContext(usersContext)
     const [key, setKey] = useState('signin');
 
     return (
@@ -22,7 +19,6 @@ const LandingPage = ({setUserId}) => {
                                 <img id="chat-logo" src="chaticon.png" alt="logo"
                                      className="img-len d-none d-sm-block"/>
                             </div>
-                            <usersContext.Provider value={usersMap}>
                                 <Tabs
                                     id="controlled-tabs"
                                     activeKey={key}
@@ -37,7 +33,6 @@ const LandingPage = ({setUserId}) => {
                                         <SignUp setUserId={setUserId}/>
                                     </Tab>
                                 </Tabs>
-                            </usersContext.Provider>
                         </div>
                     </div>
                 </div>
