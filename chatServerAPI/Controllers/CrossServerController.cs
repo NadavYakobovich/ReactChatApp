@@ -53,6 +53,17 @@ namespace chatServerAPI.Controllers
             }
         }
 
+
+        private async Task AddUser(string fromUser, string toUser, string server)
+        {
+            string connectionId;
+            if (ChatHub.ConnectionsDict.ContainsKey(toUser))
+            {
+                connectionId = ChatHub.ConnectionsDict[toUser];
+                await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveContact", fromUser, server);
+            }
+        }
+
         /**
          * getting TransferApi object contains: from, to, content.
          * this query will arrive from the sender server,
@@ -83,14 +94,15 @@ namespace chatServerAPI.Controllers
                 cont.Id = listCon.Last().Id + 1;
                 _messagesService.AddContent(transfer.to, fromId, cont);
             }
+
             //update the last message in the contact list of the user
-            _usersService.UpdateLastMessage(transfer.to,transfer.from,transfer.content,date);
+            _usersService.UpdateLastMessage(transfer.to, transfer.from, transfer.content, date);
 
             await SendMessage(transfer.from, transfer.to, transfer.content, date);
 
             return Ok();
         }
-        
+
         /**
          * getting InvitationApi object contains: from, to, content.
          * this query will arrive from the sender server,
@@ -117,6 +129,8 @@ namespace chatServerAPI.Controllers
                 Id = invitation.from, last = null, lastdate = null, Name = invitation.from,
                 Server = invitation.server
             };
+
+            await AddUser(invitation.from, invitation.to, invitation.server);
 
             _usersService.AddContact(myId, contact);
 

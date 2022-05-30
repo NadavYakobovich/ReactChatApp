@@ -77,6 +77,18 @@ function MainFrame({userId}) {
         contact.lastMessage = time
     }
 
+    //add the given contact to the contact list of the current user
+    function incomingContact(contactID, server) {
+        var newContact = {
+            Id : contactID,
+            last :null,
+            lastdate:null,
+            Name:contactID,
+            Server:server
+        }
+        user.contacts.add(newContact)
+    }
+
     async function AddUser() {
         try {
             const connection = new HubConnectionBuilder()
@@ -92,6 +104,12 @@ function MainFrame({userId}) {
                 incomingMessage(userFrom, message, time)
                 setIsSend(isSend => !isSend)
             });
+            
+            connection.on("ReceiveContact",(fromUser, server) => {
+                console.log('contact: '+fromUser+'    server:'+server);
+                incomingContact(fromUser, server);
+                setIsSend(isSend => !isSend)
+            })
 
             await connection.start();
             await connection.invoke("AddUser", userId);
