@@ -68,6 +68,12 @@ function MainFrame({userId}) {
         var user = await output;
         setUser(fromApiToUser(user));
     }
+    //update the last message of the contact in the contacts list that will display in the left side
+    function  incomeMess(contactID, mess,time){
+        let contact = user.contacts.find(x => x.id === contactID.id)
+        contact.last =  mess;
+        contact.lastMessage = time
+    }
 
     async function AddUser() {
         try {
@@ -76,7 +82,8 @@ function MainFrame({userId}) {
                 .configureLogging(LogLevel.Information)
                 .build();
 
-            connection.on("ReceiveMessage", (user, message) => {
+            connection.on("ReceiveMessage", (user, message, time) => {
+                incomeMess(user,message,time)
                 console.log('message: ' + message + '    from:' + user);
             })
 
