@@ -8,7 +8,7 @@ import ShowMessage from "./ShowMessage";
 import $ from "jquery";
 
 //the active activeConv contain the id of the user that the conv open now
-function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
+function ConversationPage({activeConv, setConversation, isSend, setIsSend, connection}) {
     const User = useContext(idContext);
     // const usersMaps = useContext(usersContext)
     const usersMaps = useContext(UsersListApp)
@@ -127,7 +127,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend}) {
             {/*the input bar*/}
             {activeConv != null ?
                 <InputMessage isSend={isSend} setIsSend={setIsSend} activeconv={activeConv} 
-                              messageList={friendConv}/> : ""}
+                              messageList={friendConv} connection={connection}/> : ""}
         </div>
 
     )

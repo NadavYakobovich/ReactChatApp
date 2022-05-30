@@ -8,7 +8,7 @@ import SearchBox from "../SearchBox/SearchBox";
 import {useNavigate} from "react-router-dom";
 
 
-function SideFrame({activeConv, setActiveConv}) {
+function SideFrame({activeConv, setActiveConv, closeConnection}) {
 
     //the search Text
     const [searchQuery, setSearchQuery ] = useState("")
@@ -23,6 +23,7 @@ function SideFrame({activeConv, setActiveConv}) {
     const userist = useContext(UsersListApp);
 
     function logout() {
+        closeConnection();
         navigate("/");
     }
 

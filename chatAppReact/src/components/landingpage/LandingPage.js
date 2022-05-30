@@ -9,20 +9,6 @@ import {usersContext} from "../../App";
 const LandingPage = ({setUserId}) => {
     const usersMap = useContext(usersContext)
     const [key, setKey] = useState('signin');
-    
-    function AddUser(user) {
-        try {
-            const connection = new HubConnectionBuilder()
-                .withUrl("http://localhost:5125/ChatHub")
-                .configureLogging(LogLevel.Information)
-                .build();
-
-            connection.on("ReceiveMessage", (user,))
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
 
     return (
         <div className="container" style={{height: "100vh"}}>

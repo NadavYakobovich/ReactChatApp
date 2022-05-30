@@ -8,7 +8,7 @@ import {idContext} from "../MainFrame/MainFrame";
 import AddFileModal from "./AddFileModal";
 import DropDownItem from "./DropDownItem";
 
-function InputMessage({isSend, setIsSend, activeconv, messageList}) {
+function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) {
 
     const [modalShow, setModalShow] = useState(false);
     const [selection, setSelection] = useState(null);
@@ -90,6 +90,14 @@ function InputMessage({isSend, setIsSend, activeconv, messageList}) {
     }
 
 
+    async function sendMessage(message) {
+        try{
+            await connection.invoke("SendMessage", userLogged.userId ,message.content, message.created);
+        }catch (e) {
+            console.log(e)
+        }
+    }
+    
     function submitHandler(e, message) {
         if (e !== null)
             e.preventDefault();
@@ -98,6 +106,7 @@ function InputMessage({isSend, setIsSend, activeconv, messageList}) {
         if (message.content.length === 0) {
             return
         }
+        sendMessage(message)
         messageList.push(message)
         SentMesToMySrver(message.content)
         SentMesToFriendServer(message.content)
