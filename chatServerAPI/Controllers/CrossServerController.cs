@@ -91,7 +91,14 @@ namespace chatServerAPI.Controllers
             }
             else
             {
-                cont.Id = listCon.Last().Id + 1;
+                if (listCon.Count == 0)
+                {
+                    cont.Id =  1;
+                }
+                else
+                {
+                    cont.Id = listCon.Last().Id + 1;
+                }
                 _messagesService.AddContent(transfer.to, fromId, cont);
             }
 

@@ -24,7 +24,8 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
         const NewContact = {
             id: User_Name.current.value,
             lastMessage: null,
-            last: null
+            last: null,
+            server:Server.current.value
         }
         userLogged.contacts.push(NewContact)
 
@@ -62,7 +63,7 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
             setIsAdd(true)
         }
         //send post to my friend server
-        // invitation(inputFriend,Server.current.value);
+        invitation(inputFriend,Server.current.value);
         handleClose()
     }
 
