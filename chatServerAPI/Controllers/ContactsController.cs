@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 using Services;
+using Services.messages;
 using Services.users;
 
 namespace chatServerAPI.Controllers
@@ -16,11 +17,13 @@ namespace chatServerAPI.Controllers
     public class ContactsController : ControllerBase
     {
         private IServiceUsers _service;
+        private IServiceMessages _serviceConv;
         private string _myId;
 
         public ContactsController(UsersContext context)
         {
             _service = new ServiceUsers(context);
+            _serviceConv = new ServiceMessages(context);
         }
 
         private void SetMyId()
@@ -112,13 +115,19 @@ namespace chatServerAPI.Controllers
 
             ContactApi contact = new ContactApi() {Id = inputContact.Id, Name = inputContact.Name, Server = inputContact.Server, last = null, lastdate = null};
             //check if there is already contact with the same id
-            User user = _service.Get(this._myId);
+            User user = _service.Get(_myId);
             if (user.Contacts.FirstOrDefault(x => x.Id == contact.Id) != null)
             {
                 return BadRequest("Id is already exist");
             }
 
-            _service.AddContact(this._myId, contact);
+            //creat empty conversation with the new contacts
+            Conversation conv = new Conversation()
+            {
+                Contents = new List<ContentApi>(), from = _myId, Id = _serviceConv.GetLastConvId() + 1, to = contact.Id
+            };
+            _serviceConv.AddConv(conv);
+            _service.AddContact(_myId, contact);
             return NoContent();
         }
 

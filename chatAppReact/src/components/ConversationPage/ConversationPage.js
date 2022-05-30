@@ -11,10 +11,14 @@ import $ from "jquery";
 function ConversationPage({activeConv, setConversation, isSend, setIsSend, connection}) {
     const User = useContext(idContext);
     const usersMaps = useContext(UsersListApp)
-    const conversationMap = useContext(Conversation)
+
+
 
     // friendConv - contain a list of content of the messages with the activeConv
     const [friendConv, setFriendCov] = useState(null)
+
+
+
 
     //same as timee message but show the date as 12/04/2022
     function TimeLastSeen() {

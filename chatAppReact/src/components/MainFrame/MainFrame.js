@@ -72,6 +72,10 @@ function MainFrame({userId}) {
     //update the last message of the contact in the contacts list that will display in the left side
     function incomingMessage(contactID, mess, time) {
         let contact = user.contacts.find(x => x.id === contactID)
+        if (contact === null) {
+            setIsSend(isSend => !isSend)
+            contact = user.contacts.find(x => x.id === contactID)
+        }
         contact.last = mess;
         contact.lastMessage = time
     }

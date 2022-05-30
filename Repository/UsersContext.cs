@@ -24,8 +24,8 @@ namespace Repository
             };
             ContactApi contact2 = new ContactApi()
             {
-                Id = "itamarb", last = "thanksssssss", lastdate = "2022-01-23T09:23:12.904Z", Name = "itamar bachar",
-                Server = "localhost:7386"
+                Id = "itamarb", last = "cool!", lastdate = "2022-01-23T09:23:12.904Z", Name = "itamar bachar",
+                Server = "localhost:5125"
             };
             User user1 = new User()
             {
@@ -49,7 +49,7 @@ namespace Repository
 
             usersList.Add(user2);
 
-
+            //itamar user
             contact1 = new ContactApi()
             {
                 Id = "pelegs29", last = "cool!", lastdate = "2022-01-23T09:23:22.904Z", Name = "Peleg Shlomo",
