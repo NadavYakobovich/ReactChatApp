@@ -10,7 +10,6 @@ import $ from "jquery";
 //the active activeConv contain the id of the user that the conv open now
 function ConversationPage({activeConv, setConversation, isSend, setIsSend, connection}) {
     const User = useContext(idContext);
-    // const usersMaps = useContext(usersContext)
     const usersMaps = useContext(UsersListApp)
     const conversationMap = useContext(Conversation)
 
@@ -52,7 +51,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend, conne
         });
         const Conv = await output;
         setFriendCov(Conv);
-    }
+   }
 
 
     //get the name of the friend that the conversation is in
@@ -74,7 +73,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend, conne
             return
         }
 
-    }, [activeConv])
+    }, [activeConv,isSend])
 
     //get the select user conversation
     // let messageList = []

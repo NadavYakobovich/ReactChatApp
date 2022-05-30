@@ -45,12 +45,6 @@ function MainFrame({userId}) {
         };
     }
 
-    const getAnswer = async () => {
-          await getUser();
-        console.log("***await")
-        console.log(user)
-        await  getUserList();
-    };
 
     async function getUser() {
         if (userId === null)
@@ -71,25 +65,15 @@ function MainFrame({userId}) {
         }).then((data) => {
             return data;
         });
-        var user = await output;
-        setUser(fromApiToUser(user));
-        AddUser()
-        console.log("get the userrr")
+        var userGot = await output;
+        setUser(fromApiToUser(userGot));
     }
+
     //update the last message of the contact in the contacts list that will display in the left side
-    function  incomeMess(contactID, mess,time){
-        console.log("****** before null *****")
-        if(user === null){
-            console.log(user)
-            console.log("get null....")
-            return
-        }
+    function incomingMessage(contactID, mess, time) {
         let contact = user.contacts.find(x => x.id === contactID)
-        contact.last =  mess;
+        contact.last = mess;
         contact.lastMessage = time
-        console.log("****** the user is ****")
-        console.log(user)
-        setIsSend(!isSend)
     }
 
     async function AddUser() {
@@ -98,19 +82,20 @@ function MainFrame({userId}) {
                 .withUrl("http://localhost:5125/ChatHub")
                 .configureLogging(LogLevel.Information)
                 .build();
-
-            connection.on("ReceiveMessage", (userFrom, message, time) => {
-                console.log('message: ' + message + '    from:' + userFrom);
-                incomeMess(userFrom,message,time)
-            })
-
             connection.onclose(e => {
                 setConnection(null);
             })
 
+            connection.on("ReceiveMessage", (userFrom, message, time) => {
+                console.log('message: ' + message + '    from:' + userFrom + '    time:' + time);
+                incomingMessage(userFrom, message, time)
+                setIsSend(isSend => !isSend)
+            });
+
             await connection.start();
             await connection.invoke("AddUser", userId);
             setConnection(connection);
+
         } catch (e) {
             console.log(e)
         }
@@ -124,14 +109,19 @@ function MainFrame({userId}) {
         }
     }
 
- 
-
     useEffect(() => {
-        getAnswer()
-            // AddUser();})
-    }, [])
-    
-    
+        async function fetchData() {
+            if (user === null) {
+                await getUser();
+                await getUserList();
+            } else {
+                await AddUser();
+            }
+        }
+
+        fetchData();
+    }, [user])
+
     //get all the user from the server
     async function getUserList() {
         if (userId === null)
@@ -164,12 +154,14 @@ function MainFrame({userId}) {
 
     return userId ? (
         <div className={"full-screen p-3 mb-2 text-dark m-0 d-flex justify-content-center"} style={{height: "100vh"}}>
-                <UsersListApp.Provider value ={userList}>
-                    <idContext.Provider value={user}>
-                        <SideFrame activeConv={activeConv} setActiveConv={setActiveConv}  isSend={isSend} setIsSend={setIsSend} closeConnection={closeConnection}/>
-                        {<ConversationPage activeConv={activeConv} setActiveConv={setActiveConv} isSend={isSend} setIsSend={setIsSend} connection={connection}  />}
-                    </idContext.Provider>
-                </UsersListApp.Provider>
+            <UsersListApp.Provider value={userList}>
+                <idContext.Provider value={user}>
+                    <SideFrame activeConv={activeConv} setActiveConv={setActiveConv} isSend={isSend}
+                               setIsSend={setIsSend} closeConnection={closeConnection}/>
+                    <ConversationPage activeConv={activeConv} setActiveConv={setActiveConv} isSend={isSend}
+                                      setIsSend={setIsSend} connection={connection}/>
+                </idContext.Provider>
+            </UsersListApp.Provider>
         </div>
     ) : <Navigate replace to="/"/>;
 }

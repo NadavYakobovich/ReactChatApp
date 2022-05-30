@@ -112,7 +112,6 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
         messageList.push(message)
         SentMesToMyServer(message.content)
         SentMesToFriendServer(message.content)
-        console.log(message)
         updateLastContact(message.created, message.content)
         //update the useState to render the page immediately after sending the message
         if (isSend === true)
