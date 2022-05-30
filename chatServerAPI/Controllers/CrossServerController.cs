@@ -57,10 +57,10 @@ namespace chatServerAPI.Controllers
         private async Task AddUser(string fromUser, string toUser, string server)
         {
             string connectionId;
-            if (ChatHub.ConnectionsDict.ContainsKey(toUser))
+            if (ChatHub.ConnectionsDict.ContainsKey(fromUser))
             {
-                connectionId = ChatHub.ConnectionsDict[toUser];
-                await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveContact", fromUser, server);
+                connectionId = ChatHub.ConnectionsDict[fromUser];
+                await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveContact", toUser, server);
             }
         }
 

@@ -73,10 +73,6 @@ function MainFrame({userId}) {
     //update the last message of the contact in the contacts list that will display in the left side
     function incomingMessage(contactID, mess, time) {
         let contact = user.contacts.find(x => x.id === contactID)
-        if (contact === null) {
-            setIsSend(isSend => !isSend)
-            contact = user.contacts.find(x => x.id === contactID)
-        }
         contact.last = mess;
         contact.lastMessage = time
     }
@@ -84,13 +80,15 @@ function MainFrame({userId}) {
     //add the given contact to the contact list of the current user
     function incomingContact(contactID, server) {
         var newContact = {
-            Id : contactID,
+            id : contactID,
             last :null,
             lastdate:null,
-            Name:contactID,
-            Server:server
+            name:contactID,
+            server:server
         }
-        user.contacts.add(newContact)
+        //get an messages from a new friend
+        user.contacts.push(newContact)
+        console.log(user.contacts)
     }
 
     async function AddUser() {
