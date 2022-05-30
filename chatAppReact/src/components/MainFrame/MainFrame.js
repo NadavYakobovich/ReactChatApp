@@ -79,7 +79,8 @@ function MainFrame({userId}) {
 
     //add the given contact to the contact list of the current user
     function incomingContact(contactID, server) {
-        var newContact = {
+
+            var newContact = {
             id : contactID,
             last :null,
             lastdate:null,
@@ -87,7 +88,9 @@ function MainFrame({userId}) {
             server:server
         }
         //get an messages from a new friend
-        user.contacts.push(newContact)
+        if(user.contacts.find(x=> x.id === contactID) === null) {
+            user.contacts.push(newContact)
+        }
         console.log(user.contacts)
     }
 
