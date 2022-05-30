@@ -8,14 +8,14 @@ import {Navigate} from "react-router-dom";
 import $ from 'jquery';
 
 
-function MyConversation({activeConv, setActiveConv, searchQuery}) {
+function MyConversation({activeConv, setActiveConv, searchQuery,isSend, setIsSend}) {
     //userLogged - is the user objects that logged in
     const userLogged = useContext(idContext);
     //const usersMaps = useContext(usersContext)
     //const conversationMap = useContext(Conversation)
     const userslist = useContext(UsersListApp);
-
-
+    // const [userContacts, setuserContacts] = useState(null)
+    const userContacts ={list: null}
 
     //get the id and return the user object from json that have that id
     function getUser(idUser) {
@@ -44,15 +44,6 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
 
     function lastMessage(friend) {
         return userLogged.contacts.filter(x => x.id === friend.userId);
-        // let conv = conversationMap.filter(conv => (((conv.id1 === userLogged.userId && conv.id2 === friend.userId) ||
-        //             (conv.id1 === friend.userId && conv.id2 === userLogged.userId))
-        //     )
-        // )
-        // if (conv[0].content.length !== 0) {
-        //     return conv[0].content[conv[0].content.length - 1]
-        // } else {
-        //     return null
-        // }
     }
 
     function lastMessageContent(mess) {
@@ -79,8 +70,62 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
         //the last message was text
         return mess.message;
     }
+    // function fromApiContacts(apiContacts){
+    //     userContacts.list  = [];
+    //     apiContacts.forEach(contact => {
+    //         const NewContact = {
+    //             id: contact.id,
+    //             lastMessage: contact.lastdate,
+    //             last: contact.last,
+    //             server: contact.server
+    //         }
+    //         userContacts.list.push(NewContact);
+    //         console.log(userContacts.list)
+    //     });
+    // }
+    //
+    // async function getUserContacts() {
+    //     if (userLogged === null)
+    //         return;
+    //     const output = await $.ajax({
+    //         url: 'http://localhost:5125/api/Contacts',
+    //         type: 'GET',
+    //         contentType: "application/json; charset=utf-8",
+    //         beforeSend: function (xhr) {
+    //             xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('jwt'));
+    //         },
+    //         data: {},
+    //         success: function (data) {
+    //             return data;
+    //         },
+    //         error: function () {
+    //         },
+    //     }).then((data) => {
+    //         return data;
+    //     });
+    //     var list = await output;
+    //     // setuserContacts(fromApiContacts(list));
+    //     fromApiContacts(list);
+    // }
 
-    function check(id) {
+
+
+     function OnSelect(id) {
+        // console.log("on select")
+        // if (activeConv != null) {
+        //     await getUserContacts()
+        //     if (userContacts.list != null) {
+        //         userLogged.contacts = userContacts.list
+        //     }
+        // }
+        // console.log(userLogged)
+        // if(activeConv!= null) {
+        //     if (isSend === false) {
+        //         setIsSend(true)
+        //     } else {
+        //         setIsSend(false)
+        //     }
+        // }
         return activeConv === id
     }
 
@@ -95,7 +140,7 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
                             <ListGroup.Item key={friend.userId + "List_key"} action
                                             className="border"
                                             onClick={() => setActiveConv(friend.userId)}
-                                            active={check(friend.userId)}>
+                                            active={OnSelect(friend.userId)}>
                                 {friendInfo(friend, contact)}
                             </ListGroup.Item>
                         )
@@ -105,7 +150,6 @@ function MyConversation({activeConv, setActiveConv, searchQuery}) {
         )
     }
 
-    console.log(activeConv)
     //get a friend objects and return a listGrop-Item contain his name + his pic for the side-frame
     function friendInfo(friend, friendContact) {
         let mess = friendContact.last

@@ -8,7 +8,7 @@ import SearchBox from "../SearchBox/SearchBox";
 import {useNavigate} from "react-router-dom";
 
 
-function SideFrame({activeConv, setActiveConv}) {
+function SideFrame({activeConv, setActiveConv,isSend, setIsSend}) {
 
     //the search Text
     const [searchQuery, setSearchQuery ] = useState("")
@@ -25,6 +25,8 @@ function SideFrame({activeConv, setActiveConv}) {
     function logout() {
         navigate("/");
     }
+
+
 
     return (
         <div className="  border sideFrame  d-flex flex-column position-relative">
@@ -43,7 +45,7 @@ function SideFrame({activeConv, setActiveConv}) {
             <SearchBox  setSearchQuery={setSearchQuery} className="userNameSide"/>
             {/*the list of conversation of the user */}
             <div className="flex-grow-1 convList">
-                <MyConversation  activeConv={activeConv} setActiveConv={setActiveConv } searchQuery={searchQuery}/>
+                <MyConversation  activeConv={activeConv} setActiveConv={setActiveConv } searchQuery={searchQuery} isSend={isSend} setIsSend={setIsSend}/>
             </div>
             {/*the add New Conversation button click*/}
             <AddContactsWin  setActiveConv={setActiveConv} setIsAdd={setIsAdd} isAdd={IsAdd} />

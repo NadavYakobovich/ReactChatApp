@@ -41,7 +41,7 @@ function MainFrame({userId}) {
             contacts: contacts,
         };
     }
-
+    
 
     async function getUser() {
         if (userId === null)
@@ -106,8 +106,8 @@ function MainFrame({userId}) {
         <div className={"full-screen p-3 mb-2 text-dark m-0 d-flex justify-content-center"} style={{height: "100vh"}}>
                 <UsersListApp.Provider value ={userList}>
                     <idContext.Provider value={user}>
-                        <SideFrame activeConv={activeConv} setActiveConv={setActiveConv}/>
-                        {<ConversationPage activeConv={activeConv} setActiveConv={setActiveConv} isSend={isSend} setIsSend={setIsSend} />}
+                        <SideFrame activeConv={activeConv} setActiveConv={setActiveConv}  isSend={isSend} setIsSend={setIsSend}/>
+                        {<ConversationPage activeConv={activeConv} setActiveConv={setActiveConv} isSend={isSend} setIsSend={setIsSend}  />}
                     </idContext.Provider>
                 </UsersListApp.Provider>
         </div>

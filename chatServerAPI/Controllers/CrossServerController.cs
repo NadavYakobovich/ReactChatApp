@@ -51,27 +51,29 @@ namespace chatServerAPI.Controllers
                 return BadRequest();
             }
 
-            SetMyId(); // myId == transfer.to
-            string fromId = _usersService.GetIdByName(transfer.from);
+            //SetMyId(); // myId == transfer.to
+            string fromId = transfer.from;
             string date = DateTime.Now.ToString("o");
 
-            List<ContentApi>? listCon = _messagesService.GetConversation(_myId, fromId);
+            List<ContentApi>? listCon = _messagesService.GetConversation(transfer.to, fromId);
             ContentApi cont = new ContentApi() {Id = 1, Content = transfer.content, Created = date, Sent = false};
             if (listCon == null)
             {
                 Conversation newConv = new Conversation()
-                    {Contents = new List<ContentApi> {cont}, Id = 1, from = fromId, to = _myId};
+                    {Contents = new List<ContentApi> {cont}, Id = 1, from = fromId, to = transfer.to};
                 _messagesService.AddConv(newConv);
             }
             else
             {
                 cont.Id = listCon.Last().Id + 1;
-                _messagesService.AddContent(_myId, fromId, cont);
+                _messagesService.AddContent(transfer.to, fromId, cont);
             }
+            //update the last message in the contact list of the user
+            _usersService.UpdateLastMessage(transfer.to,transfer.from,transfer.content,date);
 
             return Ok();
         }
-
+        
         /**
          * getting InvitationApi object contains: from, to, content.
          * this query will arrive from the sender server,

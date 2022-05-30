@@ -16,14 +16,15 @@ namespace Repository
 
         public UsersContext()
         {
+            //peleg user
             ContactApi contact1 = new ContactApi()
             {
                 Id = "nadavyk", last = "hey", lastdate = "2022-01-23T09:21:13.904Z", Name = "Nadav Yakobovich",
-                Server = "localhost:7266"
+                Server = "localhost:5125"
             };
             ContactApi contact2 = new ContactApi()
             {
-                Id = "itamarb", last = "thanksssssss", lastdate = "2022-01-23T09:23:12.904Z", Name = "itamar bahcher",
+                Id = "itamarb", last = "thanksssssss", lastdate = "2022-01-23T09:23:12.904Z", Name = "itamar bachar",
                 Server = "localhost:7386"
             };
             User user1 = new User()
@@ -34,10 +35,11 @@ namespace Repository
 
             usersList.Add(user1);
 
+            //nadav user
             contact1 = new ContactApi()
             {
-                Id = "pelegs29", last = "thanks", lastdate = "2022-01-23T09:23:05.904Z", Name = "Peleg Shlomo",
-                Server = "localhost:7286"
+                Id = "pelegs29", last = "cool!", lastdate = "2022-01-23T09:23:35.904Z", Name = "Peleg Shlomo",
+                Server = "localhost:5125"
             };
             User user2 = new User()
             {
@@ -50,8 +52,8 @@ namespace Repository
 
             contact1 = new ContactApi()
             {
-                Id = "pelegs29", last = "thanksssssss", lastdate = "2022-01-23T09:23:22.904Z", Name = "Peleg Shlomo",
-                Server = "localhost:7886"
+                Id = "pelegs29", last = "cool!", lastdate = "2022-01-23T09:23:22.904Z", Name = "Peleg Shlomo",
+                Server = "localhost:5125"
             };
             User user3 = new User()
             {
