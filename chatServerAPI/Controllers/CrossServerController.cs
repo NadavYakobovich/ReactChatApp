@@ -66,7 +66,7 @@ namespace chatServerAPI.Controllers
                 return BadRequest();
             }
 
-            //SetMyId(); // myId == transfer.to
+            // myId == transfer.to
             string fromId = transfer.from;
             string date = DateTime.Now.ToString("o");
 
@@ -85,6 +85,8 @@ namespace chatServerAPI.Controllers
             }
             //update the last message in the contact list of the user
             _usersService.UpdateLastMessage(transfer.to,transfer.from,transfer.content,date);
+
+            await SendMessage(transfer.from, transfer.to, transfer.content, date);
 
             return Ok();
         }
