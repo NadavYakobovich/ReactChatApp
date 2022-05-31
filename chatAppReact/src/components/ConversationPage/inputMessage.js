@@ -93,17 +93,7 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
         });
     }
 
-
-    // async function sendMessage(message) {
-    //     try{
-    //         let fromId = userLogged.userId;
-    //         let toId = activeconv;
-    //         await connection.invoke("SendMessage",fromId ,toId ,message.content, message.created);
-    //     }catch (e) {
-    //         console.log(e)
-    //     }
-    // }
-
+    
     function submitHandler(e, message) {
         if (e !== null)
             e.preventDefault();

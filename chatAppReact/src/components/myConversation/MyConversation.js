@@ -11,10 +11,7 @@ import $ from 'jquery';
 function MyConversation({activeConv, setActiveConv, searchQuery,isSend, setIsSend}) {
     //userLogged - is the user objects that logged in
     const userLogged = useContext(idContext);
-    //const usersMaps = useContext(usersContext)
-    //const conversationMap = useContext(Conversation)
     const userslist = useContext(UsersListApp);
-    // const [userContacts, setuserContacts] = useState(null)
     const userContacts ={list: null}
 
     //get the id and return the user object from json that have that id

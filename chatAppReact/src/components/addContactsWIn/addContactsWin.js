@@ -1,7 +1,6 @@
 import React, {useContext, useRef, useState} from 'react';
 import {Button, Modal, Form, FloatingLabel} from "react-bootstrap";
 import "./AddConversation.css"
-import AvailableContactList from "./AvailableContactList/AvailableContactList";
 import $ from "jquery";
 import {idContext, UsersListApp} from "../MainFrame/MainFrame";
 import {serverContext} from "../../App";
@@ -40,6 +39,14 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
 
     async function SendToServer(event) {
         event.preventDefault()
+        
+        // check if the user is already in my contacts list => if is in -> do nothing and set the active conversation 
+        //to be the user id
+        if(userLogged.contacts.find(x=> x.id === User_Name.current.value) !== undefined){
+            setActiveConv(User_Name.current.value)
+            handleClose()
+            return
+        }
         //Add the new Contact To The local list of the User
         AddContactToLocal();
 

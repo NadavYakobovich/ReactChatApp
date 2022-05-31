@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import "./ConversationPage.css"
-import {Conversation, idContext, UsersListApp} from "../MainFrame/MainFrame";
+import { idContext, UsersListApp} from "../MainFrame/MainFrame";
 import {Container, Image, Row} from "react-bootstrap";
 import {serverContext, usersContext} from "../../App";
 import InputMessage from "./inputMessage";
@@ -11,7 +11,6 @@ import $ from "jquery";
 function ConversationPage({activeConv, setConversation, isSend, setIsSend, connection}) {
     const User = useContext(idContext);
     const usersMaps = useContext(UsersListApp)
-    const conversationMap = useContext(Conversation)
     const serverUrl = useContext(serverContext)
 
     // friendConv - contain a list of content of the messages with the activeConv
@@ -74,14 +73,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend, conne
         }
 
     }, [activeConv, isSend])
-
-    //get the select user conversation
-    // let messageList = []
-    // if (activeConv != null) {
-    //     //get the list contain the message objects
-    //     getFriendConv(activeConv);
-    //     messageList =  friendConv;
-    // }
+    
 
     //wait to get the data from the server -> show white page
     if (friendConv == null || activeConv == null) {
