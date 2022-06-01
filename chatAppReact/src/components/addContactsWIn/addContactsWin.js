@@ -39,10 +39,10 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
 
     async function SendToServer(event) {
         event.preventDefault()
-        
+
         // check if the user is already in my contacts list => if is in -> do nothing and set the active conversation 
         //to be the user id
-        if(userLogged.contacts.find(x=> x.id === User_Name.current.value) !== undefined){
+        if (userLogged.contacts.find(x => x.id === User_Name.current.value) !== undefined) {
             setActiveConv(User_Name.current.value)
             handleClose()
             return
