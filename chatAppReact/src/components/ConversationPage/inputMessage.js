@@ -93,7 +93,7 @@ function InputMessage({isSend, setIsSend, activeconv, messageList, connection}) 
         });
     }
 
-    
+
     function submitHandler(e, message) {
         if (e !== null)
             e.preventDefault();
