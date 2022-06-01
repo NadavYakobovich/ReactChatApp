@@ -8,7 +8,7 @@ import users from "./database/users.json";
 export const usersContext = createContext()
 let usersMap = users.users
 export const serverContext = createContext()
-let server = "http://localhost:5125";
+let server = "http://localhost:5126";
 
 function App() {
     const [userId, setUserId] = useState(null)

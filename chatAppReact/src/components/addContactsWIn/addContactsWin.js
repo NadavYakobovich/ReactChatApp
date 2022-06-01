@@ -61,7 +61,7 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
         const inputFriend = {
             "from": userLogged.userId,
             "to": User_Name.current.value,
-            "server": serverUrl
+            "server": serverUrl.substring(7)
         }
 
         if (isAdd) {
