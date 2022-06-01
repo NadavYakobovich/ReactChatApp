@@ -22,6 +22,7 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
     function AddContactToLocal() {
         const NewContact = {
             id: User_Name.current.value,
+            name:NickName.current.value,
             lastMessage: null,
             last: null,
             server: Server.current.value
@@ -30,7 +31,7 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
 
         usersList.push({
             userId: User_Name.current.value,
-            name: User_Name.current.value,
+            name: NickName.current.value,
             password: null,
             pic: null,
             contacts: [],
@@ -54,7 +55,8 @@ function AddContactsWin({setActiveConv, setIsAdd, isAdd}) {
         const inputUser = {
             "from": User_Name.current.value,
             "to": userLogged.userId,
-            "server": Server.current.value
+            "server": Server.current.value,
+            "name" : NickName.current.value
         }
         // serverUrl = MY server url.
         await invitation(inputUser, serverUrl); //sent post to my server to update the data

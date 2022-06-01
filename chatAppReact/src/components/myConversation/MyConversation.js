@@ -110,7 +110,7 @@ function MyConversation({activeConv, setActiveConv, searchQuery,isSend, setIsSen
                     {/*the name and the pic*/}
                     <Col className="col friendName">
                         {/*the name of the friend */}
-                        <Row> {friend.name} </Row>
+                        <Row> {friendContact.name} </Row>
                         <Row fluid="true">
                             {/*the last message + time */}
                             {/*<Col className="col-6 lastMessage"> {mess !== null ? content : ""} </Col>*/}
