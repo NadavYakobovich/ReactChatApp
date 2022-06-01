@@ -2,13 +2,13 @@
   <img src="https://user-images.githubusercontent.com/80215741/165474084-8f6d693c-df78-4b55-bd0a-1759f91b4f38.png" width="12%" alt="logo"/>
   <br/>
   Welcome to our Chat App
-  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="12%" alt="waveEmoji"/>
+  <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="5%" alt="waveEmoji"/>
 </h1>
 
 <h2 align="center">
    This is a responsive chat app built using html, css, bootstrap, javascript, jquery and react
     <br/>    <br/>
-*:new:* .net core RESTful api server fused with signalR for realtime chat experience.
+*:new:* &nbsp; &nbsp; .net core RESTful api server fused with signalR for realtime chat experience. &nbsp; &nbsp;  *:new:*
 
 </h2>
 
@@ -26,38 +26,37 @@
 <br/>
 
 # :heavy_check_mark: Features <a name="features"/>
-<img src="https://user-images.githubusercontent.com/80215741/165361358-46b0d597-6dd0-4d33-b722-845963576009.png" width="70%" alt="userFeat"/>
+<img src="https://user-images.githubusercontent.com/80215741/171453314-40a3f2f7-0b5a-45a8-a26a-5a7d8705d63d.jpg" width="65%" alt="userFeat"/>
 
 1. **User Management** - sign-in, sign-up and logout :
-   - intuitive and responsive feedback forms
-   - toggle to show / hide passwords fields
-   - progress bar for sign up
+    - intuitive and responsive feedback forms
+    - toggle to show / hide passwords fields
+    - progress bar for sign up
 
 \
 \
-<img src="https://user-images.githubusercontent.com/80215741/165364963-7e98bcc8-8848-4c83-990f-1c040b81aa29.png" width="70%" alt="sideFeat"/>
+<img src="https://user-images.githubusercontent.com/80215741/171453478-32d11ad0-f02b-452f-96d2-81c410d9709b.jpg" width="60%" alt="sideFeat"/>
 
 2. **Powerful Sidebar** :
-   - chats organized by recent conversations
-   - search for contacts
-   - see last messages in a glance
-   - easily start new conversation with another user (even pick his nickname !)
+    - chats organized by recent conversations
+    - search for contacts
+    - see last messages in a glance
+    - easily start new conversation with another user (even pick his nickname !)
 
 \
 \
-<img src="https://user-images.githubusercontent.com/80215741/165365242-d0f9ec1d-cbce-4dba-ad18-1a599a061b09.png" width="70%" alt="convFeat"/>
+<img src="https://user-images.githubusercontent.com/80215741/171453584-eeb6da83-a3df-4929-b09c-723e2fbb9a12.jpg" width="40%" alt="convFeat"/>
 
 3. **Rich Conversation Page** :
-   - distinguishable chat bubble colors
-   - time and date stamp for each message
+    - distinguishable chat bubble colors
+    - time and date stamp for each message
 
-\
-\
-<img src="https://user-images.githubusercontent.com/80215741/165366801-c8a2b763-5282-4f49-966b-1bf6c8176484.png" width="70%" alt="logFeat"/>
+
+<br/>
 
 4. **Realtime chat** :
-   - send messages to any other user using the app
-   - cross server communication in real time
+    - send messages to any other user using the app
+    - cross server communication in real time
 
 
 
@@ -163,6 +162,13 @@ npm start
 
 <br/>
 
+**Viewing the rating page :**
+
+in order to view the rating page of the app all you got to do is to open http://localhost:XXXX/rating where XXXX is the port of your api server.
+
+
+<br/>
+
 For any errors with these commands please refer to this webpage : [Troubleshooting](https://create-react-app.dev/docs/troubleshooting/).
 
 <br/>
@@ -179,22 +185,22 @@ Setting up custom port for you api server :
    from here you can pick any 4 digit port for you local server to run on.
    in order for the server to approve connection from another servers or users head over to "../repoExtractedFolder/chatServerAPI/Program.cs" and in line 72 you will see the "AddCors" function,
    you will see 2 polices we have added, one for servers and the other for apps,
-   - to add new server simply add the line :
-       ```sh
-       builder.WithOrigins("http://localhost:XXXX").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
-       ```
-     to the "cors_policy".
+    - to add new server simply add the line :
+        ```sh
+        builder.WithOrigins("http://localhost:XXXX").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+        ```
+      to the "cors_policy".
 
     <br/>
 
-   - to add new app simply add the line :
-       ```sh
-       .WithOrigins("http://localhost:XXXX")
-       ```
-     to the "ClientPermission" policy.
+    - to add new app simply add the line :
+        ```sh
+        .WithOrigins("http://localhost:XXXX")
+        ```
+      to the "ClientPermission" policy.
 
-     <br/>
-   - we have already added for you 2 servers on the ports 5125 and 5126 and 4 app ports on 3000 - 3003.
+      <br/>
+    - we have already added for you 2 servers on the ports 5125 and 5126 and 4 app ports on 3000 - 3003.
 
 <br/>
 
@@ -220,16 +226,16 @@ Setting up custom port for you api server :
 # :man_scientist: Users For Testing <a name="users"/>
 
 - Peleg
-   - Username : pelegs29
-   - Password : 2910
+    - Username : pelegs29
+    - Password : 2910
 
 - Nadav
-   - Username : nadavyk
-   - Password : 1234
+    - Username : nadavyk
+    - Password : 1234
 
 - itamar
-   - Username : itamarb
-   - Password : 1111111
+    - Username : itamarb
+    - Password : 1111111
 
 <br/>
 
@@ -239,6 +245,3 @@ Setting up custom port for you api server :
 > Peleg Shlomo
 
 <br/>
-
-serverContext for easily debug and change server url in the react project,
-to change it -> head over to the App.js and change the server var
