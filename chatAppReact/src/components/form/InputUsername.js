@@ -13,7 +13,6 @@ const InputUsername = ({setUsername}) => {
     const usernameRef = useRef();
 
     async function userExist(username) {
-        console.log(username)
         await $.ajax({
             url: serverUrl + '/api/Users/find/' + username,
             type: 'GET',
@@ -40,7 +39,6 @@ const InputUsername = ({setUsername}) => {
             setUsername("")
             setMessage("user name shouldn't contain spaces")
         }
-        console.log(input)
         userExist(input);
         if (valid !== "is-invalid") {
             setValid("is-valid")

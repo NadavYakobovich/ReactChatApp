@@ -118,12 +118,21 @@ namespace chatServerAPI.Controllers
         [HttpPost("invitations/")]
         public async Task<IActionResult> Invitation([FromBody] InvitationApi invitation)
         {
+            string nickname;
+            if (invitation.name != null)
+            {
+                nickname = invitation.name;
+            }
+            else
+            {
+                nickname = invitation.from;
+            }
             //check if the user exists in the userslist
             if (_usersService.Get(invitation.from) == null)
             {
                 _usersService.Add(new User()
                 {
-                    Id = invitation.from, Name = invitation.from,
+                    Id = invitation.from, Name = nickname,
                     Password = null, Contacts = new List<ContactApi>()
                 });
             }
@@ -133,7 +142,7 @@ namespace chatServerAPI.Controllers
 
             ContactApi contact = new ContactApi()
             {
-                Id = invitation.from, last = null, lastdate = null, Name = invitation.from,
+                Id = invitation.from, last = null, lastdate = null, Name = nickname,
                 Server = invitation.server
             };
 

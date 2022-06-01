@@ -30,6 +30,7 @@ function MainFrame({userId}) {
         apiUser.contacts.forEach(contact => {
             const NewContact = {
                 id: contact.id,
+                name:contact.name,
                 lastMessage: contact.lastdate,
                 last: contact.last,
                 server: contact.server
@@ -90,7 +91,6 @@ function MainFrame({userId}) {
         if(user.contacts.find(x=> x.id === contactID) === undefined) {
             user.contacts.push(newContact)
         }
-        console.log(user.contacts)
     }
 
     async function AddUser() {
@@ -104,19 +104,16 @@ function MainFrame({userId}) {
             })
 
             connection.on("ReceiveMessage", (userFrom, message, time) => {
-                console.log('message: ' + message + '    from:' + userFrom + '    time:' + time);
                 incomingMessage(userFrom, message, time)
                 setIsSend(isSend => !isSend)
             });
             
             connection.on("ReceiveContact",(fromUser, server) => {
-                console.log('contact: '+fromUser+'    server:'+server);
                 incomingContact(fromUser, server);
                 setIsSend(isSend => !isSend)
             })
 
             await connection.start();
-            console.log(userId)
             await connection.invoke("AddUserToConnections", userId);
             setConnection(connection);
 

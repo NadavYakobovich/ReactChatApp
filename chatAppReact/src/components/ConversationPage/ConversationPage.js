@@ -26,7 +26,7 @@ function ConversationPage({activeConv, setConversation, isSend, setIsSend, conne
         const dateJs = new Date(date); //converse from json to js objects
         const min = (dateJs.getMinutes() < 10 ? '0' : '') + dateJs.getMinutes();
         const timeDay = [dateJs.getDate(), dateJs.getMonth() + 1, dateJs.getFullYear()].join('/');
-        return "last seen" + dateJs.getHours() + ":" + min + " " + timeDay;
+        return "last seen " + dateJs.getHours() + ":" + min + " " + timeDay;
     }
 
 
