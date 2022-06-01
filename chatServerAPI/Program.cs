@@ -76,7 +76,6 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins("http://localhost:5125").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
             builder.WithOrigins("http://localhost:5126").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
-            builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         });
     options.AddPolicy("ClientPermission", policy =>
     {
