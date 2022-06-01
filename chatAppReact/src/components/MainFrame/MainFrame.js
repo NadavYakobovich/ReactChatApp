@@ -117,7 +117,7 @@ function MainFrame({userId}) {
 
             await connection.start();
             console.log(userId)
-            await connection.invoke("AddUser", userId);
+            await connection.invoke("AddUserToConnections", userId);
             setConnection(connection);
 
         } catch (e) {

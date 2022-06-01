@@ -7,7 +7,7 @@ public class ChatHub : Hub
 {
     public readonly static IDictionary<string, string> ConnectionsDict = new Dictionary<string, string>();
 
-    public async Task AddUser(string username)
+    public async Task AddUserToConnections(string username)
     {
         if (ConnectionsDict.ContainsKey(username))
         {
