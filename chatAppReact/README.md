@@ -7,9 +7,6 @@
 
 <h2 align="center">
    This is a responsive chat app built using html, css, bootstrap, javascript, jquery and react
-    <br/>    <br/> 
-*:new:* &nbsp; &nbsp; .net core RESTful api server fused with signalR for realtime chat experience. &nbsp; &nbsp;  *:new:*
-
 </h2>
 
 <br/>
@@ -19,45 +16,49 @@
 * [Upcoming Features](#upcoming)
 * [Installation](#install)
 * [Run](#run)
-* [Configuration](#config)
-* [Users For Testing](#users)
+* [User For Testing](#user)
 * [Credits](#credit)
 
 <br/>
 
 # :heavy_check_mark: Features <a name="features"/>
-<img src="https://user-images.githubusercontent.com/80215741/171453314-40a3f2f7-0b5a-45a8-a26a-5a7d8705d63d.jpg" width="65%" alt="userFeat"/>
+<img src="https://user-images.githubusercontent.com/80215741/165361358-46b0d597-6dd0-4d33-b722-845963576009.png" width="70%" alt="userFeat"/>
 
 1. **User Management** - sign-in, sign-up and logout :
-    - intuitive and responsive feedback forms
-    - toggle to show / hide passwords fields
-    - progress bar for sign up
+   - intuitive and responsive feedback forms
+   - toggle to show / hide passwords fields
+   - 2 way profile picture upload : file upload or camera capture
+   - uploaded image profile preview
+   - progress bar for sign up
 
 \
 \
-<img src="https://user-images.githubusercontent.com/80215741/171453478-32d11ad0-f02b-452f-96d2-81c410d9709b.jpg" width="60%" alt="sideFeat"/>
+<img src="https://user-images.githubusercontent.com/80215741/165364963-7e98bcc8-8848-4c83-990f-1c040b81aa29.png" width="70%" alt="sideFeat"/>
 
 2. **Powerful Sidebar** :
-    - chats organized by recent conversations
-    - search for contacts
-    - see last messages in a glance
-    - easily start new conversation with another user (even pick his nickname !)
+   - chats organized by recent conversations
+   - search for contacts
+   - see last messages in a glance
+   - easily start new conversation with every user
 
 \
 \
-<img src="https://user-images.githubusercontent.com/80215741/171453584-eeb6da83-a3df-4929-b09c-723e2fbb9a12.jpg" width="40%" alt="convFeat"/>
+<img src="https://user-images.githubusercontent.com/80215741/165365242-d0f9ec1d-cbce-4dba-ad18-1a599a061b09.png" width="70%" alt="convFeat"/>
 
 3. **Rich Conversation Page** :
-    - distinguishable chat bubble colors
-    - time and date stamp for each message
+   - distinguishable chat bubble colors
+   - time and date stamp for each message
+   - supports various types of contents : text, image, video and audio.
 
+\
+\
+<img src="https://user-images.githubusercontent.com/80215741/165366801-c8a2b763-5282-4f49-966b-1bf6c8176484.png" width="70%" alt="logFeat"/>
 
-<br/>
-
-4. **Realtime chat** :
-    - send messages to any other user using the app
-    - cross server communication in real time
-
+4. **Advance Input** :
+   - shortcut to quickly record and send voice messages
+   - sleek dropdown menu for attachments
+   - 2 way image upload : file upload or camera capture
+   - 2 way video upload : file upload or camera recording
 
 
 <br/>
@@ -66,36 +67,12 @@
 1. **Emoji picker**
 2. **Add Caption** - add text to image or video in the preview pane
 3. **Redesign Scroll Bar**
-4. **Rich Content** - send image, video, voice message and more !
 
 <br/>
 
 # :wrench: Installation <a name="install"/>
 
-First thing to do will be to download all of the git files in this repository,
-we will notice that we have 6 folders, we will focus on two of the folders:
-
-##### chatServerAPI and chatServerReact.
-
-\
-as you can implicate the API folder will host the files necessary to run the api server and the React folder the chat server app itself.
-
-1. Prepare the api server : \
-   in order to run the .net core RESTful api server we need an IDE of choice : we recommend **Rider** by jetbrain OR **visual studio** by microsoft. \
-   install the IDE of your choice and open existing project by locating the "chatServer.sln" file in the main repo folder.
-
-
-<br/>
-
-2. Prepare the react app : \
-   here you can either use an IDE such as: **VSCode** or **Rider/Webstorm** by jetbrain, \
-   you will need to set up the chatAppReact as your main directory. \
-   after that you can continue to the linux guide below.
-
-<br/>
-<br/>
-
-###### Linux Guide For installing your react app :
+Linux Guide :
 1. First step would be to make sure you linux system and packages are updated :
 ```sh
 sudo apt -y update && sudo apt -y upgrade
@@ -122,7 +99,7 @@ sudo apt install -y build-essential
 4. The forth and last step will be to download the project files from git to your project directory of choice,\
    now , we will install the npm addons needed for this project :\
    \
-   **Notice : make sure you run this command from the project directory (repoExtractedFolder/chatAppReact/) !**
+   **Notice : make sure you run this command from the project directory !**
 ```sh
 npm install
 ```
@@ -135,15 +112,7 @@ continue and run it using the run guide below.
 
 # :arrow_forward: Run <a name="run"/>
 
-**Running the api server :**
-
-running from the IDE of your choice is as simple as running the Run configuration that automatically was created when you opened the project.
-
-<br/>
-
-**Running the react app :**
-
-**Notice : make sure you run this command from the project directory (repoExtractedFolder/chatAppReact/) !**
+**Notice : make sure you run these command from the project directory !**
 1. First we will build the app for production to the build folder,
    It correctly bundles React in production mode and optimizes the build for the best performance.
    The build is minified and the filenames include the hashes.
@@ -162,80 +131,15 @@ npm start
 
 <br/>
 
-**Viewing the rating page :**
-
-in order to view the rating page of the app all you got to do is to open http://localhost:XXXX/rating where XXXX is the port of your api server.
-
-
-<br/>
-
 For any errors with these commands please refer to this webpage : [Troubleshooting](https://create-react-app.dev/docs/troubleshooting/).
 
 <br/>
 
-# :gear: Configuration <a name="config"/>
+# :man_scientist: User For Testing <a name="user"/>
 
-in fact you can choose you own port for your api server or react project, we will show you how in this guide :
-
-Setting up custom port for you api server :
-1. to change the port of your api server head over to <br/> "../repoExtractedFolder/chatServerAPI/Program.cs" and under "profiles" your will see
-    ```sh
-    "applicationUrl": "http://localhost:XXXX"
-    ```
-   from here you can pick any 4 digit port for you local server to run on.
-   in order for the server to approve connection from another servers or users head over to "../repoExtractedFolder/chatServerAPI/Program.cs" and in line 72 you will see the "AddCors" function,
-   you will see 2 polices we have added, one for servers and the other for apps,
-    - to add new server simply add the line :
-        ```sh
-        builder.WithOrigins("http://localhost:XXXX").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
-        ```
-      to the "cors_policy".
-
-    <br/>
-
-    - to add new app simply add the line :
-        ```sh
-        .WithOrigins("http://localhost:XXXX")
-        ```
-      to the "ClientPermission" policy.
-
-      <br/>
-    - we have already added for you 2 servers on the ports 5125 and 5126 and 4 app ports on 3000 - 3003.
-
-<br/>
-
-2. Setting up custom port for you react app :
-
-   head over to "../repoExtractedFolder/chatAppReact/package.json" and look for scripts, there you will see this line :
-    ```sh
-    "start": "set PORT=XXXX && react-scripts start",
-    ```
-   simply replace XXXX to any local port you set up your react app to run on,
-   dont forget to choose a port that exist in the "ClientPermission" policy in the server from step 1.
-
-<br/>
-
-3. Set up react app to work with your server :
-
-   head over to  "../repoExtractedFolder/chatAppReact/src/App.js" and you will see right after the import a variable named "server",
-    ```sh
-    let server = "http://localhost:XXXX";
-    ```
-   simply replace XXXX to the local port you set up your api server to in step 1.
-
-# :man_scientist: Users For Testing <a name="users"/>
-
-- Peleg
-    - Username : pelegs29
-    - Password : 2910
-
-- Nadav
-    - Username : nadavyk
-    - Password : 1234
-
-- itamar
-    - Username : itamarb
-    - Password : 1111111
+- Peleg Shlomo
+   - Username : a@b
+   - Password : 2910
 
 <br/>
 
