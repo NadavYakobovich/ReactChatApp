@@ -7,7 +7,7 @@
 
 <h2 align="center">
    This is a responsive chat app built using html, css, bootstrap, javascript, jquery and react
-    <br/>    <br/>
+    <br/>    <br/> 
 *:new:* &nbsp; &nbsp; .net core RESTful api server fused with signalR for realtime chat experience. &nbsp; &nbsp;  *:new:*
 
 </h2>
