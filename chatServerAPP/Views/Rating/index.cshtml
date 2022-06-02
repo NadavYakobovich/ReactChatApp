@@ -7,11 +7,10 @@
 
 <div class="m-4 ">
     <div class="row">
-        <h1 class="col-5">The Rating Page</h1>
-
+        <h1 class="col-5 col">The Rating Page</h1>
         <form asp-action="Search" asp-controller="Rating" asp-route-search="search" class="col-5">
-            <div class="form-group d-flex">
-                <input id="search" name="search" class="form-control w-75" placeholder="Search Rating By Name"/>
+            <div class="form-group d-flex col">
+                <input id="search" name="search" class="form-control w-100" placeholder="Search Rating"/>
                 <button type="submit" class="btn btn-primary m-2"> Search </button>
             </div>
         </form>
@@ -53,7 +52,7 @@
                     @Html.DisplayFor(modelItem => item.Time)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Stars) /5
+                    @Html.DisplayFor(modelItem => item.Stars) / 5
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -63,31 +62,7 @@
             </tr>
         }
         </tbody>
-@* *@
-@*         @section Scripts *@
-@*         { *@
-@*             <script type="text/html" id="template"> *@
-@*                 <tr> *@
-@*                     <td> *@
-@*                         {id} *@
-@*                     </td> *@
-@*                     <td> *@
-@*                         {title} *@
-@*                     </td> *@
-@*                     <td> *@
-@*                         {body} *@
-@*                     </td> *@
-@*                     <td> *@
-@*                         <a asp-action="Edit" asp-route-id="{id}">Edit</a> | *@
-@*                         <a asp-action="Details" asp-route-id="{id}">Details</a> | *@
-@*                         <a asp-action="Delete" asp-route-id="{id}">Delete</a> *@
-@*                     </td> *@
-@*                 </tr> *@
-@*             </script> *@
-@*             <script src="~/js/search.js" type="text/javascript"></script> *@
-@*         } *@
-@* *@
-     </table>
+    </table>
     <p>
         <a asp-action="Create">Create New</a>
     </p>

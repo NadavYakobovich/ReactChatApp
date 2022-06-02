@@ -1,13 +1,14 @@
 html{
-    background-color: #eaecef;
-    background-image: url(background.jpg);
-    background-size: cover;
+    background-image: url(../background.jpg) !important;
+    background-size: cover !important;
+    background-color: #1b6ec2;
 
 }
 
 .mainPage{
-    border: 3px black;
+    border: 6px black;
     padding: 20px;
      margin-top: 50px;
     background-color:white;
+    opacity: 1;
 }
